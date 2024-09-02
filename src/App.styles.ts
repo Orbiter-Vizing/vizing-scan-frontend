@@ -31,6 +31,6 @@ export const useAppStyles = createUseStyles((theme: Theme) => ({
   },
   appIntro: {
     fontSize: 14,
-    color: theme.palette.grey.main
-  }
+    color: theme.palette.grey.main,
+  },
 }));

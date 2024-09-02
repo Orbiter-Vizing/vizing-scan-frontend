@@ -8,9 +8,13 @@ export const App = (): JSX.Element => {
       <div className={classes.appHeader}>
         <h2>Welcome to Vizing Scan.</h2>
       </div>
-      <p className={classes.appIntro}>Vizing Scan is a comprehensive search, API, and analytics platform designed to streamline the experience for developers and users dealing with omnichain transactions.</p>
+      <p className={classes.appIntro}>
+        Vizing Scan is a comprehensive search, API, and analytics platform
+        designed to streamline the experience for developers and users dealing
+        with omnichain transactions.
+      </p>
     </div>
   );
 };
 
-export default App
+export default App;
