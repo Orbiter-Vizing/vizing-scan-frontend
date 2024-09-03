@@ -12,7 +12,7 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
       <Header />
       <div className={classes.layout}>
         <BackgroundPattern className={classes.backgroundPattern} />
-        {children}
+        <div className={classes.container}>{children}</div>
       </div>
     </div>
   );

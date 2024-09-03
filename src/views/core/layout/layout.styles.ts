@@ -4,7 +4,7 @@ import { Theme } from "src/styles/theme";
 
 export const useLayoutStyles = createUseStyles((theme: Theme) => ({
   layoutWrap: {
-    height: "100vh",
+    minHeight: "100vh",
     width: "100vw",
     background: theme.palette.primary.dark,
     padding: "0 80px 0",
@@ -19,5 +19,9 @@ export const useLayoutStyles = createUseStyles((theme: Theme) => ({
     left: 104,
     top: -286,
     zIndex: 0,
+  },
+  container: {
+    position: "relative",
+    zIndex: 1,
   },
 }));
