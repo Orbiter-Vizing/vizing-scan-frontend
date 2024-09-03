@@ -11,7 +11,7 @@ export const routes: {
   messages: {
     id: "messages",
     isPrivate: false,
-    path: "/messages",
+    path: "/",
     text: "Messages",
   },
   protocols: {
