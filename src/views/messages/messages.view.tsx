@@ -1,7 +1,9 @@
-import { FC } from "react";
+import { ChangeEvent, FC, useState } from "react";
 
 import { useMessagesStyles } from "src/views/messages/messages.styles";
 import { DataCard } from "src/views/shared/data-card/data-card.view";
+import SearchIcon from "src/assets/icon/search.svg?react";
+import { SearchSelect } from "src/views/shared/search-select/search-select.view";
 
 const dataList = [
   {
@@ -39,11 +41,39 @@ const dataList = [
 export const Messages: FC = () => {
   const classes = useMessagesStyles();
 
+  const [inputValue, setInputValue] = useState("");
+
+  const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setInputValue(value);
+  };
+
   return (
     <div className={classes.messagesWrap}>
-      {dataList.map((data) => {
-        return <DataCard data={data} />;
-      })}
+      <div className={classes.dataCardWrap}>
+        {dataList.map((data) => {
+          return <DataCard key={data.id} data={data} />;
+        })}
+      </div>
+      <div>
+        <div className={classes.tableHead}>
+          <div className={classes.searchInputWrap}>
+            <SearchIcon className={classes.searchIcon} />
+            <input
+              autoFocus
+              className={classes.searchInput}
+              onChange={onInputChange}
+              placeholder="Search by address or hash"
+              value={inputValue}
+            ></input>
+          </div>
+          <div></div>
+          <div className={classes.searchSelectWrap}>
+            <SearchSelect />
+          </div>
+        </div>
+        <div className={classes.table}></div>
+      </div>
     </div>
   );
 };
