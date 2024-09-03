@@ -1,0 +1,14 @@
+<svg width="40.000000" height="40.000000" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<desc>
+			Created with Pixso.
+	</desc>
+	<defs>
+		<clipPath id="clip1587_9">
+			<rect id="twitter" width="40.000000" height="40.000000" fill="white" fill-opacity="0"/>
+		</clipPath>
+	</defs>
+	<rect id="twitter" width="40.000000" height="40.000000" fill="#FFFFFF" fill-opacity="0"/>
+	<g clip-path="url(#clip1587_9)">
+		<path id="Vector" d="M21.61 17.93L31.81 6.56L29.39 6.56L20.54 16.43L13.47 6.56L5.31 6.56L16.01 21.49L5.31 33.42L7.73 33.42L17.08 22.99L24.54 33.42L32.7 33.42L21.61 17.93ZM18.3 21.62L17.22 20.14L8.6 8.3L12.31 8.3L19.27 17.85L20.35 19.34L29.39 31.75L25.68 31.75L18.3 21.62Z" fill="#FFFFFF" fill-opacity="1.000000" fill-rule="nonzero"/>
+	</g>
+</svg>
