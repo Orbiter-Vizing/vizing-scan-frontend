@@ -1,4 +1,7 @@
-export type RouteId = "messages" | "protocols" | "analytics" | "tools" | "statistics";
+export type RouteId = "messages" | "protocols";
+// | "analytics"
+// | "tools"
+// | "statistics";
 
 export const routes: {
   [P in RouteId]: {
@@ -20,22 +23,22 @@ export const routes: {
     path: "/protocols",
     text: "Protocols",
   },
-  analytics: {
-    id: "analytics",
-    isPrivate: false,
-    path: "/analytics",
-    text: "Analytics",
-  },
-  tools: {
-    id: "tools",
-    isPrivate: false,
-    path: "/tools",
-    text: "Tools",
-  },
-  statistics: {
-    id: "statistics",
-    isPrivate: false,
-    path: "/statistics",
-    text: "Statistics",
-  },
+  // analytics: {
+  //   id: "analytics",
+  //   isPrivate: false,
+  //   path: "/analytics",
+  //   text: "Analytics",
+  // },
+  // tools: {
+  //   id: "tools",
+  //   isPrivate: false,
+  //   path: "/tools",
+  //   text: "Tools",
+  // },
+  // statistics: {
+  //   id: "statistics",
+  //   isPrivate: false,
+  //   path: "/statistics",
+  //   text: "Statistics",
+  // },
 };
