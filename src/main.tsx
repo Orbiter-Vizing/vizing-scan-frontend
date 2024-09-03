@@ -3,8 +3,8 @@ import { createRoot } from "react-dom/client";
 import "normalize.css/normalize.css";
 import { ThemeProvider } from "react-jss";
 
-import App from "src/App";
 import { theme } from "src/styles/theme";
+import { App } from "src/app.view";
 import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
