@@ -5,9 +5,13 @@ export const theme = {
     },
     black: {
       main: "#040102",
+      secondary: "#140F0F",
+      black03: "#292223",
     },
     white: {
       main: "#ffffff",
+      transparency10: "rgba(255, 255, 255, 0.1)",
+      transparency12: "rgba(255, 255, 255, 0.12)",
       transparency40: "rgba(255, 255, 255, 0.4)",
       transparency60: "rgba(255, 255, 255, 0.6)",
     },
