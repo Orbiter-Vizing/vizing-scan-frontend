@@ -25,14 +25,38 @@ export const useSearchSelectStyles = createUseStyles((theme: Theme) => ({
   },
   listWrap: {
     height: 256,
+    width: 144,
     overflow: "scroll",
   },
+  datePanelWrap: {
+    display: "flex",
+  },
+  shortcutsWrap: {
+    display: "flex",
+    flexDirection: "column",
+    border: "1px solid",
+    borderRightColor: theme.palette.black.black03,
+  },
+  shortcutItem: {
+    "&:hover": {
+      background: theme.palette.white.transparency10,
+      cursor: "pointer",
+    },
+    display: "inline-flex",
+    height: 40,
+    width: 120,
+    alignItems: "center",
+    padding: "0 12px 0",
+    justifyContent: "flex-start",
+    color: theme.palette.white.transparency40,
+  },
   radixPopover: {
-    padding: "8px 0 8px",
+    padding: 0,
     borderRadius: 0,
-    background: "black",
+    background: theme.palette.black.secondary,
     border: "1px solid",
     borderColor: theme.palette.black.black03,
+    maxWidth: "none",
   },
   listContainer: {},
   selectItemWrap: {
