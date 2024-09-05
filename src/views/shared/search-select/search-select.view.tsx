@@ -1,8 +1,7 @@
 import { FC, useState } from "react";
-import { Button, Popover } from "@radix-ui/themes";
+import { Popover } from "@radix-ui/themes";
 import Calendar from "react-calendar";
 import dayjs from "dayjs";
-// import { default as dayjs } from 'dayjs';
 
 import { useSearchSelectStyles } from "src/views/shared/search-select/search-select.styles";
 import IconCaretDown from "src/assets/icon/caret-down.svg?react";
@@ -26,10 +25,10 @@ interface SearchSelectProps {
 
 interface ShortcutItem {
   label: string;
-  getValue: () => dayjs.Dayjs[] | null[];
+  getValue: () => (Date | null)[];
 }
 
-type ValuePiece = dayjs.Dayjs | null;
+type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 const shortcutsItems = [
@@ -38,7 +37,7 @@ const shortcutsItems = [
     getValue: () => {
       const today = dayjs();
       const prevWeek = today.subtract(7, "day");
-      return [prevWeek.startOf("week"), prevWeek.endOf("week")];
+      return [prevWeek.startOf("week").toDate(), prevWeek.endOf("week").toDate()];
     },
   },
   {
@@ -46,7 +45,7 @@ const shortcutsItems = [
     getValue: () => {
       const today = dayjs();
       const startOfNextMonth = today.endOf("month").add(1, "day");
-      return [startOfNextMonth, startOfNextMonth.endOf("month")];
+      return [startOfNextMonth.toDate(), startOfNextMonth.endOf("month").toDate()];
     },
   },
   { label: "Reset", getValue: () => [null, null] },
@@ -57,7 +56,7 @@ export const SearchSelect: FC<SearchSelectProps> = ({ label, type, listData }) =
 
   const [selectValue, setSelectValue] = useState("All");
   const [showSelectPanel, setShowSelectPanel] = useState(false);
-  const [dateValue, setDateValue] = useState<Value>(dayjs());
+  const [dateValue, setDateValue] = useState<Value>([dayjs().toDate(), dayjs().toDate()]);
 
   const handleOpenChange = (isShowSelectPanel: boolean) => {
     setShowSelectPanel(isShowSelectPanel);
@@ -68,8 +67,8 @@ export const SearchSelect: FC<SearchSelectProps> = ({ label, type, listData }) =
     handleOpenChange(false);
   };
 
-  const handleShortcutItemClick = (dateData: Value) => {
-    setDateValue(dateData);
+  const handleShortcutItemClick = (dateData: Date[] | null[]) => {
+    setDateValue(dateData as [ValuePiece, ValuePiece]);
   };
 
   return (

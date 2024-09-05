@@ -15,7 +15,6 @@ export const useSearchSelectStyles = createUseStyles((theme: Theme) => ({
     fontSize: 14,
     fontWeight: 400,
     height: 44,
-    border: "1px solid #eee",
   },
   label: {
     color: theme.palette.white.transparency40,
