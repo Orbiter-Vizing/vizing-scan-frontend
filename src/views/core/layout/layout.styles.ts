@@ -11,6 +11,7 @@ export const useLayoutStyles = createUseStyles((theme: Theme) => ({
   },
   layout: {
     position: "relative",
+    paddingBottom: 128,
   },
   backgroundPattern: {
     position: "absolute",

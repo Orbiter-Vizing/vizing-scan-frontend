@@ -15,6 +15,14 @@ export const theme = {
       transparency40: "rgba(255, 255, 255, 0.4)",
       transparency60: "rgba(255, 255, 255, 0.6)",
     },
+    green: {
+      main: "#86DD45",
+      secondary: "rgba(134, 221, 69, 0.2)",
+    },
+    yellow: {
+      main: "#FFCC2D",
+      secondary: "rgba(255, 204, 45, 0.2)",
+    },
     grey: {
       veryLight: "#e1e1f1",
       light: "#f3f3f8",

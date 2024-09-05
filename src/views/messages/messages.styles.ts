@@ -41,5 +41,40 @@ export const useMessagesStyles = createUseStyles((theme: Theme) => ({
   },
   searchSelectWrap: {
     display: "flex",
+    alignItems: "center",
+  },
+  iconTransaction: {
+    height: 20,
+    width: 20,
+  },
+  tableWrap: {
+    marginTop: 12,
+    border: "1px solid",
+    borderColor: theme.palette.black.black03,
+  },
+  rowNonceCell: {
+    color: theme.palette.white.transparency40,
+  },
+  hashCell: {
+    maxWidth: 220,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+  },
+  protocolCell: {
+    display: "flex",
+    alignItems: "center",
+  },
+  protocolCellIcon: {
+    marginRight: 4,
+  },
+  timeCell: {
+    color: theme.palette.white.transparency40,
+  },
+  paginationWrap: {
+    display: "flex",
+    justifyContent: "center",
+    margin: "20px 0",
+    // background: "#eee",
   },
 }));
