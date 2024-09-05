@@ -144,7 +144,7 @@ const StyledPaginationItem = styled(PaginationItem)(() => ({
 }));
 
 function createData(
-  status: "loading" | "success",
+  status: "landing" | "success",
   nonce: string,
   from: string,
   sourceTxHash: string,
@@ -160,7 +160,7 @@ function createData(
 
 const rows = [
   createData(
-    "loading",
+    "landing",
     "9001",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
@@ -172,7 +172,7 @@ const rows = [
     "Now",
   ),
   createData(
-    "loading",
+    "landing",
     "9001",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
@@ -184,7 +184,7 @@ const rows = [
     "Now",
   ),
   createData(
-    "loading",
+    "landing",
     "9001",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
@@ -196,7 +196,7 @@ const rows = [
     "Now",
   ),
   createData(
-    "loading",
+    "landing",
     "9001",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
@@ -208,7 +208,7 @@ const rows = [
     "Now",
   ),
   createData(
-    "loading",
+    "landing",
     "9001",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
@@ -220,7 +220,7 @@ const rows = [
     "Now",
   ),
   createData(
-    "loading",
+    "landing",
     "9001",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",

@@ -7,6 +7,7 @@ export const theme = {
       main: "#040102",
       secondary: "#140F0F",
       black03: "#292223",
+      black04: "#1D1A1A",
     },
     white: {
       main: "#ffffff",
@@ -22,6 +23,9 @@ export const theme = {
     yellow: {
       main: "#FFCC2D",
       secondary: "rgba(255, 204, 45, 0.2)",
+    },
+    red: {
+      main: "#F23F5D",
     },
     grey: {
       veryLight: "#e1e1f1",
