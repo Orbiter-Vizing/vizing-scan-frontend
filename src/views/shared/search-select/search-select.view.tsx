@@ -106,6 +106,7 @@ export const SearchSelect: FC<SearchSelectProps> = ({ label, type, listData }) =
                 {shortcutsItems.map((item) => {
                   return (
                     <span
+                      key={item.label}
                       onClick={() => handleShortcutItemClick(item.getValue())}
                       className={classes.shortcutItem}
                     >

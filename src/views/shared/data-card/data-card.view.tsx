@@ -5,7 +5,7 @@ import { useDataCardStyles } from "src/views/shared/data-card/data-card.styles";
 
 export interface CardData {
   id: string;
-  data: string;
+  data: string | undefined;
   prefix: string;
   name: string;
 }
@@ -20,7 +20,7 @@ export const DataCard: FC<DataCardProps> = ({ data }) => {
   return (
     <div className={classes.dataCardWrap}>
       <span className={classes.dataNumber}>
-        <CountUp prefix={data.prefix} end={parseInt(data.data)} duration={0} />
+        {data.data ? <CountUp prefix={data.prefix} end={parseInt(data.data)} duration={1} /> : "-"}
       </span>
       <span className={classes.dataName}>{data.name}</span>
     </div>

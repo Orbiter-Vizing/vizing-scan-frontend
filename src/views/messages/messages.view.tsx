@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState, useCallback } from "react";
 
 import { useMessagesStyles } from "src/views/messages/messages.styles";
 import { DataCard } from "src/views/shared/data-card/data-card.view";
@@ -8,6 +8,8 @@ import IconLikwid from "src/assets/icon/protocols/logo_likwid.png";
 import IconTransaction from "src/assets/icon/transaction.svg?react";
 import { StatusIcon } from "src/views/shared/status-icon/icon.view";
 import { Icon } from "src/views/shared/icon/icon.view";
+import { apiUrl } from "src/constants";
+import { useMessagesContext } from "src/contexts/messages.context";
 // Mui table
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -19,39 +21,6 @@ import TableRow, { tableRowClasses } from "@mui/material/TableRow";
 // Mui pagination
 import Pagination from "@mui/material/Pagination";
 import PaginationItem, { paginationItemClasses } from "@mui/material/PaginationItem";
-
-const dataList = [
-  {
-    id: "total-messages",
-    data: "153486789",
-    prefix: "",
-    name: "Total Messages",
-  },
-  {
-    id: "landing-massages",
-    data: "153486789",
-    prefix: "",
-    name: "Landing Massages",
-  },
-  {
-    id: "volum",
-    data: "153486789",
-    prefix: "$",
-    name: "Volum(24h)",
-  },
-  {
-    id: "networks",
-    data: "153486789",
-    prefix: "",
-    name: "Networks",
-  },
-  {
-    id: "protocols",
-    data: "153486789",
-    prefix: "",
-    name: "Protocols",
-  },
-];
 
 const searchSeletList = [
   {
@@ -173,7 +142,7 @@ const rows = [
   ),
   createData(
     "landing",
-    "9001",
+    "9002",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
@@ -185,7 +154,7 @@ const rows = [
   ),
   createData(
     "landing",
-    "9001",
+    "9003",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
@@ -197,7 +166,7 @@ const rows = [
   ),
   createData(
     "landing",
-    "9001",
+    "9004",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
@@ -209,7 +178,7 @@ const rows = [
   ),
   createData(
     "landing",
-    "9001",
+    "9005",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
@@ -221,7 +190,7 @@ const rows = [
   ),
   createData(
     "landing",
-    "9001",
+    "9006",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
     "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
@@ -235,18 +204,28 @@ const rows = [
 
 export const Messages: FC = () => {
   const classes = useMessagesStyles();
-
+  const { fetchSummaryData, defaultSummaryData } = useMessagesContext();
   const [inputValue, setInputValue] = useState("");
+  const [summaryData, setSummaryData] = useState(defaultSummaryData);
 
   const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setInputValue(value);
   };
 
+  const initPageData = useCallback(async () => {
+    const summaryData = await fetchSummaryData({ apiUrl });
+    setSummaryData(summaryData);
+  }, [fetchSummaryData]);
+
+  useEffect(() => {
+    initPageData();
+  }, [initPageData]);
+
   return (
     <div className={classes.messagesWrap}>
       <div className={classes.dataCardWrap}>
-        {dataList.map((data) => {
+        {summaryData.map((data) => {
           return <DataCard key={data.id} data={data} />;
         })}
       </div>
