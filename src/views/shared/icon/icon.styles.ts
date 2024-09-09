@@ -10,6 +10,6 @@ export const useIconStyles = createUseStyles({
     borderRadius: "50%",
     display: "flex",
     justifyContent: "center",
-    overflow: "hidden",
+    // overflow: "hidden",
   },
 });

@@ -5,7 +5,7 @@ import IconLoading from "src/assets/icon/loading.svg?react";
 import IconSuccess from "src/assets/icon/success.svg?react";
 
 interface StatusIconProps {
-  status: "success" | "landing";
+  status: "Success" | "Landing" | "Confirming";
   text: string;
 }
 
@@ -14,10 +14,11 @@ export const StatusIcon: FC<StatusIconProps> = ({ status, text }) => {
 
   return (
     <div
-      className={`${classes.iconWrap} ${status === "success" ? classes.success : classes.loading}`}
+      className={`${classes.iconWrap} ${status === "Success" ? classes.success : classes.loading}`}
     >
-      {status === "success" && <IconSuccess className={classes.icon} />}
-      {status === "landing" && <IconLoading className={classes.icon} />}
+      {status === "Success" && <IconSuccess className={classes.icon} />}
+      {status === "Landing" && <IconLoading className={classes.icon} />}
+      {status === "Confirming" && <IconLoading className={classes.icon} />}
       {text}
     </div>
   );

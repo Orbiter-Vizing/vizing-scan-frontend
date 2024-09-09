@@ -1,4 +1,5 @@
 import { ChangeEvent, FC, useEffect, useState, useCallback } from "react";
+import dayjs from "dayjs";
 
 import { useMessagesStyles } from "src/views/messages/messages.styles";
 import { DataCard } from "src/views/shared/data-card/data-card.view";
@@ -10,6 +11,9 @@ import { StatusIcon } from "src/views/shared/status-icon/icon.view";
 import { Icon } from "src/views/shared/icon/icon.view";
 import { apiUrl } from "src/constants";
 import { useMessagesContext } from "src/contexts/messages.context";
+import { MessagesListItem } from "src/contexts/messages.context";
+import { calculateRelativeTime } from "src/utils";
+import { DateValue } from "src/views/shared/search-select/search-select.view";
 // Mui table
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -127,96 +131,79 @@ function createData(
   return { status, nonce, from, sourceTxHash, destTxHash, protocol, time };
 }
 
-const rows = [
-  createData(
-    "landing",
-    "9001",
-    "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
-    "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
-    "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
-    {
-      iconUrl: IconLikwid,
-      protocolName: "LIKWID",
-    },
-    "Now",
-  ),
-  createData(
-    "landing",
-    "9002",
-    "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
-    "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
-    "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
-    {
-      iconUrl: IconLikwid,
-      protocolName: "LIKWID",
-    },
-    "Now",
-  ),
-  createData(
-    "landing",
-    "9003",
-    "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
-    "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
-    "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
-    {
-      iconUrl: IconLikwid,
-      protocolName: "LIKWID",
-    },
-    "Now",
-  ),
-  createData(
-    "landing",
-    "9004",
-    "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
-    "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
-    "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
-    {
-      iconUrl: IconLikwid,
-      protocolName: "LIKWID",
-    },
-    "Now",
-  ),
-  createData(
-    "landing",
-    "9005",
-    "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
-    "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
-    "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
-    {
-      iconUrl: IconLikwid,
-      protocolName: "LIKWID",
-    },
-    "Now",
-  ),
-  createData(
-    "landing",
-    "9006",
-    "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
-    "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
-    "0x360ae286abbfbe64cf90c7e86abbfbe64cf90c7e",
-    {
-      iconUrl: IconLikwid,
-      protocolName: "LIKWID",
-    },
-    "Now",
-  ),
-];
+const pageSize = 10;
+
+// 99 success 98 confirming 0 landing
+enum TxStatus {
+  Landing = 0,
+  Confirming = 98,
+  Success = 99,
+}
+
+type DisplayStatus = "Success" | "Confirming" | "Landing";
+
+const getStatusDisplay = (status: TxStatus): DisplayStatus => {
+  switch (status) {
+    case TxStatus.Success:
+      return "Success";
+    case TxStatus.Landing:
+      return "Landing";
+    case TxStatus.Confirming:
+      return "Confirming";
+    default:
+      throw new Error("Unknown status");
+  }
+};
+
+export interface MessagesSearchFrom {
+  date: DateValue;
+  protocol: string;
+  from: string;
+  to: string;
+}
 
 export const Messages: FC = () => {
   const classes = useMessagesStyles();
-  const { fetchSummaryData, defaultSummaryData } = useMessagesContext();
+  const { fetchSummaryData, fetchMessagesList, defaultSummaryData } = useMessagesContext();
   const [inputValue, setInputValue] = useState("");
   const [summaryData, setSummaryData] = useState(defaultSummaryData);
+  const [messagesList, setMessagesList] = useState<MessagesListItem[]>([]);
+  const [searchForm, setSearchForm] = useState<MessagesSearchFrom>({
+    date: [dayjs().toDate(), dayjs().toDate()],
+    protocol: "",
+    from: "",
+    to: "",
+  });
+  const [page, setPage] = useState(1);
 
   const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setInputValue(value);
   };
 
+  const handleSetSearchForm = (formData: MessagesSearchFrom) => {
+    setSearchForm(formData);
+  };
+
   const initPageData = useCallback(async () => {
     const summaryData = await fetchSummaryData({ apiUrl });
     setSummaryData(summaryData);
-  }, [fetchSummaryData]);
+    const messagesListData = await fetchMessagesList({
+      apiUrl,
+      page,
+      pageSize,
+    });
+    setMessagesList(messagesListData);
+  }, [fetchSummaryData, fetchMessagesList, page]);
+
+  const handlePaginationChange = async (event: ChangeEvent<unknown>, page: number) => {
+    const messagesListData = await fetchMessagesList({
+      apiUrl,
+      page,
+      pageSize,
+    });
+    setMessagesList(messagesListData);
+  };
 
   useEffect(() => {
     initPageData();
@@ -243,11 +230,39 @@ export const Messages: FC = () => {
           </div>
           <div></div>
           <div className={classes.searchSelectWrap}>
-            <SearchSelect label="Date" type="date" />
-            <SearchSelect label="Protocol" type="list" listData={searchSeletList} />
-            <SearchSelect label="From" type="list" listData={searchSeletList} />
+            <SearchSelect
+              label="Date"
+              type="date"
+              formData={searchForm}
+              formKey="date"
+              setFormData={handleSetSearchForm}
+            />
+            <SearchSelect
+              label="Protocol"
+              type="list"
+              listData={searchSeletList}
+              formData={searchForm}
+              formKey="protocol"
+              setFormData={handleSetSearchForm}
+            />
+            <SearchSelect
+              label="From"
+              type="list"
+              listData={searchSeletList}
+              formData={searchForm}
+              formKey="from"
+              setFormData={handleSetSearchForm}
+            />
             <IconTransaction className={classes.iconTransaction} />
-            <SearchSelect label="To" type="list" listData={searchSeletList} />
+            <SearchSelect
+              label="To"
+              type="list"
+              listData={searchSeletList}
+              formData={searchForm}
+              formKey="to"
+              setFormData={handleSetSearchForm}
+            />
+            <button onClick={() => console.log(searchForm)}>click</button>
           </div>
         </div>
         <div className={classes.tableWrap}>
@@ -265,39 +280,63 @@ export const Messages: FC = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
-                  <StyledTableRow key={row.nonce}>
-                    <StyledTableCell align="left">
-                      <StatusIcon status={row.status} text={row.status} />
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      <div className={classes.rowNonceCell}>{row.nonce}</div>
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      <div className={classes.hashCell}>{row.from}</div>
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      <div className={classes.hashCell}>{row.sourceTxHash}</div>
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      <div className={classes.hashCell}>{row.destTxHash}</div>
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      <div className={classes.protocolCell}>
-                        <Icon
-                          className={classes.protocolCellIcon}
-                          isRounded
-                          size={32}
-                          url={row.protocol.iconUrl}
-                        />
-                        {row.protocol.protocolName}
-                      </div>
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      <div className={classes.timeCell}>{row.time}</div>
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))}
+                {messagesList.map((row) => {
+                  const statusAttr = getStatusDisplay(row.status);
+                  const formatTimeText = calculateRelativeTime(row.time);
+                  return (
+                    <StyledTableRow key={row.nonce}>
+                      <StyledTableCell align="left">
+                        <StatusIcon status={statusAttr} text={statusAttr} />
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        <div className={classes.rowNonceCell}>{row.nonce}</div>
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        <div className={classes.hashCell}>{row.from}</div>
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        <div className={classes.hashCell}>
+                          {row.sourceChain && (
+                            <Icon
+                              className={classes.chianIcon}
+                              isRounded
+                              size={20}
+                              url={row.sourceChain.icon}
+                            />
+                          )}
+                          {row.sourceTxHash}
+                        </div>
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        <div className={classes.hashCell}>
+                          {row.destChain && (
+                            <Icon
+                              className={classes.chianIcon}
+                              isRounded
+                              size={20}
+                              url={row.destChain.icon}
+                            />
+                          )}
+                          {row.destTxHash}
+                        </div>
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        <div className={classes.protocolCell}>
+                          <Icon
+                            className={classes.protocolCellIcon}
+                            isRounded
+                            size={32}
+                            url={row.protocol.iconUrl}
+                          />
+                          {row.protocol.protocolName}
+                        </div>
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
+                        <div className={classes.timeCell}>{formatTimeText}</div>
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </StyledTableContainer>
@@ -312,6 +351,7 @@ export const Messages: FC = () => {
                   {...item}
                 />
               )}
+              onChange={handlePaginationChange}
             />
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { useEffect, useState } from "react";
 import { Popover } from "@radix-ui/themes";
 import Calendar from "react-calendar";
 import dayjs from "dayjs";
@@ -17,19 +17,22 @@ interface ListDataItem {
   iconUrl: string;
 }
 
-interface SearchSelectProps {
+interface SearchSelectProps<T> {
   label: string;
   type: "list" | "date";
   listData?: ListDataItem[];
+  // value: string | [Date, Date];
+  // setFormData: (formData: MessagesSearchFrom) => void;
+  // formKey: string;
+  formData: T;
+  formKey: keyof T;
+  getSelectValue?: (value: string) => void;
+  getDateValue?: (value: DateValue) => void;
+  setFormData: (formData: T) => void;
 }
 
-interface ShortcutItem {
-  label: string;
-  getValue: () => (Date | null)[];
-}
-
-type ValuePiece = Date | null;
-type Value = ValuePiece | [ValuePiece, ValuePiece];
+type DateValuePiece = Date | null;
+export type DateValue = DateValuePiece | [DateValuePiece, DateValuePiece];
 
 const shortcutsItems = [
   {
@@ -51,25 +54,50 @@ const shortcutsItems = [
   { label: "Reset", getValue: () => [null, null] },
 ];
 
-export const SearchSelect: FC<SearchSelectProps> = ({ label, type, listData }) => {
+export const SearchSelect = <T,>({
+  label,
+  type,
+  listData,
+  formKey,
+  formData,
+  setFormData,
+}: SearchSelectProps<T>) => {
   const classes = useSearchSelectStyles();
 
-  const [selectValue, setSelectValue] = useState("All");
+  const [selectValue, setSelectValue] = useState<ListDataItem>();
   const [showSelectPanel, setShowSelectPanel] = useState(false);
-  const [dateValue, setDateValue] = useState<Value>([dayjs().toDate(), dayjs().toDate()]);
+  const [dateValue, setDateValue] = useState<DateValue>([dayjs().toDate(), dayjs().toDate()]);
 
   const handleOpenChange = (isShowSelectPanel: boolean) => {
     setShowSelectPanel(isShowSelectPanel);
   };
 
-  const handleListItemClick = (value: string) => {
-    setSelectValue(value);
+  const handleListItemClick = (item: ListDataItem) => {
+    setSelectValue(item);
     handleOpenChange(false);
   };
 
   const handleShortcutItemClick = (dateData: Date[] | null[]) => {
-    setDateValue(dateData as [ValuePiece, ValuePiece]);
+    setDateValue(dateData as [DateValuePiece, DateValuePiece]);
   };
+
+  const getReadableDateString = (dateValue: DateValue) => {
+    if (Array.isArray(dateValue)) {
+      return `${dayjs(dateValue[0]).format("YYYY-MM-DD")} ${dayjs(dateValue[1]).format("YYYY-MM-DD")}`;
+    } else {
+      return "";
+    }
+  };
+
+  useEffect(() => {
+    const newForm = formData;
+    if (type === "list") {
+      newForm[formKey] = selectValue as T[keyof T];
+    } else {
+      newForm[formKey] = dateValue as T[keyof T];
+    }
+    setFormData(newForm);
+  }, [selectValue, dateValue, formData, formKey, type, setFormData]);
 
   return (
     <div className={classes.searchSelectWrap}>
@@ -77,7 +105,12 @@ export const SearchSelect: FC<SearchSelectProps> = ({ label, type, listData }) =
         <Popover.Trigger>
           <div className={classes.searchSelectButton}>
             <span className={classes.label}>{label}:&nbsp;</span>
-            <span className={classes.value}>{selectValue}</span>
+            {type === "list" && selectValue && (
+              <span className={classes.value}>{selectValue.name}</span>
+            )}
+            {type === "date" && dateValue && (
+              <span className={classes.value}>{getReadableDateString(dateValue)}</span>
+            )}
             {showSelectPanel ? <IconCaretUp /> : <IconCaretDown />}
           </div>
         </Popover.Trigger>
@@ -88,7 +121,7 @@ export const SearchSelect: FC<SearchSelectProps> = ({ label, type, listData }) =
                 {listData?.map((item) => {
                   return (
                     <div
-                      onClick={() => handleListItemClick(item.value)}
+                      onClick={() => handleListItemClick(item)}
                       key={item.id}
                       className={classes.selectItemWrap}
                     >

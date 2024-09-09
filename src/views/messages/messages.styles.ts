@@ -56,6 +56,7 @@ export const useMessagesStyles = createUseStyles((theme: Theme) => ({
     color: theme.palette.white.transparency40,
   },
   hashCell: {
+    display: "flex",
     maxWidth: 220,
     overflow: "hidden",
     textOverflow: "ellipsis",
@@ -75,6 +76,10 @@ export const useMessagesStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     justifyContent: "center",
     margin: "20px 0",
-    // background: "#eee",
+  },
+  chianIcon: {
+    height: 20,
+    width: 20,
+    marginRight: 4,
   },
 }));
