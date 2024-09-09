@@ -104,7 +104,7 @@ export const getMessagesSummary = ({
       if (res.data.data) {
         return res.data.data;
       } else {
-        throw new Error("get messages summary error");
+        throw new Error("Get messages summary error.");
       }
     });
 };
@@ -130,7 +130,103 @@ export const getMessagesList = ({
       if (res.data) {
         return res.data;
       } else {
-        throw new Error("get messages list error");
+        throw new Error("Get messages list error.");
+      }
+    });
+};
+
+interface GetMessageDetailsParams {
+  abortSignal?: AbortSignal;
+  apiUrl: string;
+  id: string;
+}
+
+interface Label {
+  additionParams: string;
+  count: number;
+  destChainId: string;
+  earliestArrivalTimestamp: string;
+  flag: string;
+  latestArrivalTimestamp: string;
+  message: string;
+  messageId: string;
+  nonce: string;
+  relayer: string;
+  sender: string;
+  srcContract: string;
+  value: string;
+}
+
+interface Message {
+  dApp: ProtocolKeys;
+  id: string;
+  label: Label;
+  sourceAddress: string;
+  sourceChain: string;
+  sourceHash: string;
+  sourceNonce: string;
+  sourceTime: string;
+  status: number;
+  targetChain: string;
+  targetHash: string;
+  transactionId: string;
+  withholdingFee: string;
+}
+
+interface Source {
+  amount: string;
+  blockNumber: string;
+  chainId: string;
+  id: string;
+  nonce: string;
+  opStatus: number;
+  receiver: string;
+  sender: string;
+  symbol: string;
+  timestamp: string;
+  transactionHash: string;
+  value: string;
+}
+
+interface Destination {
+  amount: string;
+  blockNumber: string;
+  chainId: string;
+  id: string;
+  nonce: string;
+  opStatus: number;
+  receiver: string;
+  sender: string;
+  symbol: string;
+  timestamp: string;
+  transactionHash: string;
+  value: string;
+}
+
+export interface GetMessageDetailsOutput {
+  message: Message;
+  source: Source;
+  destination: Destination;
+}
+
+export const getMessageDetails = ({
+  abortSignal,
+  apiUrl,
+  id,
+}: GetMessageDetailsParams): Promise<GetMessageDetailsOutput> => {
+  return axios
+    .request({
+      baseURL: apiUrl,
+      data: {},
+      method: "GET",
+      signal: abortSignal,
+      url: `analytics/messages/detail/${id}`,
+    })
+    .then((res) => {
+      if (res.data.data) {
+        return res.data.data;
+      } else {
+        throw new Error("Get tx details error.");
       }
     });
 };

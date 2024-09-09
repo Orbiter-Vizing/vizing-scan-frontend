@@ -53,4 +53,7 @@ export const useDetailInfoListStyles = createUseStyles((theme: Theme) => ({
   dappIcon: {
     marginRight: 4,
   },
+  chianIcon: {
+    marginRight: 4,
+  },
 }));
