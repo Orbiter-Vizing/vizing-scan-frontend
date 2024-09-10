@@ -1,11 +1,11 @@
-import { ChangeEvent, FC, useEffect, useState, useCallback } from "react";
-import dayjs from "dayjs";
+import { ChangeEvent, FC, useEffect, useState, useCallback, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { useMessagesStyles } from "src/views/messages/messages.styles";
 import { DataCard } from "src/views/shared/data-card/data-card.view";
 import SearchIcon from "src/assets/icon/search.svg?react";
 import { SearchSelect } from "src/views/shared/search-select/search-select.view";
-import IconLikwid from "src/assets/icon/protocols/logo_likwid.png";
+import DeleteIcon from "src/assets/icon/delete.svg?react";
 import IconTransaction from "src/assets/icon/transaction.svg?react";
 import { StatusIcon } from "src/views/shared/status-icon/icon.view";
 import { Icon } from "src/views/shared/icon/icon.view";
@@ -14,6 +14,8 @@ import { useMessagesContext } from "src/contexts/messages.context";
 import { MessagesListItem } from "src/contexts/messages.context";
 import { calculateRelativeTime } from "src/utils";
 import { DateValue } from "src/views/shared/search-select/search-select.view";
+import { getProtocolsSearchSelectList } from "src/assets/protocols-icons";
+import { getChainsSearchSelectList } from "src/assets/chains-config";
 // Mui table
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -25,63 +27,6 @@ import TableRow, { tableRowClasses } from "@mui/material/TableRow";
 // Mui pagination
 import Pagination from "@mui/material/Pagination";
 import PaginationItem, { paginationItemClasses } from "@mui/material/PaginationItem";
-
-const searchSeletList = [
-  {
-    id: "all",
-    name: "All",
-    iconUrl: "",
-    value: "0",
-  },
-  {
-    id: "likwid",
-    name: "Likwid",
-    iconUrl: IconLikwid,
-    value: "1",
-  },
-  {
-    id: "aylab",
-    name: "Aylab",
-    iconUrl: IconLikwid,
-    value: "2",
-  },
-  {
-    id: "0xAstra",
-    name: "0xAstra",
-    iconUrl: IconLikwid,
-    value: "3",
-  },
-  {
-    id: "bullishs",
-    name: "bullishs",
-    iconUrl: IconLikwid,
-    value: "4",
-  },
-  {
-    id: "colorProtocol",
-    name: "Color Protocol",
-    iconUrl: IconLikwid,
-    value: "5",
-  },
-  {
-    id: "pink",
-    name: "Pink",
-    iconUrl: IconLikwid,
-    value: "6",
-  },
-  {
-    id: "xMint",
-    name: "X-Mint",
-    iconUrl: IconLikwid,
-    value: "7",
-  },
-  {
-    id: "aaBank",
-    name: "AAbank",
-    iconUrl: IconLikwid,
-    value: "8",
-  },
-];
 
 const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.root}`]: {
@@ -116,21 +61,7 @@ const StyledPaginationItem = styled(PaginationItem)(() => ({
   },
 }));
 
-function createData(
-  status: "landing" | "success",
-  nonce: string,
-  from: string,
-  sourceTxHash: string,
-  destTxHash: string,
-  protocol: {
-    iconUrl: string;
-    protocolName: string;
-  },
-  time: string,
-) {
-  return { status, nonce, from, sourceTxHash, destTxHash, protocol, time };
-}
-
+const initialPage = 1;
 const pageSize = 10;
 
 // 99 success 98 confirming 0 landing
@@ -143,6 +74,7 @@ enum TxStatus {
 type DisplayStatus = "Success" | "Confirming" | "Landing";
 
 const getStatusDisplay = (status: TxStatus): DisplayStatus => {
+  console.log("status", status);
   switch (status) {
     case TxStatus.Success:
       return "Success";
@@ -151,63 +83,126 @@ const getStatusDisplay = (status: TxStatus): DisplayStatus => {
     case TxStatus.Confirming:
       return "Confirming";
     default:
-      throw new Error("Unknown status");
+      return "Landing";
   }
 };
 
 export interface MessagesSearchFrom {
-  date: DateValue;
-  protocol: string;
-  from: string;
-  to: string;
+  dateRange: DateValue;
+  protocolName: string;
+  fromChainId: string;
+  toChainId: string;
+  queryHash: string;
 }
 
 export const Messages: FC = () => {
+  const navigate = useNavigate();
   const classes = useMessagesStyles();
   const { fetchSummaryData, fetchMessagesList, defaultSummaryData } = useMessagesContext();
   const [inputValue, setInputValue] = useState("");
   const [summaryData, setSummaryData] = useState(defaultSummaryData);
   const [messagesList, setMessagesList] = useState<MessagesListItem[]>([]);
   const [searchForm, setSearchForm] = useState<MessagesSearchFrom>({
-    date: [dayjs().toDate(), dayjs().toDate()],
-    protocol: "",
-    from: "",
-    to: "",
+    dateRange: [null, null],
+    protocolName: "",
+    fromChainId: "",
+    toChainId: "",
+    queryHash: "",
   });
   const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState<number>();
 
   const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setInputValue(value);
   };
 
-  const handleSetSearchForm = (formData: MessagesSearchFrom) => {
-    setSearchForm(formData);
-  };
+  const handleSetSearchForm = useCallback(
+    (formData: MessagesSearchFrom) => {
+      setSearchForm(formData);
+    },
+    [setSearchForm],
+  );
 
   const initPageData = useCallback(async () => {
     const summaryData = await fetchSummaryData({ apiUrl });
     setSummaryData(summaryData);
     const messagesListData = await fetchMessagesList({
       apiUrl,
-      page,
+      page: initialPage,
       pageSize,
+      q: "",
+      dateRange: [],
+      protocol: [],
+      sourceChain: [],
+      targetChain: [],
     });
     setMessagesList(messagesListData);
-  }, [fetchSummaryData, fetchMessagesList, page]);
+  }, [fetchSummaryData, fetchMessagesList]);
 
-  const handlePaginationChange = async (event: ChangeEvent<unknown>, page: number) => {
+  const getListData = useCallback(async () => {
+    const { dateRange, protocolName, fromChainId, toChainId, queryHash } = searchForm;
+    let startDateString = null;
+    let endDateString = null;
+    if (Array.isArray(dateRange)) {
+      startDateString = dateRange[0] ? dateRange[0].toISOString() : startDateString;
+      endDateString = dateRange[1] ? dateRange[1].toISOString() : endDateString;
+    }
     const messagesListData = await fetchMessagesList({
       apiUrl,
       page,
       pageSize,
+      q: inputValue,
+      dateRange: startDateString && endDateString ? [startDateString, endDateString] : [],
+      protocol: protocolName ? [protocolName] : [],
+      sourceChain: fromChainId ? [fromChainId] : [],
+      targetChain: toChainId ? [toChainId] : [],
     });
     setMessagesList(messagesListData);
+  }, [searchForm, page, fetchMessagesList]);
+
+  const handlePaginationChange = async (event: ChangeEvent<unknown>, page: number) => {
+    setPage(page);
+    getListData();
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      const newSearchForm = { ...searchForm };
+      newSearchForm["queryHash"] = inputValue;
+      setSearchForm(newSearchForm);
+    }
+  };
+
+  const handleInputDeleteClick = () => {
+    setInputValue("");
+  };
+
+  const handleHashClick = (hash: string) => {
+    if (!hash) {
+      return;
+    }
+    navigate(`/tx/${hash}`);
+  };
+
+  const handleAddressClick = (address: string) => {
+    if (!address) {
+      return;
+    }
+    setInputValue(address);
   };
 
   useEffect(() => {
     initPageData();
   }, [initPageData]);
+
+  useEffect(() => {
+    getListData();
+  }, [searchForm, getListData, inputValue]);
+
+  useEffect(() => {
+    getListData();
+  }, [inputValue, getListData]);
 
   return (
     <div className={classes.messagesWrap}>
@@ -224,9 +219,13 @@ export const Messages: FC = () => {
               autoFocus
               className={classes.searchInput}
               onChange={onInputChange}
+              onKeyDown={handleKeyDown}
               placeholder="Search by address or hash"
               value={inputValue}
             ></input>
+            {inputValue && (
+              <DeleteIcon onClick={handleInputDeleteClick} className={classes.deleteIcon} />
+            )}
           </div>
           <div></div>
           <div className={classes.searchSelectWrap}>
@@ -234,35 +233,34 @@ export const Messages: FC = () => {
               label="Date"
               type="date"
               formData={searchForm}
-              formKey="date"
+              formKey="dateRange"
               setFormData={handleSetSearchForm}
             />
             <SearchSelect
               label="Protocol"
               type="list"
-              listData={searchSeletList}
+              listData={getProtocolsSearchSelectList()}
               formData={searchForm}
-              formKey="protocol"
+              formKey="protocolName"
               setFormData={handleSetSearchForm}
             />
             <SearchSelect
               label="From"
               type="list"
-              listData={searchSeletList}
+              listData={getChainsSearchSelectList()}
               formData={searchForm}
-              formKey="from"
+              formKey="fromChainId"
               setFormData={handleSetSearchForm}
             />
             <IconTransaction className={classes.iconTransaction} />
             <SearchSelect
               label="To"
               type="list"
-              listData={searchSeletList}
+              listData={getChainsSearchSelectList()}
               formData={searchForm}
-              formKey="to"
+              formKey="toChainId"
               setFormData={handleSetSearchForm}
             />
-            <button onClick={() => console.log(searchForm)}>click</button>
           </div>
         </div>
         <div className={classes.tableWrap}>
@@ -292,7 +290,12 @@ export const Messages: FC = () => {
                         <div className={classes.rowNonceCell}>{row.nonce}</div>
                       </StyledTableCell>
                       <StyledTableCell align="left">
-                        <div className={classes.hashCell}>{row.from}</div>
+                        <div
+                          onClick={() => handleAddressClick(row.from)}
+                          className={classes.addressCell}
+                        >
+                          {row.from}
+                        </div>
                       </StyledTableCell>
                       <StyledTableCell align="left">
                         <div className={classes.hashCell}>
@@ -301,10 +304,15 @@ export const Messages: FC = () => {
                               className={classes.chianIcon}
                               isRounded
                               size={20}
-                              url={row.sourceChain.icon}
+                              url={row.sourceChain.iconUrl}
                             />
                           )}
-                          {row.sourceTxHash}
+                          <div
+                            className={classes.hashCellContent}
+                            onClick={() => handleHashClick(row.sourceTxHash)}
+                          >
+                            {row.sourceTxHash || "-"}
+                          </div>
                         </div>
                       </StyledTableCell>
                       <StyledTableCell align="left">
@@ -314,10 +322,15 @@ export const Messages: FC = () => {
                               className={classes.chianIcon}
                               isRounded
                               size={20}
-                              url={row.destChain.icon}
+                              url={row.destChain.iconUrl}
                             />
                           )}
-                          {row.destTxHash}
+                          <div
+                            className={classes.hashCellContent}
+                            onClick={() => handleHashClick(row.destTxHash)}
+                          >
+                            {row.destTxHash || "-"}
+                          </div>
                         </div>
                       </StyledTableCell>
                       <StyledTableCell align="left">
@@ -343,6 +356,7 @@ export const Messages: FC = () => {
           <div className={classes.paginationWrap}>
             <Pagination
               count={10}
+              page={page}
               variant="text"
               shape="rounded"
               renderItem={(item) => (

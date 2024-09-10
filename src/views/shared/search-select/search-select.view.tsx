@@ -36,6 +36,14 @@ export type DateValue = DateValuePiece | [DateValuePiece, DateValuePiece];
 
 const shortcutsItems = [
   {
+    label: "Yesterday",
+    getValue: () => {
+      const today = dayjs();
+      const yesterday = today.subtract(1, "day");
+      return [yesterday.toDate(), yesterday.toDate()];
+    },
+  },
+  {
     label: "Last Week",
     getValue: () => {
       const today = dayjs();
@@ -44,13 +52,33 @@ const shortcutsItems = [
     },
   },
   {
-    label: "Next Month",
+    label: "Last Month",
     getValue: () => {
       const today = dayjs();
-      const startOfNextMonth = today.endOf("month").add(1, "day");
-      return [startOfNextMonth.toDate(), startOfNextMonth.endOf("month").toDate()];
+      const startOfLastMonth = today.subtract(1, "month").startOf("month");
+      const endOfLastMonth = today.subtract(1, "month").endOf("month");
+      return [startOfLastMonth.toDate(), endOfLastMonth.toDate()];
     },
   },
+  // {
+  //   label: "Last Quater",
+  //   getValue: () => {
+  //     const today = dayjs();
+  //     const startOfLastQuarter = dayjs().subtract(1, "quarter").startOf("quarter");
+  //     const endOfLastQuarter = dayjs().subtract(1, "quarter").endOf("quarter");
+  //     return [startOfLastQuarter.toDate(), endOfLastQuarter.toDate()];
+  //   },
+  // },
+  {
+    label: "Last Year",
+    getValue: () => {
+      const today = dayjs();
+      const startOfLastYear = today.subtract(1, "year").startOf("year");
+      const endOfLastYear = today.subtract(1, "year").endOf("year");
+      return [startOfLastYear.toDate(), endOfLastYear.toDate()];
+    },
+  },
+
   { label: "Reset", getValue: () => [null, null] },
 ];
 
@@ -66,7 +94,7 @@ export const SearchSelect = <T,>({
 
   const [selectValue, setSelectValue] = useState<ListDataItem>();
   const [showSelectPanel, setShowSelectPanel] = useState(false);
-  const [dateValue, setDateValue] = useState<DateValue>([dayjs().toDate(), dayjs().toDate()]);
+  const [dateValue, setDateValue] = useState<DateValue>(null);
 
   const handleOpenChange = (isShowSelectPanel: boolean) => {
     setShowSelectPanel(isShowSelectPanel);
@@ -82,22 +110,23 @@ export const SearchSelect = <T,>({
   };
 
   const getReadableDateString = (dateValue: DateValue) => {
-    if (Array.isArray(dateValue)) {
+    if (Array.isArray(dateValue) && dateValue[0] && dateValue[1]) {
       return `${dayjs(dateValue[0]).format("YYYY-MM-DD")} ${dayjs(dateValue[1]).format("YYYY-MM-DD")}`;
     } else {
-      return "";
+      return "All";
     }
   };
 
   useEffect(() => {
-    const newForm = formData;
+    const newForm = { ...formData };
+    // const newForm = formData;
     if (type === "list") {
-      newForm[formKey] = selectValue as T[keyof T];
+      newForm[formKey] = selectValue?.value as T[keyof T];
     } else {
       newForm[formKey] = dateValue as T[keyof T];
     }
     setFormData(newForm);
-  }, [selectValue, dateValue, formData, formKey, type, setFormData]);
+  }, [selectValue, dateValue, formKey, type, setFormData]);
 
   return (
     <div className={classes.searchSelectWrap}>
@@ -105,11 +134,13 @@ export const SearchSelect = <T,>({
         <Popover.Trigger>
           <div className={classes.searchSelectButton}>
             <span className={classes.label}>{label}:&nbsp;</span>
-            {type === "list" && selectValue && (
-              <span className={classes.value}>{selectValue.name}</span>
+            {type === "list" && (
+              <span className={classes.value}>{selectValue ? selectValue.name : "All"}</span>
             )}
-            {type === "date" && dateValue && (
-              <span className={classes.value}>{getReadableDateString(dateValue)}</span>
+            {type === "date" && (
+              <span className={classes.value}>
+                {dateValue ? getReadableDateString(dateValue) : "All"}
+              </span>
             )}
             {showSelectPanel ? <IconCaretUp /> : <IconCaretDown />}
           </div>

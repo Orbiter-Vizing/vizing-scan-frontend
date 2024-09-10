@@ -63,7 +63,7 @@ export const TxDetails: FC = () => {
                   className={classes.processIcon}
                   isRounded
                   size={72}
-                  url={processData[status].chain?.icon || ""}
+                  url={processData[status].chain?.iconUrl || ""}
                 />
                 <p className={classes.processContent}>
                   {status !== "middle"

@@ -29,7 +29,7 @@ export const DetailInfoList: FC<DetailInfoListProps> = ({ data }) => {
       <div className={classes.detailRow}>
         <span className={classes.rowLabel}>Source Chain</span>
         <div className={classes.rowContent}>
-          <Icon className={classes.chianIcon} isRounded size={20} url={data.chain?.icon || ""} />
+          <Icon className={classes.chianIcon} isRounded size={20} url={data.chain?.iconUrl || ""} />
           {data.chain?.name}
         </div>
       </div>

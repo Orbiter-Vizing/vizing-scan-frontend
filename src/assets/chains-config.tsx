@@ -18,9 +18,9 @@ export interface ChainConfigInterface {
 }
 
 export interface ChainConfig {
-  key: string;
+  value: string;
   name: string;
-  icon: string;
+  iconUrl: string;
   id: string;
 }
 
@@ -29,69 +29,69 @@ export const ChainsConfigMap: ChainConfigInterface = {
   production: [],
   test: [
     {
-      key: "arbitrum",
+      value: "421614",
       name: "arbitrum",
-      icon: IconArbitrum,
+      iconUrl: IconArbitrum,
       id: "421614",
     },
     {
-      key: "ethereum",
+      value: "11155111",
       name: "ethereum",
-      icon: IconEthereum,
+      iconUrl: IconEthereum,
       id: "11155111",
     },
     {
-      key: "base",
+      value: "84532",
       name: "base",
-      icon: IconBase,
+      iconUrl: IconBase,
       id: "84532",
     },
     {
-      key: "linea",
+      value: "59141",
       name: "linea",
-      icon: IconLinea,
+      iconUrl: IconLinea,
       id: "59141",
     },
     {
-      key: "scroll",
+      value: "534351",
       name: "scroll",
-      icon: IconScroll,
+      iconUrl: IconScroll,
       id: "534351",
     },
     {
-      key: "optimism",
+      value: "11155420",
       name: "optimism",
-      icon: IconOptimism,
+      iconUrl: IconOptimism,
       id: "11155420",
     },
     {
-      key: "polygon",
+      value: "2442",
       name: "polygon",
-      icon: IconPolygon,
+      iconUrl: IconPolygon,
       id: "2442",
     },
     {
-      key: "blast",
+      value: "168587773",
       name: "blast",
-      icon: IconBlast,
+      iconUrl: IconBlast,
       id: "168587773",
     },
     {
-      key: "taiko",
+      value: "167009",
       name: "taiko",
-      icon: IconTaiko,
+      iconUrl: IconTaiko,
       id: "167009",
     },
     {
-      key: "bob",
+      value: "111",
       name: "bob",
-      icon: IconBOB,
+      iconUrl: IconBOB,
       id: "111",
     },
     {
-      key: "vizing",
+      value: "28516",
       name: "Vizing",
-      icon: IconBOB,
+      iconUrl: IconBOB,
       id: "28516",
     },
   ],
@@ -100,4 +100,16 @@ export const ChainsConfigMap: ChainConfigInterface = {
 export const getCurrentEnvChainConfig = () => {
   const envString = import.meta.env.MODE as EnvMode;
   return ChainsConfigMap[envString];
+};
+
+export const getChainsSearchSelectList = () => {
+  const envString = import.meta.env.MODE as EnvMode;
+  const currentEnvConfigList = [...ChainsConfigMap[envString]];
+  currentEnvConfigList.unshift({
+    id: "all",
+    name: "All",
+    value: "",
+    iconUrl: "",
+  });
+  return currentEnvConfigList;
 };

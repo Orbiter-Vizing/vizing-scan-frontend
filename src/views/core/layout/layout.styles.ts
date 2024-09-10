@@ -8,6 +8,9 @@ export const useLayoutStyles = createUseStyles((theme: Theme) => ({
     width: "100vw",
     background: theme.palette.primary.dark,
     padding: "0 80px 0",
+    minWidth: 1280,
+    maxWidth: 1440,
+    margin: "0 auto",
   },
   layout: {
     position: "relative",

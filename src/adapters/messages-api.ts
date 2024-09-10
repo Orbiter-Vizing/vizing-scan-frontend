@@ -1,7 +1,5 @@
 import axios from "axios";
 
-import { ProtocolKeys } from "src/assets/protocols-icons";
-
 interface PushBridgeInfoParams {
   abortSignal?: AbortSignal;
   amount: string;
@@ -56,12 +54,17 @@ interface MessagesSummaryOutput {
 interface GetMessagesListParams {
   abortSignal?: AbortSignal;
   apiUrl: string;
-  page: number;
-  pageSize: number;
+  page?: number; // start as 1
+  pageSize?: number;
+  q?: string; // keyword search (transactionId or sourceAddress or sourceHash)
+  dateRange?: [string, string] | [];
+  protocol?: [string] | [];
+  sourceChain?: [string] | [];
+  targetChain?: [string] | [];
 }
 
 export interface ApiMessagesListItem {
-  dApp: ProtocolKeys;
+  dApp: string;
   id: string;
   sourceAddress: string;
   sourceChain: string;
@@ -112,8 +115,13 @@ export const getMessagesSummary = ({
 export const getMessagesList = ({
   abortSignal,
   apiUrl,
-  page,
+  page, // start as 1
   pageSize,
+  q,
+  dateRange,
+  protocol,
+  sourceChain,
+  targetChain,
 }: GetMessagesListParams): Promise<GetMessageListOutput> => {
   return axios
     .request({
@@ -121,6 +129,11 @@ export const getMessagesList = ({
       data: {
         page,
         pageSize,
+        q,
+        dateRange,
+        protocol,
+        sourceChain,
+        targetChain,
       },
       method: "POST",
       signal: abortSignal,
@@ -158,7 +171,7 @@ interface Label {
 }
 
 interface Message {
-  dApp: ProtocolKeys;
+  dApp: string;
   id: string;
   label: Label;
   sourceAddress: string;

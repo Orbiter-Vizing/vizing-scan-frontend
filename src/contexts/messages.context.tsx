@@ -14,8 +14,13 @@ interface fetchSummaryDataParams {
 interface fetchMessagesListParams {
   abortSignal?: AbortSignal;
   apiUrl: string;
-  page: number; // start as 1
-  pageSize: number;
+  page?: number; // start as 1
+  pageSize?: number;
+  q?: string; // keyword search (transactionId or sourceAddress or sourceHash)
+  dateRange?: [string, string] | [];
+  protocol?: [string] | [];
+  sourceChain?: [string] | [];
+  targetChain?: [string] | [];
 }
 
 interface fetchMessagesDetailsParams {
@@ -188,12 +193,27 @@ const MessagesProvider: FC<PropsWithChildren> = (props) => {
   );
 
   const fetchMessagesList = useCallback(
-    async ({ apiUrl, page, pageSize }: fetchMessagesListParams): Promise<MessagesListItem[]> => {
+    async ({
+      apiUrl,
+      page,
+      pageSize,
+      q,
+      dateRange,
+      protocol,
+      sourceChain,
+      targetChain,
+    }: fetchMessagesListParams): Promise<MessagesListItem[]> => {
       const apiRes = await getMessagesList({
         apiUrl,
         page,
         pageSize,
+        q,
+        dateRange,
+        protocol,
+        sourceChain,
+        targetChain,
       });
+      console.log("messages context apiRes", apiRes);
       const currentEnvChainList = getCurrentEnvChainConfig();
       const response = apiRes.list.map((messagesListitem) => {
         const {
@@ -260,9 +280,9 @@ const MessagesProvider: FC<PropsWithChildren> = (props) => {
         },
         middle: {
           chain: {
-            key: "vizing",
+            value: "vizing",
             name: "Vizing Pad",
-            icon: IconBob,
+            iconUrl: IconBob,
             id: "vizing",
           },
           processContent: "Confirmations",

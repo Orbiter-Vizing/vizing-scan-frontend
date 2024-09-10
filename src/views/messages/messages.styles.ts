@@ -26,7 +26,7 @@ export const useMessagesStyles = createUseStyles((theme: Theme) => ({
     width: 506,
     height: 44,
     border: "1px solid rgba(255, 255, 255, 0.12)",
-    padding: "12px 16px 12px 38px",
+    padding: "12px 30px 12px 38px",
   },
   searchInputWrap: {
     position: "relative",
@@ -51,16 +51,35 @@ export const useMessagesStyles = createUseStyles((theme: Theme) => ({
     marginTop: 12,
     border: "1px solid",
     borderColor: theme.palette.black.black03,
+    borderRadius: 4,
   },
   rowNonceCell: {
     color: theme.palette.white.transparency40,
   },
   hashCell: {
     display: "flex",
+  },
+  addressCell: {
+    "&:hover": {
+      borderBottomColor: theme.palette.white.main,
+      cursor: "pointer",
+    },
     maxWidth: 220,
     overflow: "hidden",
     textOverflow: "ellipsis",
     whiteSpace: "nowrap",
+    borderBottom: "1px solid transparent",
+  },
+  hashCellContent: {
+    "&:hover": {
+      borderBottomColor: theme.palette.white.main,
+      cursor: "pointer",
+    },
+    maxWidth: 220,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    borderBottom: "1px solid transparent",
   },
   protocolCell: {
     display: "flex",
@@ -70,6 +89,7 @@ export const useMessagesStyles = createUseStyles((theme: Theme) => ({
     marginRight: 4,
   },
   timeCell: {
+    width: 150,
     color: theme.palette.white.transparency40,
   },
   paginationWrap: {
@@ -81,5 +101,18 @@ export const useMessagesStyles = createUseStyles((theme: Theme) => ({
     height: 20,
     width: 20,
     marginRight: 4,
+  },
+  deleteIcon: {
+    "&:hover": {
+      cursor: "pointer",
+    },
+    position: "absolute",
+    right: 4,
+    top: "50%",
+    transform: "translateY(-50%)",
+    height: 20,
+    width: 20,
+    fill: theme.palette.white.main,
+    opacity: 0.4,
   },
 }));

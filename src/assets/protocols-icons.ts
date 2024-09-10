@@ -1,3 +1,5 @@
+import { EnvMode } from "src/constants";
+// assets
 import LogoOvta from "src/assets/icon/protocols/logo_0xAstra.png";
 import LogoLikwid from "src/assets/icon/protocols/logo_likwid.png";
 import LogoAylab from "src/assets/icon/protocols/logo_aylab.png";
@@ -9,59 +11,126 @@ import logoXmint from "src/assets/icon/protocols/logo_xmint.png";
 import logoAABank from "src/assets/icon/protocols/logo_aabank.png";
 import logoOrbiter from "src/assets/icon/protocols/logo_orbiter.png";
 
-export const protocolsConfigList = {
-  dApp1: {
-    name: "0xAstra",
-    iconUrl: Logo0xAstra,
-  },
-  dApp2: {
-    name: "Likwid",
-    iconUrl: LogoLikwid,
-  },
-  dApp3: {
-    name: "AABank",
-    iconUrl: logoAABank,
-  },
-  dApp4: {
-    name: "Aylab",
-    iconUrl: LogoAylab,
-  },
-  dApp5: {
-    name: "Bullishs",
-    iconUrl: logoBullishs,
-  },
-  dApp6: {
-    name: "Color Protocol",
-    iconUrl: logoColorProtocol,
-  },
-  dApp7: {
-    name: "Pink",
-    iconUrl: logoPink,
-  },
-  dApp8: {
-    name: "Xmint",
-    iconUrl: logoXmint,
-  },
-  dApp9: {
-    name: "dApp9",
-    iconUrl: logoAABank,
-  },
-  OVTA: {
-    name: "OVTA",
-    iconUrl: LogoOvta,
-  },
-  OribterBridge: {
-    name: "Oribter Bridge",
-    iconUrl: logoOrbiter,
-  },
-  Early: {
-    name: "Early",
-    iconUrl: logoOrbiter,
-  },
+export interface ProtocolConfigInterface {
+  development: ProtocolConfig[];
+  production: ProtocolConfig[];
+  test: ProtocolConfig[];
+}
+
+export interface ProtocolConfig {
+  id: string;
+  name: string;
+  value: string;
+  iconUrl: string;
+}
+
+export const ProtocolsConfigMap: ProtocolConfigInterface = {
+  development: [],
+  production: [],
+  test: [
+    {
+      id: "0xAstra",
+      name: "0xAstra",
+      iconUrl: Logo0xAstra,
+      value: "0xAstra",
+    },
+    {
+      id: "Likwid",
+      name: "Likwid",
+      iconUrl: LogoLikwid,
+      value: "Likwid",
+    },
+    {
+      id: "AABank",
+      name: "AABank",
+      iconUrl: logoAABank,
+      value: "AABank",
+    },
+    {
+      id: "Aylab",
+      name: "Aylab",
+      iconUrl: LogoAylab,
+      value: "Aylab",
+    },
+    {
+      id: "Bullishs",
+      name: "Bullishs",
+      iconUrl: logoBullishs,
+      value: "Bullishs",
+    },
+    {
+      id: "ColorProtocol",
+      name: "Color Protocol",
+      iconUrl: logoColorProtocol,
+      value: "Color Protocol",
+    },
+    {
+      id: "Pink",
+      name: "Pink",
+      iconUrl: logoPink,
+      value: "Pink",
+    },
+    {
+      id: "Xmint",
+      name: "Xmint",
+      iconUrl: logoXmint,
+      value: "Xmint",
+    },
+    {
+      id: "dApp9",
+      name: "dApp9",
+      iconUrl: logoAABank,
+      value: "dApp9",
+    },
+    {
+      id: "OVTA",
+      name: "OVTA",
+      iconUrl: LogoOvta,
+      value: "OVTA",
+    },
+    {
+      id: "OribterBridge",
+      name: "Oribter Bridge",
+      iconUrl: logoOrbiter,
+      value: "Oribter Bridge",
+    },
+    {
+      id: "Early",
+      name: "Early",
+      iconUrl: logoOrbiter,
+      value: "Early",
+    },
+  ],
 };
 
-export type ProtocolKeys = keyof typeof protocolsConfigList;
+const defaultProtocolConfig = {
+  id: "",
+  name: "",
+  value: "",
+  iconUrl: "",
+};
 
-export const getProtocolConfig = (protocolId: ProtocolKeys) => {
-  return protocolsConfigList[protocolId];
+export const getProtocolConfig = (protocolName: string) => {
+  const envString = import.meta.env.MODE as EnvMode;
+  const result = ProtocolsConfigMap[envString].find((protocol) => {
+    return protocol.name === protocolName;
+  });
+  return result ? result : defaultProtocolConfig;
+};
+
+export const getCurrentEnvProtocolList = () => {
+  const envString = import.meta.env.MODE as EnvMode;
+  return ProtocolsConfigMap[envString];
+};
+
+export const getProtocolsSearchSelectList = () => {
+  const envString = import.meta.env.MODE as EnvMode;
+  const currentEnvConfigList = [...ProtocolsConfigMap[envString]];
+  currentEnvConfigList.unshift({
+    id: "all",
+    name: "All",
+    value: "",
+    iconUrl: "",
+  });
+  return currentEnvConfigList;
 };
