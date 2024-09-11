@@ -10,6 +10,18 @@ import IconPolygon from "src/assets/icon/chains/Polygon.svg";
 import IconBlast from "src/assets/icon/chains/Blast.svg";
 import IconTaiko from "src/assets/icon/chains/Taiko.svg";
 import IconBOB from "src/assets/icon/chains/BOB.svg";
+// chain icon colorful
+import IconColorfulArbitrum from "src/assets/icon/chains-colorful/arbitrum.svg";
+import IconColorfulEthereum from "src/assets/icon/chains-colorful/ethereum.svg";
+import IconColorfulBase from "src/assets/icon/chains-colorful/base.svg";
+import IconColorfulLinea from "src/assets/icon/chains-colorful/linea.svg";
+import IconColorfulScroll from "src/assets/icon/chains-colorful/scroll.svg";
+import IconColorfulOptimism from "src/assets/icon/chains-colorful/optimism.svg";
+import IconColorfulPolygon from "src/assets/icon/chains-colorful/polygon.svg";
+import IconColorfulBlast from "src/assets/icon/chains-colorful/blast.svg";
+import IconColorfulTaiko from "src/assets/icon/chains-colorful/taiko.svg";
+import IconColorfulBOB from "src/assets/icon/chains-colorful/bob.svg";
+import IconColorfulVizing from "src/assets/icon/chains-colorful/vizing.svg";
 
 export interface ChainConfigInterface {
   development: ChainConfig[];
@@ -22,6 +34,8 @@ export interface ChainConfig {
   name: string;
   iconUrl: string;
   id: string;
+  iconUrlColorful: string;
+  explorerUrl: string;
 }
 
 export const ChainsConfigMap: ChainConfigInterface = {
@@ -33,66 +47,88 @@ export const ChainsConfigMap: ChainConfigInterface = {
       name: "arbitrum",
       iconUrl: IconArbitrum,
       id: "421614",
+      iconUrlColorful: IconColorfulArbitrum,
+      explorerUrl: "https://sepolia.arbiscan.io/",
     },
     {
       value: "11155111",
       name: "ethereum",
       iconUrl: IconEthereum,
       id: "11155111",
+      iconUrlColorful: IconColorfulEthereum,
+      explorerUrl: "https://sepolia.etherscan.io/",
     },
     {
       value: "84532",
       name: "base",
       iconUrl: IconBase,
       id: "84532",
+      iconUrlColorful: IconColorfulBase,
+      explorerUrl: "https://sepolia.basescan.org/",
     },
     {
       value: "59141",
       name: "linea",
       iconUrl: IconLinea,
       id: "59141",
+      iconUrlColorful: IconColorfulLinea,
+      explorerUrl: "https://sepolia.lineascan.build/",
     },
     {
       value: "534351",
       name: "scroll",
       iconUrl: IconScroll,
       id: "534351",
+      iconUrlColorful: IconColorfulScroll,
+      explorerUrl: "https://sepolia.scrollscan.com/",
     },
     {
       value: "11155420",
       name: "optimism",
       iconUrl: IconOptimism,
       id: "11155420",
+      iconUrlColorful: IconColorfulOptimism,
+      explorerUrl: "https://sepolia-optimism.etherscan.io/",
     },
     {
       value: "2442",
       name: "polygon",
       iconUrl: IconPolygon,
       id: "2442",
+      iconUrlColorful: IconColorfulPolygon,
+      explorerUrl: "https://cardona-zkevm.polygonscan.com/",
     },
     {
       value: "168587773",
       name: "blast",
       iconUrl: IconBlast,
       id: "168587773",
+      iconUrlColorful: IconColorfulBlast,
+      explorerUrl: "https://sepolia.blastscan.io/",
     },
     {
       value: "167009",
       name: "taiko",
       iconUrl: IconTaiko,
       id: "167009",
+      iconUrlColorful: IconColorfulTaiko,
+      explorerUrl: "https://hekla.taikoscan.network/",
     },
     {
       value: "111",
       name: "bob",
       iconUrl: IconBOB,
       id: "111",
+      iconUrlColorful: IconColorfulBOB,
+      explorerUrl: "https://testnet-explorer.gobob.xyz/",
     },
     {
       value: "28516",
       name: "Vizing",
       iconUrl: IconBOB,
       id: "28516",
+      iconUrlColorful: IconColorfulVizing,
+      explorerUrl: "https://explorer-sepolia.vizing.com",
     },
   ],
 };
@@ -110,6 +146,8 @@ export const getChainsSearchSelectList = () => {
     name: "All",
     value: "",
     iconUrl: "",
+    iconUrlColorful: "",
+    explorerUrl: "",
   });
   return currentEnvConfigList;
 };

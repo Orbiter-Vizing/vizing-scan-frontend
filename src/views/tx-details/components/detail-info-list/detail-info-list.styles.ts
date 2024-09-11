@@ -2,6 +2,11 @@ import { createUseStyles } from "react-jss";
 import { Theme } from "src/styles/theme";
 
 export const useDetailInfoListStyles = createUseStyles((theme: Theme) => ({
+  "@keyframes scale": {
+    "0%": { transform: "scale(1)" },
+    "50%": { transform: "scale(1.1)" },
+    "100%": { transform: "scale(1)" },
+  },
   detailInfoListWrap: {
     display: "flex",
     width: "100%",
@@ -29,15 +34,10 @@ export const useDetailInfoListStyles = createUseStyles((theme: Theme) => ({
     color: theme.palette.white.main,
   },
   txHash: {
-    "&:hover": {
-      cursor: "pointer",
-    },
     maxWidth: 315,
     overflow: "hidden",
     textOverflow: "ellipsis",
     whiteSpace: "nowrap",
-    borderBottom: "1px solid",
-    borderColor: theme.palette.white.main,
   },
   hashInteractionIcon: {
     "&:hover": {
@@ -55,5 +55,11 @@ export const useDetailInfoListStyles = createUseStyles((theme: Theme) => ({
   },
   chianIcon: {
     marginRight: 4,
+  },
+  copyAnimation: {
+    animation: "$scale 0.3s linear 1",
+  },
+  tokenIcon: {
+    margin: "0 4px 0",
   },
 }));

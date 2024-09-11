@@ -46,7 +46,15 @@ export const useTxDetailsStyles = createUseStyles((theme: Theme) => ({
     fontWeight: 500,
     color: theme.palette.white.main,
   },
-  processIcon: {
+  processIcon: {},
+  processIconWrap: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 72,
+    width: 72,
+    borderRadius: "50%",
+    background: theme.palette.black.secondary,
     border: "1px solid",
     borderColor: theme.palette.red.main,
   },
@@ -69,6 +77,9 @@ export const useTxDetailsStyles = createUseStyles((theme: Theme) => ({
   processBackgroundPattern: {
     height: 62,
     width: 190,
+  },
+  processBackgroundPatternWrap: {
+    flex: 1,
   },
   transactionInfoWrap: {
     display: "flex",

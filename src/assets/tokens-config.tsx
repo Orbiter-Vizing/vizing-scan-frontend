@@ -2,8 +2,10 @@ import IconETH from "src/assets/icon/tokens/eth-icon.svg";
 import IconUSDC from "src/assets/icon/tokens/usdc-icon.svg";
 import IconUSDT from "src/assets/icon/tokens/usdt-icon.svg";
 
+import { EnvMode } from "src/constants";
+
 export interface EthereumErc20TokensConfigInterface {
-  dev: TokenConfig[];
+  development: TokenConfig[];
   production: TokenConfig[];
   test: TokenConfig[];
 }
@@ -17,10 +19,8 @@ interface TokenConfig {
   symbol: string;
 }
 
-export type EnvString = "dev" | "test" | "production";
-
 export const EthereumErc20TokensConfig: EthereumErc20TokensConfigInterface = {
-  dev: [
+  development: [
     {
       address: "0xdAC17F958D2ee523a2206206994597C13D831ec4",
       chainId: 11155111,
@@ -431,4 +431,13 @@ export const EthereumErc20TokensConfig: EthereumErc20TokensConfigInterface = {
       symbol: "ETH",
     },
   ],
+};
+
+export const getTokenConfigBySymbol = (symbol: string) => {
+  const envString = import.meta.env.MODE as EnvMode;
+  const currentEnvConfigList = [...EthereumErc20TokensConfig[envString]];
+  const targetTokenConfig = currentEnvConfigList.find((token) => {
+    return token.symbol === symbol;
+  });
+  return targetTokenConfig;
 };

@@ -4,7 +4,7 @@ import { getMessagesSummary, getMessagesList, getMessageDetails } from "src/adap
 import { getProtocolConfig } from "src/assets/protocols-icons";
 import { getCurrentEnvChainConfig } from "src/assets/chains-config";
 import { ChainConfig } from "src/assets/chains-config";
-import IconBob from "src/assets/icon/chains/BOB.svg";
+import IconVizingColorful from "src/assets/icon/chains-colorful/vizing.svg";
 
 interface fetchSummaryDataParams {
   abortSignal?: AbortSignal;
@@ -42,6 +42,7 @@ export interface MessagesListItem {
   from: string;
   sourceTxHash: string;
   destTxHash: string;
+  transactionId: string;
   sourceChain: ChainConfig | undefined;
   destChain: ChainConfig | undefined;
   protocol: {
@@ -238,6 +239,7 @@ const MessagesProvider: FC<PropsWithChildren> = (props) => {
         });
         const newItem: MessagesListItem = {
           status,
+          transactionId,
           nonce: sourceNonce,
           time: sourceTime,
           sourceTxHash: sourceHash,
@@ -282,8 +284,10 @@ const MessagesProvider: FC<PropsWithChildren> = (props) => {
           chain: {
             value: "vizing",
             name: "Vizing Pad",
-            iconUrl: IconBob,
+            iconUrl: IconVizingColorful,
+            iconUrlColorful: IconVizingColorful,
             id: "vizing",
+            explorerUrl: "",
           },
           processContent: "Confirmations",
         },
@@ -323,8 +327,7 @@ const MessagesProvider: FC<PropsWithChildren> = (props) => {
       const bottomInfo: BottomInfo = {
         from: message.sourceAddress,
         fee: message.withholdingFee,
-        message:
-          "0x6abd4ea7000000000000000000000000000000000000000000000000000000000000004000000000000000000000000053323e9be41473e747001cde9076e6a2c29c1b3e000000000000000000000000000000000000000000000000000000000000000a4d8da06627275ca6eb617f89818a9841828922bd12f6b4cd301222040e180e67801490d6403b4af03a4dd1b41d8e756f79b1b3ab7885518090d2530aa298d160dfbf363d67e72837a77f1e04cea3c5ae4ae263d398e91fc4c717cee4cc96238a3a64f2ed292959bbc50195731afaaaa348fbbe84319b0e8d49d33070c2477de2bc63f6e17ba5ab8cd2378861ffab9f7e3af36b92dfd0fe856a55be2ddf39572dc4f31f84386e201cbd4c4bb62b7317978fb45aac94bac11148ac8bc7e4bcf0ffb47aea11af8267dcb9798c9f16bf392264605459fcf3956144ff79af267ca08e7338e9e01fc008284ae5c5335a1c0ea5436e550c7b883e3a391ab2879bd05dbf03ad09457638ed899d886caf1161151321402cd1988804e711a25f92b8096e8dd02209c3b18b6a4207e2080b123385ee428a67d64e4d497e3a07a174db7d3944",
+        message: message.label.message,
       };
       return {
         process,

@@ -1,8 +1,8 @@
 import { FC, useEffect, useState, useCallback } from "react";
+import { useParams } from "react-router-dom";
 
 import { useTxDetailsStyles } from "src/views/tx-details/tx-details.styles";
 import { Icon } from "src/views/shared/icon/icon.view";
-import IconLiwid from "src/assets/icon/protocols/logo_likwid.png";
 import SvgProcessBackgroundLeft from "src/assets/process-bg-left.svg?react";
 import SvgProcessBackgroundRight from "src/assets/process-bg-right.svg?react";
 import { DetailInfoList } from "src/views/tx-details/components/detail-info-list/detail-info-list.view";
@@ -11,9 +11,11 @@ import { useMessagesContext } from "src/contexts/messages.context";
 import { apiUrl } from "src/constants";
 import { ProcessInfo, BottomInfo } from "src/contexts/messages.context";
 import IconETH from "src/assets/icon/tokens/eth-icon.svg";
+import { getTokenConfigBySymbol } from "src/assets/tokens-config";
 
 export const TxDetails: FC = () => {
   const classes = useTxDetailsStyles();
+  const { hashId } = useParams();
   const { fetchMessageDetails } = useMessagesContext();
 
   const [processData, setProcessData] = useState<ProcessInfo>();
@@ -24,18 +26,26 @@ export const TxDetails: FC = () => {
   const initPageData = useCallback(async () => {
     const messageDetailsData = await fetchMessageDetails({
       apiUrl,
-      id: "0x21c7944342dbb05b7e0e9799e50ed9ea6cd16912dfec13e490859cd5ca9195f3",
+      id: hashId || "",
     });
     setProcessData(messageDetailsData.process);
     setSourceInfoList(messageDetailsData.source);
     setDestInfoList(messageDetailsData.destination);
     setBottomInfo(messageDetailsData.bottomInfo);
-  }, [fetchMessageDetails]);
+  }, [fetchMessageDetails, hashId]);
 
   const getHashShortcut = (hash: string) => {
     const headLength = 8;
     const tailLength = 4;
     return `${hash.slice(0, headLength)}...${hash.slice(-tailLength)}`;
+  };
+
+  const getFilteredFee = (value: string, symbol: string) => {
+    const numericValue = parseFloat(value);
+    const formattedValue = numericValue.toString();
+    // const token = getTokenConfigBySymbol(symbol);
+    const result = `${formattedValue} ETH`;
+    return result;
   };
 
   useEffect(() => {
@@ -54,17 +64,27 @@ export const TxDetails: FC = () => {
           return (
             <div className={classes.processPeriodWrap}>
               <div className={classes.processBackgroundWrap}>
-                <SvgProcessBackgroundLeft className={classes.processBackgroundPattern} />
-                <SvgProcessBackgroundRight className={classes.processBackgroundPattern} />
+                <div className={classes.processBackgroundPatternWrap}>
+                  {status !== "source" && (
+                    <SvgProcessBackgroundLeft className={classes.processBackgroundPattern} />
+                  )}
+                </div>
+                <div className={classes.processBackgroundPatternWrap}>
+                  {status !== "destination" && (
+                    <SvgProcessBackgroundRight className={classes.processBackgroundPattern} />
+                  )}
+                </div>
               </div>
               <div className={classes.processPeriodContainer}>
                 <p className={classes.processName}>{processData[status].chain?.name}</p>
-                <Icon
-                  className={classes.processIcon}
-                  isRounded
-                  size={72}
-                  url={processData[status].chain?.iconUrl || ""}
-                />
+                <div className={classes.processIconWrap}>
+                  <Icon
+                    className={classes.processIcon}
+                    isRounded
+                    size={32}
+                    url={processData[status].chain?.iconUrlColorful || ""}
+                  />
+                </div>
                 <p className={classes.processContent}>
                   {status !== "middle"
                     ? getHashShortcut(processData[status].processContent)
@@ -79,10 +99,10 @@ export const TxDetails: FC = () => {
         <h2 className={classes.txInfotitle}>Transaction Info</h2>
         <div className={classes.detailsInfoWrap}>
           <div className={`${classes.sourceChainInfoWrap} ${classes.chainInfoWrap}`}>
-            <DetailInfoList data={sourceInfoList} />
+            <DetailInfoList type="source" data={sourceInfoList} />
           </div>
           <div className={classes.chainInfoWrap}>
-            <DetailInfoList data={destInfoList} />
+            <DetailInfoList type="destination" data={destInfoList} />
           </div>
         </div>
       </div>
@@ -94,7 +114,7 @@ export const TxDetails: FC = () => {
         <span className={classes.infoRowLabel}>Fee</span>
         <div className={classes.feeDetail}>
           <Icon className={classes.feeDetailIcon} isRounded size={20} url={IconETH} />
-          {bottomInfo.fee} ETH
+          {getFilteredFee(bottomInfo.fee, "ETH")}
         </div>
       </div>
       <div className={`${classes.infoRow} ${classes.messageInfo}`}>

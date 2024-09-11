@@ -159,7 +159,7 @@ export const Messages: FC = () => {
       targetChain: toChainId ? [toChainId] : [],
     });
     setMessagesList(messagesListData);
-  }, [searchForm, page, fetchMessagesList]);
+  }, [searchForm, page, fetchMessagesList, inputValue]);
 
   const handlePaginationChange = async (event: ChangeEvent<unknown>, page: number) => {
     setPage(page);
@@ -309,7 +309,7 @@ export const Messages: FC = () => {
                           )}
                           <div
                             className={classes.hashCellContent}
-                            onClick={() => handleHashClick(row.sourceTxHash)}
+                            onClick={() => handleHashClick(row.transactionId)}
                           >
                             {row.sourceTxHash || "-"}
                           </div>
@@ -327,7 +327,7 @@ export const Messages: FC = () => {
                           )}
                           <div
                             className={classes.hashCellContent}
-                            onClick={() => handleHashClick(row.destTxHash)}
+                            onClick={() => handleHashClick(row.transactionId)}
                           >
                             {row.destTxHash || "-"}
                           </div>
