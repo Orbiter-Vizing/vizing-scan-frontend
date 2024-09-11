@@ -68,7 +68,7 @@ export const Header: FC = () => {
           );
         })}
       </div>
-      <div className={classes.rightBlock}>
+      {/* <div className={classes.rightBlock}>
         {socialMediaList.map((item) => (
           <a key={item.id} href={item.link} target="_blank">
             <span>
@@ -76,7 +76,7 @@ export const Header: FC = () => {
             </span>
           </a>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };

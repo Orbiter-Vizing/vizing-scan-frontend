@@ -85,7 +85,9 @@ export const TxDetails: FC = () => {
                     url={processData[status].chain?.iconUrlColorful || ""}
                   />
                 </div>
-                <p className={classes.processContent}>
+                <p
+                  className={`${classes.processContent} ${status !== "middle" ? classes.processHashContent : ""}`}
+                >
                   {status !== "middle"
                     ? getHashShortcut(processData[status].processContent)
                     : processData[status].processContent}

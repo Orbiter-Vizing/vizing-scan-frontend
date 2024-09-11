@@ -93,7 +93,7 @@ export const DetailInfoList: FC<DetailInfoListProps> = ({ data, type }) => {
         </div>
       </div>
       <div className={classes.detailRow}>
-        <span className={classes.rowLabel}>Massage Nonce</span>
+        <span className={classes.rowLabel}>Message Nonce</span>
         <div className={classes.rowContent}>{data.nonce}</div>
       </div>
       <div className={classes.detailRow}>

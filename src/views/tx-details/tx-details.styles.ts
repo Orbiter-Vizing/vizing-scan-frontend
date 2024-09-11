@@ -58,6 +58,14 @@ export const useTxDetailsStyles = createUseStyles((theme: Theme) => ({
     border: "1px solid",
     borderColor: theme.palette.red.main,
   },
+  processHashContent: {
+    borderBottom: "1px solid transparent",
+    "&:hover": {
+      cursor: "pointer",
+      color: theme.palette.white.main,
+      borderBottomColor: theme.palette.white.main,
+    },
+  },
   processContent: {
     fontSize: 14,
     fontWeight: 400,

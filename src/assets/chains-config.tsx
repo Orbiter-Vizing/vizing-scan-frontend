@@ -10,6 +10,7 @@ import IconPolygon from "src/assets/icon/chains/Polygon.svg";
 import IconBlast from "src/assets/icon/chains/Blast.svg";
 import IconTaiko from "src/assets/icon/chains/Taiko.svg";
 import IconBOB from "src/assets/icon/chains/BOB.svg";
+import IconVizing from "src/assets/icon/chains/vizing.svg";
 // chain icon colorful
 import IconColorfulArbitrum from "src/assets/icon/chains-colorful/arbitrum.svg";
 import IconColorfulEthereum from "src/assets/icon/chains-colorful/ethereum.svg";
@@ -44,7 +45,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
   test: [
     {
       value: "421614",
-      name: "arbitrum",
+      name: "Arbitrum",
       iconUrl: IconArbitrum,
       id: "421614",
       iconUrlColorful: IconColorfulArbitrum,
@@ -52,7 +53,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
     },
     {
       value: "11155111",
-      name: "ethereum",
+      name: "Ethereum",
       iconUrl: IconEthereum,
       id: "11155111",
       iconUrlColorful: IconColorfulEthereum,
@@ -60,7 +61,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
     },
     {
       value: "84532",
-      name: "base",
+      name: "Base",
       iconUrl: IconBase,
       id: "84532",
       iconUrlColorful: IconColorfulBase,
@@ -68,7 +69,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
     },
     {
       value: "59141",
-      name: "linea",
+      name: "Linea",
       iconUrl: IconLinea,
       id: "59141",
       iconUrlColorful: IconColorfulLinea,
@@ -76,7 +77,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
     },
     {
       value: "534351",
-      name: "scroll",
+      name: "Scroll",
       iconUrl: IconScroll,
       id: "534351",
       iconUrlColorful: IconColorfulScroll,
@@ -84,7 +85,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
     },
     {
       value: "11155420",
-      name: "optimism",
+      name: "Optimism",
       iconUrl: IconOptimism,
       id: "11155420",
       iconUrlColorful: IconColorfulOptimism,
@@ -92,7 +93,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
     },
     {
       value: "2442",
-      name: "polygon",
+      name: "Polygon",
       iconUrl: IconPolygon,
       id: "2442",
       iconUrlColorful: IconColorfulPolygon,
@@ -100,7 +101,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
     },
     {
       value: "168587773",
-      name: "blast",
+      name: "Blast",
       iconUrl: IconBlast,
       id: "168587773",
       iconUrlColorful: IconColorfulBlast,
@@ -108,7 +109,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
     },
     {
       value: "167009",
-      name: "taiko",
+      name: "Taiko",
       iconUrl: IconTaiko,
       id: "167009",
       iconUrlColorful: IconColorfulTaiko,
@@ -116,7 +117,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
     },
     {
       value: "111",
-      name: "bob",
+      name: "Bob",
       iconUrl: IconBOB,
       id: "111",
       iconUrlColorful: IconColorfulBOB,
@@ -125,7 +126,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
     {
       value: "28516",
       name: "Vizing",
-      iconUrl: IconBOB,
+      iconUrl: IconVizing,
       id: "28516",
       iconUrlColorful: IconColorfulVizing,
       explorerUrl: "https://explorer-sepolia.vizing.com",

@@ -2,6 +2,7 @@ import { FC, PropsWithChildren } from "react";
 
 import { useLayoutStyles } from "src/views/core/layout/layout.styles";
 import { Header } from "src/views/shared/header/header.view";
+import { Footer } from "src/views/shared/footer/footer.view";
 import BackgroundPattern from "src/assets/background-pattern.svg?react";
 
 export const Layout: FC<PropsWithChildren> = ({ children }) => {
@@ -14,6 +15,7 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
         <BackgroundPattern className={classes.backgroundPattern} />
         <div className={classes.container}>{children}</div>
       </div>
+      <Footer />
     </div>
   );
 };

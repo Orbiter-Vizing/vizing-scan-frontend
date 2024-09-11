@@ -168,7 +168,7 @@ export const SearchSelect = <T,>({
                       key={item.id}
                       className={classes.selectItemWrap}
                     >
-                      {item.iconUrl && <Icon isRounded size={32} url={item.iconUrl} />}
+                      {item.iconUrl && <Icon isRounded size={16} url={item.iconUrl} />}
                       <span className={classes.selectItemName}>{item.name}</span>
                     </div>
                   );
@@ -198,6 +198,7 @@ export const SearchSelect = <T,>({
                 value={dateValue}
                 showNavigation={true}
                 showNeighboringMonth={false}
+                locale="en-US"
               />
             </div>
           )}

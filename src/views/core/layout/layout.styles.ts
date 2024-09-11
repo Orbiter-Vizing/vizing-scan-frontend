@@ -11,10 +11,11 @@ export const useLayoutStyles = createUseStyles((theme: Theme) => ({
     minWidth: 1280,
     maxWidth: 1440,
     margin: "0 auto",
+    paddingBottom: 60,
   },
   layout: {
     position: "relative",
-    paddingBottom: 128,
+    paddingBottom: 30,
     marginTop: 32,
   },
   backgroundPattern: {

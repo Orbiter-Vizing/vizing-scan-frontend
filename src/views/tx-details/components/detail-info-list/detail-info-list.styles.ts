@@ -4,7 +4,7 @@ import { Theme } from "src/styles/theme";
 export const useDetailInfoListStyles = createUseStyles((theme: Theme) => ({
   "@keyframes scale": {
     "0%": { transform: "scale(1)" },
-    "50%": { transform: "scale(1.1)" },
+    "50%": { transform: "scale(1.2)" },
     "100%": { transform: "scale(1)" },
   },
   detailInfoListWrap: {

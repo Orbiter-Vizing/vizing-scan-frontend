@@ -23,9 +23,20 @@ export const useSearchSelectStyles = createUseStyles((theme: Theme) => ({
     color: theme.palette.white.main,
   },
   listWrap: {
+    "&::-webkit-scrollbar": {
+      width: "4px",
+    },
+    "&::-webkit-scrollbar-corner": {
+      display: "none",
+    },
+    "&::-webkit-scrollbar-thumb": {
+      backgroundColor: theme.palette.white.transparency10,
+      borderRadius: 2,
+    },
     height: 256,
-    width: 144,
-    overflow: "scroll",
+    minWidth: 144,
+    overflowY: "scroll",
+    overflowX: "hidden",
   },
   datePanelWrap: {
     display: "flex",
@@ -69,6 +80,7 @@ export const useSearchSelectStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     alignItems: "center",
     height: 40,
+    fontSize: 14,
     padding: "0 12px 0",
     color: theme.palette.white.main,
   },
