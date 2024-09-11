@@ -26,6 +26,9 @@ export const useHeaderStyles = createUseStyles((theme: Theme) => ({
     color: theme.palette.white.transparency60,
     marginRight: 12,
   },
+  selectedTab: {
+    color: theme.palette.white.main,
+  },
   centerBlock: {
     flex: 1,
     fontSize: 16,

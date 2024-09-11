@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { useHeaderStyles } from "src/views/shared/header/header.styles";
 import VizingScanLogo from "src/assets/vizing-scan-logo.svg?react";
@@ -41,6 +42,12 @@ const socialMediaList = [
 
 export const Header: FC = () => {
   const classes = useHeaderStyles();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleHeaderItemClick = (path: string) => {
+    navigate(path);
+  };
 
   return (
     <div className={classes.headerWrap}>
@@ -51,7 +58,11 @@ export const Header: FC = () => {
       <div className={classes.centerBlock}>
         {headerTabs.map((tab) => {
           return (
-            <span key={tab.id} className={classes.headerTab}>
+            <span
+              onClick={() => handleHeaderItemClick(tab.path)}
+              key={tab.id}
+              className={`${classes.headerTab} ${location.pathname === tab.path ? classes.selectedTab : ""}`}
+            >
               {tab.text}
             </span>
           );
