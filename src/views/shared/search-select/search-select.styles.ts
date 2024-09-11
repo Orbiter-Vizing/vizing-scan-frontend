@@ -33,7 +33,7 @@ export const useSearchSelectStyles = createUseStyles((theme: Theme) => ({
   shortcutsWrap: {
     display: "flex",
     flexDirection: "column",
-    border: "1px solid",
+    borderRight: "1px solid",
     borderRightColor: theme.palette.black.black03,
   },
   shortcutItem: {
@@ -48,6 +48,9 @@ export const useSearchSelectStyles = createUseStyles((theme: Theme) => ({
     padding: "0 12px 0",
     justifyContent: "flex-start",
     color: theme.palette.white.transparency40,
+  },
+  radixPopoverRoot: {
+    border: "1px solid green",
   },
   radixPopover: {
     padding: 0,

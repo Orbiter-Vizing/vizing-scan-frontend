@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Popover } from "@radix-ui/themes";
 import Calendar from "react-calendar";
 import dayjs from "dayjs";
@@ -96,6 +96,8 @@ export const SearchSelect = <T,>({
   const [showSelectPanel, setShowSelectPanel] = useState(false);
   const [dateValue, setDateValue] = useState<DateValue>(null);
 
+  const anchorRef = useRef(null);
+
   const handleOpenChange = (isShowSelectPanel: boolean) => {
     setShowSelectPanel(isShowSelectPanel);
   };
@@ -130,8 +132,12 @@ export const SearchSelect = <T,>({
 
   return (
     <div className={classes.searchSelectWrap}>
-      <Popover.Root open={showSelectPanel} onOpenChange={handleOpenChange}>
-        <Popover.Trigger>
+      <Popover.Root
+        open={showSelectPanel}
+        // className={classes.radixPopoverRoot}
+        onOpenChange={handleOpenChange}
+      >
+        <Popover.Trigger ref={anchorRef}>
           <div className={classes.searchSelectButton}>
             <span className={classes.label}>{label}:&nbsp;</span>
             {type === "list" && (
@@ -145,7 +151,13 @@ export const SearchSelect = <T,>({
             {showSelectPanel ? <IconCaretUp /> : <IconCaretDown />}
           </div>
         </Popover.Trigger>
-        <Popover.Content className={classes.radixPopover}>
+        {/* <Popover.Anchor ref={anchorRef} /> */}
+        <Popover.Content
+          className={classes.radixPopover}
+          side="bottom"
+          align="center"
+          sideOffset={0}
+        >
           {type === "list" && (
             <div className={classes.listWrap}>
               <div className={classes.listContainer}>
