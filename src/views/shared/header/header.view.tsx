@@ -15,11 +15,11 @@ const headerTabs = [
     text: routes.messages.text,
     path: routes.messages.path,
   },
-  {
-    id: routes.protocols.id,
-    text: routes.protocols.text,
-    path: routes.protocols.path,
-  },
+  // {
+  //   id: routes.protocols.id,
+  //   text: routes.protocols.text,
+  //   path: routes.protocols.path,
+  // },
 ];
 
 const socialMediaList = [
