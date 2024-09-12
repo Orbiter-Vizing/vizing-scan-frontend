@@ -43,7 +43,7 @@
 
 .react-calendar button {
   margin: 0;
-  border: 0;
+  /* border: 0; */
   outline: none;
   color: #757575;
 }
@@ -118,12 +118,13 @@
 .react-calendar__tile {
   height: 32px;
   max-width: 32px;
-  padding: 10px 6.6667px;
+  padding: 0 6.6667px 0;
   background: none;
   text-align: center;
   line-height: 16px;
   font: inherit;
-  font-size: 0.833em;
+  font-size: 14px;
+  border: 1px solid transparent;
 }
 
 .react-calendar__tile:disabled {
@@ -192,9 +193,9 @@
 
 /* An walkaround for showNeighboringMonth and showDoubleView cannot work together */
 /* https://github.com/wojtekmaj/react-calendar/issues/462 */
-/* .react-calendar__month-view__days__day--neighboringMonth {
+.react-calendar__month-view__days__day--neighboringMonth {
   visibility: hidden;
-} */
+}
 
 .react-calendar__month-view__weekdays abbr[title] {
   text-decoration: none;

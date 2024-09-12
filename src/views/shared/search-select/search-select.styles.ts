@@ -60,6 +60,10 @@ export const useSearchSelectStyles = createUseStyles((theme: Theme) => ({
     justifyContent: "flex-start",
     color: theme.palette.white.transparency40,
   },
+  selectedChortcutItem: {
+    background: theme.palette.white.transparency10,
+    color: theme.palette.white.main,
+  },
   radixPopoverRoot: {
     border: "1px solid green",
   },

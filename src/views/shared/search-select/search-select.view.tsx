@@ -2,6 +2,9 @@ import { useEffect, useState, useRef } from "react";
 import { Popover } from "@radix-ui/themes";
 import Calendar from "react-calendar";
 import dayjs from "dayjs";
+// to fix typescript error
+// Argument of type '"quarter"' is not assignable to parameter of type 'ManipulateType | undefined'.
+import quarterOfYear from "dayjs/plugin/quarterOfYear";
 
 import { useSearchSelectStyles } from "src/views/shared/search-select/search-select.styles";
 import IconCaretDown from "src/assets/icon/caret-down.svg?react";
@@ -60,15 +63,14 @@ const shortcutsItems = [
       return [startOfLastMonth.toDate(), endOfLastMonth.toDate()];
     },
   },
-  // {
-  //   label: "Last Quater",
-  //   getValue: () => {
-  //     const today = dayjs();
-  //     const startOfLastQuarter = dayjs().subtract(1, "quarter").startOf("quarter");
-  //     const endOfLastQuarter = dayjs().subtract(1, "quarter").endOf("quarter");
-  //     return [startOfLastQuarter.toDate(), endOfLastQuarter.toDate()];
-  //   },
-  // },
+  {
+    label: "Last Quater",
+    getValue: () => {
+      const today = dayjs();
+      const threeMonthsAgo = today.subtract(3, "month");
+      return [threeMonthsAgo.toDate(), today.toDate()];
+    },
+  },
   {
     label: "Last Year",
     getValue: () => {
@@ -78,8 +80,13 @@ const shortcutsItems = [
       return [startOfLastYear.toDate(), endOfLastYear.toDate()];
     },
   },
-
-  { label: "Reset", getValue: () => [null, null] },
+  {
+    label: "Custom",
+    getValue: () => {
+      return [null, null];
+    },
+  },
+  // { label: "Reset", getValue: () => [null, null] },
 ];
 
 export const SearchSelect = <T,>({
@@ -95,6 +102,7 @@ export const SearchSelect = <T,>({
   const [selectValue, setSelectValue] = useState<ListDataItem>();
   const [showSelectPanel, setShowSelectPanel] = useState(false);
   const [dateValue, setDateValue] = useState<DateValue>(null);
+  const [currentShortcutItem, setCurrentShortcutItem] = useState<string>();
 
   const anchorRef = useRef(null);
 
@@ -107,7 +115,8 @@ export const SearchSelect = <T,>({
     handleOpenChange(false);
   };
 
-  const handleShortcutItemClick = (dateData: Date[] | null[]) => {
+  const handleShortcutItemClick = (shortcutType: string, dateData: Date[] | null[]) => {
+    setCurrentShortcutItem(shortcutType);
     setDateValue(dateData as [DateValuePiece, DateValuePiece]);
   };
 
@@ -117,6 +126,12 @@ export const SearchSelect = <T,>({
     } else {
       return "All";
     }
+  };
+
+  const handleCalendarChange = (dateValue: DateValue) => {
+    // console.log("data", dateValue);
+    setCurrentShortcutItem("Custom");
+    setDateValue(dateValue);
   };
 
   useEffect(() => {
@@ -183,8 +198,8 @@ export const SearchSelect = <T,>({
                   return (
                     <span
                       key={item.label}
-                      onClick={() => handleShortcutItemClick(item.getValue())}
-                      className={classes.shortcutItem}
+                      onClick={() => handleShortcutItemClick(item.label, item.getValue())}
+                      className={`${classes.shortcutItem} ${currentShortcutItem === item.label ? classes.selectedChortcutItem : ""}`}
                     >
                       {item.label}
                     </span>
@@ -194,13 +209,15 @@ export const SearchSelect = <T,>({
               <Calendar
                 showDoubleView={true}
                 selectRange={true}
-                onChange={setDateValue}
+                // onChange={setDateValue}
+                onChange={handleCalendarChange}
                 value={dateValue}
                 showNavigation={true}
                 showNeighboringMonth={false}
                 locale="en-US"
                 minDetail="month"
                 maxDetail="month"
+                returnValue="range"
               />
             </div>
           )}
