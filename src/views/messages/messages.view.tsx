@@ -57,7 +57,16 @@ const StyledTableContainer = styled(TableContainer)(() => ({
   [`&.${tableContainerClasses.root}`]: {
     position: "relative",
     backgroundColor: "transparent",
-    // overflowX: "hidden",
+    "&::-webkit-scrollbar": {
+      height: 0,
+    },
+    "&::-webkit-scrollbar-corner": {
+      display: "none",
+    },
+    "&::-webkit-scrollbar-thumb": {
+      backgroundColor: "transparent",
+      borderRadius: "1px",
+    },
   },
 }));
 
