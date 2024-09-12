@@ -11,7 +11,6 @@ import { useMessagesContext } from "src/contexts/messages.context";
 import { apiUrl } from "src/constants";
 import { ProcessInfo, BottomInfo } from "src/contexts/messages.context";
 import IconETH from "src/assets/icon/tokens/eth-icon.svg";
-import { getTokenConfigBySymbol } from "src/assets/tokens-config";
 
 export const TxDetails: FC = () => {
   const classes = useTxDetailsStyles();
@@ -46,6 +45,16 @@ export const TxDetails: FC = () => {
     // const token = getTokenConfigBySymbol(symbol);
     const result = `${formattedValue} ETH`;
     return result;
+  };
+
+  const handleHashClick = (status: keyof ProcessInfo, processData: ProcessInfo) => {
+    if (status === "middle") {
+      return;
+    }
+    const explorerUrl = processData[status].chain?.explorerUrl;
+    const hash = processData[status].processContent;
+    const explorerLink = `${explorerUrl}/tx/${hash}`;
+    window.open(explorerLink);
   };
 
   useEffect(() => {
@@ -87,6 +96,7 @@ export const TxDetails: FC = () => {
                 </div>
                 <p
                   className={`${classes.processContent} ${status !== "middle" ? classes.processHashContent : ""}`}
+                  onClick={() => handleHashClick(status, processData)}
                 >
                   {status !== "middle"
                     ? getHashShortcut(processData[status].processContent)
