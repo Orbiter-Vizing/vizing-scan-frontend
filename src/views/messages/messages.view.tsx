@@ -72,7 +72,7 @@ const StyledPaginationItem = styled(PaginationItem)(() => ({
 }));
 
 const initialPage = 1;
-const pageSize = 14;
+const pageSize = 10;
 
 // 99 success 98 confirming 0 landing
 enum TxStatus {
