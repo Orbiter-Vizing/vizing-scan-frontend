@@ -21,7 +21,13 @@ export const useStatusIconStyles = createUseStyles((theme: Theme) => ({
     color: theme.palette.green.main,
     background: theme.palette.green.secondary,
   },
-  loading: {
+  landing: {
+    color: theme.palette.yellow.main,
+    background: theme.palette.yellow.secondary,
+  },
+  confirming: {
+    // color: theme.palette.blue.main,
+    // background: theme.palette.blue.secondary,
     color: theme.palette.yellow.main,
     background: theme.palette.yellow.secondary,
   },

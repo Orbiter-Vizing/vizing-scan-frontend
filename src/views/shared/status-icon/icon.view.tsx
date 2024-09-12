@@ -14,7 +14,12 @@ export const StatusIcon: FC<StatusIconProps> = ({ status, text }) => {
 
   return (
     <div
-      className={`${classes.iconWrap} ${status === "Success" ? classes.success : classes.loading}`}
+      className={`
+        ${classes.iconWrap}
+        ${status === "Success" && classes.success}
+        ${status === "Landing" && classes.landing}
+        ${status === "Confirming" && classes.confirming}
+      `}
     >
       {status === "Success" && <IconSuccess className={classes.icon} />}
       {status === "Landing" && <IconLoading className={classes.icon} />}

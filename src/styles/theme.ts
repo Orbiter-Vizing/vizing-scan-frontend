@@ -24,6 +24,10 @@ export const theme = {
       main: "#FFCC2D",
       secondary: "rgba(255, 204, 45, 0.2)",
     },
+    blue: {
+      main: "#2E9BFE",
+      secondary: "rgba(46, 155, 254, 0.2)",
+    },
     red: {
       main: "#F23F5D",
     },
