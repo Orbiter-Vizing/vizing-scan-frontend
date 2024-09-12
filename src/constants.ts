@@ -1,3 +1,6 @@
-export const apiUrl = "http://ec2-57-181-152-199.ap-northeast-1.compute.amazonaws.com:9006";
+export const apiUrl = "https://testnet-analytics-api.vizing.com";
 
 export type EnvMode = "development" | "test" | "production";
+
+export const evmTxHashLength = 66;
+export const evmAddressLength = 42;

@@ -111,10 +111,14 @@ export const DetailInfoList: FC<DetailInfoListProps> = ({ data, type }) => {
       </div>
       <div className={classes.detailRow}>
         <span className={classes.rowLabel}>Source Omnichain Dapp</span>
-        <div className={`${classes.rowContent} ${classes.dappContent}`}>
-          <Icon className={classes.dappIcon} isRounded size={20} url={data.dapp.iconUrl} />
-          {data.dapp.protocolName}
-        </div>
+        {data.dapp ? (
+          <div className={`${classes.rowContent} ${classes.dappContent}`}>
+            <Icon className={classes.dappIcon} isRounded size={20} url={data.dapp.iconUrl} />
+            {data.dapp.name}
+          </div>
+        ) : (
+          "-"
+        )}
       </div>
     </div>
   );

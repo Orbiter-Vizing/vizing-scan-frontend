@@ -4,15 +4,90 @@ import { Theme } from "src/styles/theme";
 
 export const useMessagesStyles = createUseStyles((theme: Theme) => ({
   messagesWrap: {},
+  hashSearchWrap: {
+    width: "100%",
+    color: theme.palette.white.main,
+  },
+  hashLine: {
+    display: "flex",
+    flexDirection: "column",
+    marginBottom: 24,
+  },
+  label: {
+    fontSize: 14,
+    fontWeight: 400,
+    color: theme.palette.white.transparency60,
+  },
+  targetHash: {
+    fontSize: 20,
+    fontWeight: 500,
+  },
+  messageSummaryLine: {
+    display: "flex",
+    justifyContent: "flex-start",
+    marginBottom: 36,
+  },
+  messageSummaryItem: {
+    display: "flex",
+    flexDirection: "column",
+    marginRight: 154,
+  },
+  messageSummaryContent: {
+    fontSize: 18,
+    fontWeight: 500,
+  },
   tableHead: {
     display: "flex",
     justifyContent: "space-between",
   },
   table: {},
+  tableBodyWrap: {},
   dataCardWrap: {
     marginBottom: 32,
     display: "flex",
     justifyContent: "space-between",
+  },
+  noDataTip: {
+    paddingTop: 72,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    height: 480,
+    width: "100%",
+  },
+  noDataIcon: {
+    height: 64,
+    width: 64,
+    marginBottom: 12,
+  },
+  tipTitle: {
+    width: 440,
+    fontSize: 20,
+    fontWeight: 400,
+    color: theme.palette.white.main,
+    marginBottom: 4,
+  },
+  tipContent: {
+    width: 440,
+    fontSize: 16,
+    fontWeight: 400,
+    color: theme.palette.white.transparency60,
+  },
+  backIconWrap: {
+    display: "flex",
+    alignItems: "center",
+    marginBottom: 20,
+    fontSize: 14,
+    color: theme.palette.white.transparency40,
+    // opacity: "0.3",
+  },
+  backIcon: {
+    "&:hover": {
+      cursor: "pointer",
+    },
+    height: 24,
+    width: 24,
+    marginRight: 4,
   },
   searchInput: {
     backgroundColor: "transparent",

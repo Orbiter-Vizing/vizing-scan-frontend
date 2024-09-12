@@ -128,7 +128,7 @@ export const SearchSelect = <T,>({
       newForm[formKey] = dateValue as T[keyof T];
     }
     setFormData(newForm);
-  }, [selectValue, dateValue, formKey, type, setFormData]);
+  }, [selectValue, dateValue, formKey, type, setFormData]); // add formData will cause re-render
 
   return (
     <div className={classes.searchSelectWrap}>

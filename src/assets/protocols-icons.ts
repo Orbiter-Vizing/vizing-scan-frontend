@@ -103,19 +103,12 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
   ],
 };
 
-const defaultProtocolConfig = {
-  id: "",
-  name: "",
-  value: "",
-  iconUrl: "",
-};
-
 export const getProtocolConfig = (protocolName: string) => {
   const envString = import.meta.env.MODE as EnvMode;
   const result = ProtocolsConfigMap[envString].find((protocol) => {
     return protocol.name === protocolName;
   });
-  return result ? result : defaultProtocolConfig;
+  return result;
 };
 
 export const getCurrentEnvProtocolList = () => {

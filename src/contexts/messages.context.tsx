@@ -1,7 +1,12 @@
 import { FC, PropsWithChildren, createContext, useCallback, useContext, useMemo } from "react";
 
-import { getMessagesSummary, getMessagesList, getMessageDetails } from "src/adapters/messages-api";
-import { getProtocolConfig } from "src/assets/protocols-icons";
+import {
+  getMessagesSummary,
+  getMessagesList,
+  getMessageDetails,
+  MessageListMeta,
+} from "src/adapters/messages-api";
+import { getProtocolConfig, ProtocolConfig } from "src/assets/protocols-icons";
 import { getCurrentEnvChainConfig } from "src/assets/chains-config";
 import { ChainConfig } from "src/assets/chains-config";
 import IconVizingColorful from "src/assets/icon/chains-colorful/vizing.svg";
@@ -45,10 +50,7 @@ export interface MessagesListItem {
   transactionId: string;
   sourceChain: ChainConfig | undefined;
   destChain: ChainConfig | undefined;
-  protocol: {
-    iconUrl: string;
-    protocolName: string;
-  };
+  protocol: ProtocolConfig | undefined;
   time: string;
 }
 
@@ -72,10 +74,7 @@ export interface DetailInfoData {
   createdTimestamp: string;
   amountValue: string;
   symbol: string;
-  dapp: {
-    iconUrl: string;
-    protocolName: string;
-  };
+  dapp: ProtocolConfig | undefined;
 }
 
 export interface BottomInfo {
@@ -94,8 +93,13 @@ interface fetchMessageDetailsResponse {
 interface MessagesContextType {
   defaultSummaryData: summaryDataCard[];
   fetchSummaryData: (params: fetchSummaryDataParams) => Promise<summaryDataCard[]>;
-  fetchMessagesList: (params: fetchMessagesListParams) => Promise<MessagesListItem[]>;
+  fetchMessagesList: (params: fetchMessagesListParams) => Promise<MessagesListResponse>;
   fetchMessageDetails: (params: fetchMessagesDetailsParams) => Promise<fetchMessageDetailsResponse>;
+}
+
+interface MessagesListResponse {
+  list: MessagesListItem[];
+  meta: MessageListMeta;
 }
 
 const messagesContextNotReadyErrorMsg = "The messages context is not yet ready";
@@ -203,7 +207,7 @@ const MessagesProvider: FC<PropsWithChildren> = (props) => {
       protocol,
       sourceChain,
       targetChain,
-    }: fetchMessagesListParams): Promise<MessagesListItem[]> => {
+    }: fetchMessagesListParams): Promise<MessagesListResponse> => {
       const apiRes = await getMessagesList({
         apiUrl,
         page,
@@ -216,12 +220,11 @@ const MessagesProvider: FC<PropsWithChildren> = (props) => {
       });
       console.log("messages context apiRes", apiRes);
       const currentEnvChainList = getCurrentEnvChainConfig();
-      const response = apiRes.list.map((messagesListitem) => {
+      const filteredResponseList = apiRes.list.map((messagesListitem) => {
         const {
           status, // 99 success 98 confirming 0 landing
           sourceNonce,
           dApp,
-          id,
           sourceAddress,
           sourceChain,
           targetHash,
@@ -247,13 +250,14 @@ const MessagesProvider: FC<PropsWithChildren> = (props) => {
           sourceChain: sourceChainConfig,
           destChain: destChainConfig,
           from: sourceAddress,
-          protocol: {
-            iconUrl: protocolConfig.iconUrl,
-            protocolName: protocolConfig.name,
-          },
+          protocol: protocolConfig,
         };
         return newItem;
       });
+      const response = {
+        list: filteredResponseList,
+        meta: apiRes.meta,
+      };
       return response;
     },
     [],
@@ -305,10 +309,7 @@ const MessagesProvider: FC<PropsWithChildren> = (props) => {
         createdTimestamp: source.timestamp,
         amountValue: source.amount,
         symbol: source.symbol,
-        dapp: {
-          iconUrl: protocolConfig.iconUrl,
-          protocolName: protocolConfig.name,
-        },
+        dapp: protocolConfig,
       };
       const destinationInfo: DetailInfoData = {
         chain: destChainConfig,
@@ -319,10 +320,7 @@ const MessagesProvider: FC<PropsWithChildren> = (props) => {
         createdTimestamp: destination.timestamp,
         amountValue: destination.amount,
         symbol: destination.symbol,
-        dapp: {
-          iconUrl: protocolConfig.iconUrl,
-          protocolName: protocolConfig.name,
-        },
+        dapp: protocolConfig,
       };
       const bottomInfo: BottomInfo = {
         from: message.sourceAddress,
