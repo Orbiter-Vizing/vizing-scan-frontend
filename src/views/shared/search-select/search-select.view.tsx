@@ -199,6 +199,8 @@ export const SearchSelect = <T,>({
                 showNavigation={true}
                 showNeighboringMonth={false}
                 locale="en-US"
+                minDetail="month"
+                maxDetail="month"
               />
             </div>
           )}
