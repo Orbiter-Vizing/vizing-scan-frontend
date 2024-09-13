@@ -40,7 +40,7 @@ export type DateValue = DateValuePiece | [DateValuePiece, DateValuePiece];
 const shortcutsItems = [
   {
     label: "Yesterday",
-    getValue: () => {
+    getValue: (): DateValue => {
       const today = dayjs();
       const yesterday = today.subtract(1, "day");
       return [yesterday.toDate(), yesterday.toDate()];
@@ -48,7 +48,7 @@ const shortcutsItems = [
   },
   {
     label: "Last Week",
-    getValue: () => {
+    getValue: (): DateValue => {
       const today = dayjs();
       const prevWeek = today.subtract(7, "day");
       return [prevWeek.startOf("week").toDate(), prevWeek.endOf("week").toDate()];
@@ -56,7 +56,7 @@ const shortcutsItems = [
   },
   {
     label: "Last Month",
-    getValue: () => {
+    getValue: (): DateValue => {
       const today = dayjs();
       const startOfLastMonth = today.subtract(1, "month").startOf("month");
       const endOfLastMonth = today.subtract(1, "month").endOf("month");
@@ -65,7 +65,7 @@ const shortcutsItems = [
   },
   {
     label: "Last Quater",
-    getValue: () => {
+    getValue: (): DateValue => {
       const today = dayjs();
       const threeMonthsAgo = today.subtract(3, "month");
       return [threeMonthsAgo.toDate(), today.toDate()];
@@ -73,7 +73,7 @@ const shortcutsItems = [
   },
   {
     label: "Last Year",
-    getValue: () => {
+    getValue: (): DateValue => {
       const today = dayjs();
       const startOfLastYear = today.subtract(1, "year").startOf("year");
       const endOfLastYear = today.subtract(1, "year").endOf("year");
@@ -82,7 +82,7 @@ const shortcutsItems = [
   },
   {
     label: "Custom",
-    getValue: () => {
+    getValue: (): DateValue => {
       return [null, null];
     },
   },
@@ -113,11 +113,21 @@ export const SearchSelect = <T,>({
   const handleListItemClick = (item: ListDataItem) => {
     setSelectValue(item);
     handleOpenChange(false);
+    // update searchForm
+    const newForm = { ...formData };
+    newForm[formKey] = item.value as T[keyof T];
+    // if (type === "list") {
+    //   newForm[formKey] = item.value as T[keyof T];
+    // } else {
+    //   newForm[formKey] = dateValue as T[keyof T];
+    // }
+    setFormData(newForm);
   };
 
-  const handleShortcutItemClick = (shortcutType: string, dateData: Date[] | null[]) => {
+  const handleShortcutItemClick = (shortcutType: string, dateData: DateValue) => {
     setCurrentShortcutItem(shortcutType);
     setDateValue(dateData as [DateValuePiece, DateValuePiece]);
+    handleCalendarChange(dateData);
   };
 
   const getReadableDateString = (dateValue: DateValue) => {
@@ -132,18 +142,41 @@ export const SearchSelect = <T,>({
     // console.log("data", dateValue);
     setCurrentShortcutItem("Custom");
     setDateValue(dateValue);
+    // update searchFrom date
+    const newForm = { ...formData };
+    newForm[formKey] = dateValue as T[keyof T];
+    // if (type === "list") {
+    //   newForm[formKey] = item.value as T[keyof T];
+    // } else {
+    //   newForm[formKey] = dateValue as T[keyof T];
+    // }
+    setFormData(newForm);
   };
 
+  const cleanSelectDate = () => {
+    setCurrentShortcutItem(undefined);
+    handleCalendarChange([null, null]);
+  };
+
+  // useEffect(() => {
+  //   const newForm = { ...formData };
+  //   // const newForm = formData;
+  //   if (type === "list") {
+  //     newForm[formKey] = selectValue?.value as T[keyof T];
+  //   } else {
+  //     newForm[formKey] = dateValue as T[keyof T];
+  //   }
+  //   setFormData(newForm);
+  // }, [selectValue, dateValue, formKey, type, setFormData]); // add formData will cause re-render
+
   useEffect(() => {
-    const newForm = { ...formData };
-    // const newForm = formData;
-    if (type === "list") {
-      newForm[formKey] = selectValue?.value as T[keyof T];
-    } else {
-      newForm[formKey] = dateValue as T[keyof T];
+    if (type === "list" && listData) {
+      const selectedItem = listData.find((item) => item.value === formData[formKey]);
+      setSelectValue(selectedItem);
+    } else if (type === "date") {
+      setDateValue(formData[formKey] as DateValue);
     }
-    setFormData(newForm);
-  }, [selectValue, dateValue, formKey, type, setFormData]); // add formData will cause re-render
+  }, [formData, formKey, listData, type]);
 
   return (
     <div className={classes.searchSelectWrap}>
@@ -206,19 +239,24 @@ export const SearchSelect = <T,>({
                   );
                 })}
               </div>
-              <Calendar
-                showDoubleView={true}
-                selectRange={true}
-                // onChange={setDateValue}
-                onChange={handleCalendarChange}
-                value={dateValue}
-                showNavigation={true}
-                showNeighboringMonth={false}
-                locale="en-US"
-                minDetail="month"
-                maxDetail="month"
-                returnValue="range"
-              />
+              <div>
+                <Calendar
+                  showDoubleView={true}
+                  selectRange={true}
+                  // onChange={setDateValue}
+                  onChange={handleCalendarChange}
+                  value={dateValue}
+                  showNavigation={true}
+                  showNeighboringMonth={false}
+                  locale="en-US"
+                  minDetail="month"
+                  maxDetail="month"
+                  returnValue="range"
+                />
+                <div onClick={cleanSelectDate} className={classes.cleanData}>
+                  Clean Data
+                </div>
+              </div>
             </div>
           )}
         </Popover.Content>

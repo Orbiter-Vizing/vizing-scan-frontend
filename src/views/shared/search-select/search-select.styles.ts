@@ -91,4 +91,14 @@ export const useSearchSelectStyles = createUseStyles((theme: Theme) => ({
   selectItemName: {
     marginLeft: 4,
   },
+  cleanData: {
+    "&:hover": {
+      color: theme.palette.white.main,
+      cursor: "pointer",
+    },
+    display: "inline-flex",
+    fontSize: 12,
+    color: theme.palette.white.transparency40,
+    padding: "10px",
+  },
 }));
