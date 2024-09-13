@@ -62,4 +62,19 @@ export const useDetailInfoListStyles = createUseStyles((theme: Theme) => ({
   tokenIcon: {
     margin: "0 4px 0",
   },
+  successToast: {
+    background: theme.palette.black.black03,
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    color: theme.palette.green.main,
+    padding: "10px 20px",
+    borderRadius: 4,
+  },
+  successIcon: {
+    height: 20,
+    width: 20,
+    marginRight: 4,
+  },
 }));

@@ -1,5 +1,7 @@
 import { FC, useState } from "react";
 import dayjs from "dayjs";
+import Snackbar, { SnackbarCloseReason } from "@mui/material/Snackbar";
+import Box from "@mui/material/Box";
 
 import { useDetailInfoListStyles } from "src/views/tx-details/components/detail-info-list/detail-info-list.styles";
 import { StatusIcon } from "src/views/shared/status-icon/icon.view";
@@ -9,6 +11,7 @@ import IconExplorer from "src/assets/icon/explorer.svg?react";
 import { DetailInfoData } from "src/contexts/messages.context";
 import { getTokenConfigBySymbol } from "src/assets/tokens-config";
 import { ChainConfig } from "src/assets/chains-config";
+import IconSuccess from "src/assets/icon/success.svg?react";
 
 interface DetailInfoListProps {
   data: DetailInfoData;
@@ -18,15 +21,12 @@ interface DetailInfoListProps {
 export const DetailInfoList: FC<DetailInfoListProps> = ({ data, type }) => {
   const classes = useDetailInfoListStyles();
 
-  const [enableCopyAnimation, setEnableCopyAnimation] = useState(false);
+  const [snackbarOpen, setsnackbarOpen] = useState(false);
 
   const handleCopyButtonClick = async (hash: string) => {
     try {
       await navigator.clipboard.writeText(hash);
-      setEnableCopyAnimation(true);
-      setTimeout(() => {
-        setEnableCopyAnimation(false);
-      }, 500);
+      setsnackbarOpen(true);
     } catch (err) {
       console.error("copy clipboard failed:", err);
     }
@@ -37,6 +37,22 @@ export const DetailInfoList: FC<DetailInfoListProps> = ({ data, type }) => {
       return;
     }
     window.open(`${chain.explorerUrl}/tx/${txHash}`);
+  };
+
+  const SnackBarContent = () => {
+    return (
+      <div className={classes.successToast}>
+        <IconSuccess className={classes.successIcon} />
+        Copied successfully!
+      </div>
+    );
+  };
+
+  const handleClose = (event: React.SyntheticEvent | Event, reason?: SnackbarCloseReason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setsnackbarOpen(false);
   };
 
   const renderTokenSymbol = (symbol: string) => {
@@ -79,12 +95,12 @@ export const DetailInfoList: FC<DetailInfoListProps> = ({ data, type }) => {
         <div className={classes.rowContent}>{data.blockNumber}</div>
       </div>
       <div className={classes.detailRow}>
-        <span className={classes.rowLabel}>{sourceText} Transactions Hash</span>
+        <span className={classes.rowLabel}>{sourceText} Transaction Hash</span>
         <div className={`${classes.rowContent}`}>
           <div className={classes.txHash}>{data.txHash}</div>
           <IconCopy
             onClick={() => handleCopyButtonClick(data.txHash)}
-            className={`${classes.hashInteractionIcon} ${enableCopyAnimation ? classes.copyAnimation : ""}`}
+            className={classes.hashInteractionIcon}
           />
           <IconExplorer
             onClick={() => handleExplorerClick(data.chain, data.txHash)}
@@ -120,6 +136,16 @@ export const DetailInfoList: FC<DetailInfoListProps> = ({ data, type }) => {
           "-"
         )}
       </div>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={1500}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Box component="section" sx={{ width: "100%" }}>
+          <SnackBarContent />
+        </Box>
+      </Snackbar>
     </div>
   );
 };
