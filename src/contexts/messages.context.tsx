@@ -293,7 +293,7 @@ const MessagesProvider: FC<PropsWithChildren> = (props) => {
             id: "vizing",
             explorerUrl: "",
           },
-          processContent: "Confirmations",
+          processContent: "",
         },
         destination: {
           chain: destChainConfig,
