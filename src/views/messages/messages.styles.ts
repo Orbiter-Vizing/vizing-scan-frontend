@@ -119,6 +119,9 @@ export const useMessagesStyles = createUseStyles((theme: Theme) => ({
     alignItems: "center",
   },
   iconTransaction: {
+    "&:hover": {
+      cursor: "pointer",
+    },
     height: 20,
     width: 20,
   },

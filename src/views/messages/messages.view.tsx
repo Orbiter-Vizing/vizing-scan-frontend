@@ -297,6 +297,15 @@ export const Messages: FC = () => {
     handleHashSearch(address);
   };
 
+  const handleSwitchClick = () => {
+    const fromChain = searchForm.fromChainId;
+    const toChain = searchForm.toChainId;
+    const newSearchForm = { ...searchForm };
+    newSearchForm.fromChainId = toChain;
+    newSearchForm.toChainId = fromChain;
+    setSearchForm(newSearchForm);
+  };
+
   useEffect(() => {
     initPageData();
   }, [initPageData]);
@@ -410,7 +419,7 @@ export const Messages: FC = () => {
               formKey="fromChainId"
               setFormData={handleSetSearchForm}
             />
-            <IconTransaction className={classes.iconTransaction} />
+            <IconTransaction onClick={handleSwitchClick} className={classes.iconTransaction} />
             <SearchSelect
               label="To"
               type="list"
