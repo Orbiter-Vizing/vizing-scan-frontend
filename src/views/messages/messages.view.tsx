@@ -386,7 +386,7 @@ export const Messages: FC = () => {
                 className={classes.searchInput}
                 onChange={onInputChange}
                 onKeyDown={handleKeyDown}
-                placeholder="Search by address or hash"
+                placeholder="Search by Address or Txn Hash"
                 value={inputValue}
               />
               {inputValue && (
