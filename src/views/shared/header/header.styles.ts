@@ -10,6 +10,9 @@ export const useHeaderStyles = createUseStyles((theme: Theme) => ({
     height: 64,
   },
   logoWrap: {
+    "&:hover": {
+      cursor: "pointer",
+    },
     display: "flex",
     alignItems: "center",
     marginRight: 26,

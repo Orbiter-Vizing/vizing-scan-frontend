@@ -51,7 +51,7 @@ export const Header: FC = () => {
 
   return (
     <div className={classes.headerWrap}>
-      <div className={classes.logoWrap}>
+      <div className={classes.logoWrap} onClick={() => handleHeaderItemClick(routes.messages.path)}>
         <VizingScanLogo />
         <VizingScanText />
       </div>
