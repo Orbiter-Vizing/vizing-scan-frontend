@@ -312,7 +312,8 @@ export const Messages: FC = () => {
     resetList();
   };
 
-  const handleHashClick = (hash: string) => {
+  const handleHashNavigate = (e: React.MouseEvent, hash: string) => {
+    e.stopPropagation();
     if (!hash) {
       return;
     }
@@ -333,13 +334,6 @@ export const Messages: FC = () => {
     newSearchForm.fromChainId = toChain;
     newSearchForm.toChainId = fromChain;
     setSearchForm(newSearchForm);
-  };
-
-  const handleTableRowClick = (transactionId: string) => {
-    if (!transactionId) {
-      return;
-    }
-    handleHashSearch(transactionId);
   };
 
   useEffect(() => {
@@ -488,7 +482,7 @@ export const Messages: FC = () => {
                     const formatTimeText = calculateRelativeTime(row.time);
                     return (
                       <StyledTableRow
-                        onClick={() => handleTableRowClick(row.transactionId)}
+                        onClick={(e) => handleHashNavigate(e, row.transactionId)}
                         key={row.id}
                       >
                         <StyledTableCell align="left">
@@ -517,7 +511,7 @@ export const Messages: FC = () => {
                             )}
                             <div
                               className={classes.hashCellContent}
-                              onClick={() => handleHashClick(row.transactionId)}
+                              onClick={(e) => handleHashNavigate(e, row.transactionId)}
                             >
                               {row.sourceTxHash || "-"}
                             </div>
@@ -535,7 +529,7 @@ export const Messages: FC = () => {
                             )}
                             <div
                               className={classes.hashCellContent}
-                              onClick={() => handleHashClick(row.transactionId)}
+                              onClick={(e) => handleHashNavigate(e, row.transactionId)}
                             >
                               {row.destTxHash || "-"}
                             </div>
