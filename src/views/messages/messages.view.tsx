@@ -558,9 +558,9 @@ export const Messages: FC = () => {
                     );
                   })}
                 {listDataStatus === ListDataStatus.LOADING &&
-                  new Array(pageSize).fill(undefined).map(() => {
+                  new Array(pageSize).fill(undefined).map((item, index) => {
                     return (
-                      <StyledTableRow>
+                      <StyledTableRow key={index}>
                         <StyledTableCell colSpan={7} align="center">
                           <CustomSkeleton
                             sx={{ bgcolor: "#151515" }}
