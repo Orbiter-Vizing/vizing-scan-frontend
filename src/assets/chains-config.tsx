@@ -374,7 +374,7 @@ export const getChainsSearchSelectList = () => {
   const currentEnvConfigList = [...ChainsConfigMap[envString]];
   currentEnvConfigList.unshift({
     id: "all",
-    name: "All",
+    name: "All Networks",
     value: "",
     iconUrl: "",
     iconUrlColorful: "",
