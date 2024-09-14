@@ -10,6 +10,7 @@ import logoPink from "src/assets/icon/protocols/logo_pink.png";
 import logoXmint from "src/assets/icon/protocols/logo_xmint.png";
 import logoAABank from "src/assets/icon/protocols/logo_aabank.png";
 import logoOrbiter from "src/assets/icon/protocols/logo_orbiter.png";
+import logoVizingBridge from "src/assets/icon/protocols/logo_vizing_bridge.png";
 
 export interface ProtocolConfigInterface {
   development: ProtocolConfig[];
@@ -25,8 +26,106 @@ export interface ProtocolConfig {
 }
 
 export const ProtocolsConfigMap: ProtocolConfigInterface = {
-  development: [],
-  production: [],
+  development: [
+    {
+      id: "0xAstra",
+      name: "0xAstra",
+      iconUrl: Logo0xAstra,
+      value: "0xAstra",
+    },
+    {
+      id: "Likwid",
+      name: "Likwid",
+      iconUrl: LogoLikwid,
+      value: "Likwid",
+    },
+    {
+      id: "AABank",
+      name: "AABank",
+      iconUrl: logoAABank,
+      value: "AABank",
+    },
+    {
+      id: "Aylab",
+      name: "Aylab",
+      iconUrl: LogoAylab,
+      value: "Aylab",
+    },
+    {
+      id: "Bullishs",
+      name: "Bullishs",
+      iconUrl: logoBullishs,
+      value: "Bullishs",
+    },
+    {
+      id: "ColorProtocol",
+      name: "Color Protocol",
+      iconUrl: logoColorProtocol,
+      value: "Color Protocol",
+    },
+    {
+      id: "Pink",
+      name: "Pink",
+      iconUrl: logoPink,
+      value: "Pink",
+    },
+    {
+      id: "Xmint",
+      name: "Xmint",
+      iconUrl: logoXmint,
+      value: "Xmint",
+    },
+    {
+      id: "dApp9",
+      name: "dApp9",
+      iconUrl: logoAABank,
+      value: "dApp9",
+    },
+    {
+      id: "OVTA",
+      name: "OVTA",
+      iconUrl: LogoOvta,
+      value: "OVTA",
+    },
+    {
+      id: "OribterBridge",
+      name: "Oribter Bridge",
+      iconUrl: logoOrbiter,
+      value: "Oribter Bridge",
+    },
+    {
+      id: "Early",
+      name: "Early",
+      iconUrl: logoOrbiter,
+      value: "Early",
+    },
+  ],
+  production: [
+    {
+      id: "AABank",
+      name: "AABank",
+      iconUrl: logoAABank,
+      value: "AABank",
+    },
+    {
+      id: "Likwid",
+      name: "Likwid",
+      iconUrl: LogoLikwid,
+      value: "Likwid",
+    },
+    {
+      id: "XMint",
+      name: "XMint",
+      iconUrl: logoXmint,
+      value: "XMint",
+    },
+    {
+      id: "VizingBridge",
+      name: "VizingBridge",
+      iconUrl: logoVizingBridge,
+      value: "VizingBridge",
+    },
+  ],
   test: [
     {
       id: "0xAstra",
