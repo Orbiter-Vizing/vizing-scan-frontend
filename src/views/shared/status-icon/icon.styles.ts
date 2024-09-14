@@ -4,7 +4,7 @@ import { Theme } from "src/styles/theme";
 
 export const useStatusIconStyles = createUseStyles((theme: Theme) => ({
   iconWrap: {
-    display: "flex",
+    display: "inline-flex",
     alignItems: "center",
     height: 28,
     fontSize: 12,
