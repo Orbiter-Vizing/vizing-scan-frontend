@@ -472,7 +472,7 @@ export const Messages: FC = () => {
                   <StyledTableCell align="left">Source Tx Hash</StyledTableCell>
                   <StyledTableCell align="left">Destination Tx Hash</StyledTableCell>
                   <StyledTableCell align="left">Protocol</StyledTableCell>
-                  <StyledTableCell align="left">Time</StyledTableCell>
+                  <StyledTableCell align="left">Time（UTC）</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
