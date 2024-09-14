@@ -4,9 +4,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useHeaderStyles } from "src/views/shared/header/header.styles";
 import VizingScanLogo from "src/assets/vizing-scan-logo.svg?react";
 import VizingScanText from "src/assets/vizing-scan-text.svg?react";
-import twitterIcon from "src/assets/icon/social-media/twitter.svg?react";
-import discordIcon from "src/assets/icon/social-media/discord.svg?react";
-import mediumIcon from "src/assets/icon/social-media/medium.svg?react";
 import { routes } from "src/routes";
 
 const headerTabs = [
@@ -15,6 +12,12 @@ const headerTabs = [
     text: routes.messages.text,
     path: routes.messages.path,
   },
+  {
+    id: "statistics",
+    text: "Statistics",
+    path: "https://www.orbiter.finance/statistics",
+    isLink: true,
+  },
   // {
   //   id: routes.protocols.id,
   //   text: routes.protocols.text,
@@ -22,31 +25,17 @@ const headerTabs = [
   // },
 ];
 
-const socialMediaList = [
-  {
-    id: "x-link",
-    link: "https://x.com/vizing_l2",
-    icon: twitterIcon,
-  },
-  {
-    id: "discord-link",
-    link: "https://discord.com/invite/FbztTBvnBT",
-    icon: discordIcon,
-  },
-  {
-    id: "medium-link",
-    link: "https://medium.com/@Vizing_L2",
-    icon: mediumIcon,
-  },
-];
-
 export const Header: FC = () => {
   const classes = useHeaderStyles();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleHeaderItemClick = (path: string) => {
-    navigate(path);
+  const handleHeaderItemClick = (path: string, isLink?: boolean) => {
+    if (isLink) {
+      window.open(path);
+    } else {
+      navigate(path);
+    }
   };
 
   return (
@@ -59,7 +48,7 @@ export const Header: FC = () => {
         {headerTabs.map((tab) => {
           return (
             <span
-              onClick={() => handleHeaderItemClick(tab.path)}
+              onClick={() => handleHeaderItemClick(tab.path, tab.isLink)}
               key={tab.id}
               className={`${classes.headerTab} ${location.pathname === tab.path ? classes.selectedTab : ""}`}
             >
