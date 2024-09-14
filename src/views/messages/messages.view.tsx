@@ -9,7 +9,7 @@ import { DataCard } from "src/views/shared/data-card/data-card.view";
 import { SearchSelect } from "src/views/shared/search-select/search-select.view";
 import { StatusIcon } from "src/views/shared/status-icon/icon.view";
 import { Icon } from "src/views/shared/icon/icon.view";
-import { apiUrl, evmTxHashLength, evmAddressLength } from "src/constants";
+import { getCurrentEnvApiUrl, evmTxHashLength, evmAddressLength } from "src/constants";
 import { useMessagesContext } from "src/contexts/messages.context";
 import { MessagesListItem } from "src/contexts/messages.context";
 import { calculateRelativeTime } from "src/utils";
@@ -157,9 +157,10 @@ export const Messages: FC = () => {
     queryHash: "",
   });
   const [page, setPage] = useState(1);
-  const [totalPage, setTotalPage] = useState<number>();
+  // const [totalPage, setTotalPage] = useState<number>();
   const [listType, setListType] = useState<ListType>(ListType.MESSAGES);
   const [listDataStatus, setListDataStatus] = useState<ListDataStatus>(ListDataStatus.LOADING);
+  const apiUrl = getCurrentEnvApiUrl();
 
   const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -197,7 +198,7 @@ export const Messages: FC = () => {
     setMessagesList(messagesListResponse.list);
     setMessagesListMeta(messagesListResponse.meta);
     handleListStatus(messagesListResponse.list);
-  }, [fetchSummaryData, fetchMessagesList]); // add messagesList will cause multi-render
+  }, [fetchSummaryData, fetchMessagesList, apiUrl]); // add messagesList will cause multi-render
 
   const getListData = useCallback(async () => {
     const { dateRange, protocolName, fromChainId, toChainId } = searchForm;
@@ -221,7 +222,7 @@ export const Messages: FC = () => {
     setMessagesList(messagesListResponse.list);
     setMessagesListMeta(messagesListResponse.meta);
     handleListStatus(messagesListResponse.list);
-  }, [searchForm, page, fetchMessagesList, targetHash]);
+  }, [searchForm, page, fetchMessagesList, targetHash, apiUrl]);
 
   const handlePaginationChange = async (event: ChangeEvent<unknown>, page: number) => {
     setPage(page);
@@ -557,7 +558,7 @@ export const Messages: FC = () => {
                     );
                   })}
                 {listDataStatus === ListDataStatus.LOADING &&
-                  new Array(pageSize).fill(undefined).map((item) => {
+                  new Array(pageSize).fill(undefined).map(() => {
                     return (
                       <StyledTableRow>
                         <StyledTableCell colSpan={7} align="center">

@@ -10,7 +10,7 @@ import { Icon } from "src/views/shared/icon/icon.view";
 import { DetailInfoList } from "src/views/tx-details/components/detail-info-list/detail-info-list.view";
 import { DetailInfoData } from "src/contexts/messages.context";
 import { useMessagesContext } from "src/contexts/messages.context";
-import { apiUrl } from "src/constants";
+import { getCurrentEnvApiUrl } from "src/constants";
 import { ProcessInfo, BottomInfo } from "src/contexts/messages.context";
 import IconETH from "src/assets/icon/tokens/eth-icon.svg";
 import { ProcessCard } from "src/views/tx-details/components/process-card/process-card.view";
@@ -32,6 +32,8 @@ export const TxDetails: FC = () => {
   const [destInfoList, setDestInfoList] = useState<DetailInfoData>();
   const [bottomInfo, setBottomInfo] = useState<BottomInfo>();
 
+  const apiUrl = getCurrentEnvApiUrl();
+
   const initPageData = useCallback(async () => {
     const messageDetailsData = await fetchMessageDetails({
       apiUrl,
@@ -41,7 +43,7 @@ export const TxDetails: FC = () => {
     setSourceInfoList(messageDetailsData.source);
     setDestInfoList(messageDetailsData.destination);
     setBottomInfo(messageDetailsData.bottomInfo);
-  }, [fetchMessageDetails, hashId]);
+  }, [fetchMessageDetails, hashId, apiUrl]);
 
   // const getHashShortcut = (hash: string) => {
   //   const headLength = 8;
