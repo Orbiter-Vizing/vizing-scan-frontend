@@ -125,6 +125,18 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       iconUrl: logoVizingBridge,
       value: "VizingBridge",
     },
+    {
+      id: "0xAstra",
+      name: "0xAstra",
+      iconUrl: Logo0xAstra,
+      value: "0xAstra",
+    },
+    {
+      id: "ColorProtocol",
+      name: "Color Protocol",
+      iconUrl: logoColorProtocol,
+      value: "Color Protocol",
+    },
   ],
   test: [
     {
