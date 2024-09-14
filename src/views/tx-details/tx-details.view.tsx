@@ -203,7 +203,9 @@ export const TxDetails: FC = () => {
           </div>
           <div className={`${classes.infoRow} ${classes.messageInfo}`}>
             <span className={classes.infoRowLabel}>Transferred message </span>
-            <div className={classes.messageDetail}>{bottomInfo.message}</div>
+            <div className={classes.messageDetail}>
+              {bottomInfo.message ? bottomInfo.message : "0x"}
+            </div>
           </div>
         </>
       ) : (
