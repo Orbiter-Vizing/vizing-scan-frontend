@@ -11,6 +11,7 @@ import IconBlast from "src/assets/icon/chains/Blast.svg";
 import IconTaiko from "src/assets/icon/chains/Taiko.svg";
 import IconBOB from "src/assets/icon/chains/BOB.svg";
 import IconVizing from "src/assets/icon/chains/vizing.svg";
+import IconBNB from "src/assets/icon/chains/BNBChain.svg";
 // chain icon colorful
 import IconColorfulArbitrum from "src/assets/icon/chains-colorful/arbitrum.svg";
 import IconColorfulEthereum from "src/assets/icon/chains-colorful/ethereum.svg";
@@ -23,6 +24,7 @@ import IconColorfulBlast from "src/assets/icon/chains-colorful/blast.svg";
 import IconColorfulTaiko from "src/assets/icon/chains-colorful/taiko.svg";
 import IconColorfulBOB from "src/assets/icon/chains-colorful/bob.svg";
 import IconColorfulVizing from "src/assets/icon/chains-colorful/vizing.svg";
+import IconColorfulBNB from "src/assets/icon/chains-colorful/bnb-chain.svg";
 
 export interface ChainConfigInterface {
   development: ChainConfig[];
@@ -129,6 +131,14 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrlColorful: IconColorfulVizing,
       explorerUrl: "https://explorer-sepolia.vizing.com",
     },
+    {
+      value: "56",
+      name: "BNB Chain",
+      iconUrl: IconBNB,
+      id: "56",
+      iconUrlColorful: IconColorfulBNB,
+      explorerUrl: "https://bscscan.com",
+    },
   ],
   production: [
     {
@@ -219,6 +229,14 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrlColorful: IconColorfulVizing,
       explorerUrl: "https://explorer.vizing.com",
     },
+    {
+      value: "56",
+      name: "BNB Chain",
+      iconUrl: IconBNB,
+      id: "56",
+      iconUrlColorful: IconColorfulBNB,
+      explorerUrl: "https://bscscan.com",
+    },
   ],
   test: [
     {
@@ -308,6 +326,14 @@ export const ChainsConfigMap: ChainConfigInterface = {
       id: "28516",
       iconUrlColorful: IconColorfulVizing,
       explorerUrl: "https://explorer-sepolia.vizing.com",
+    },
+    {
+      value: "56",
+      name: "BNB Chain",
+      iconUrl: IconBNB,
+      id: "56",
+      iconUrlColorful: IconColorfulBNB,
+      explorerUrl: "https://bscscan.com",
     },
   ],
 };
