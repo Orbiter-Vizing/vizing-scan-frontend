@@ -218,8 +218,8 @@ interface Destination {
 
 export interface GetMessageDetailsOutput {
   message: Message;
-  source: Source;
-  destination: Destination;
+  source: Source | undefined;
+  destination: Destination | undefined;
 }
 
 export const getMessageDetails = ({

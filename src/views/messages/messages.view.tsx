@@ -1,5 +1,8 @@
 import { ChangeEvent, FC, useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import Skeleton from "@mui/material/Skeleton";
+import IconPreArrow from "src/assets/icon/pre-arrow.svg?react";
+import IconNextArrow from "src/assets/icon/next-arrow.svg?react";
 
 import { useMessagesStyles } from "src/views/messages/messages.styles";
 import { DataCard } from "src/views/shared/data-card/data-card.view";
@@ -47,6 +50,10 @@ const StyledTableCell = styled(TableCell)(() => ({
 
 const StyledTableRow = styled(TableRow)(() => ({
   [`&.${tableRowClasses.root}`]: {
+    "&:hover": {
+      background: "rgba(255, 255, 255, 0.08)",
+      cursor: "pointer",
+    },
     border: "1px solid #292223",
     borderLeft: "none",
     borderRight: "none",
@@ -80,6 +87,13 @@ const StyledPaginationItem = styled(PaginationItem)(() => ({
   },
 }));
 
+const CustomSkeleton = styled(Skeleton)({
+  "&::after": {
+    background:
+      "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%)",
+  },
+});
+
 const initialPage = 1;
 const pageSize = 10;
 
@@ -93,7 +107,6 @@ enum TxStatus {
 type DisplayStatus = "Success" | "Confirming" | "Landing";
 
 const getStatusDisplay = (status: TxStatus): DisplayStatus => {
-  console.log("status", status);
   switch (status) {
     case TxStatus.Success:
       return "Success";
@@ -120,6 +133,12 @@ enum ListType {
   MESSAGES = "messages",
 }
 
+enum ListDataStatus {
+  SUCCESS = "success",
+  LOADING = "loading",
+  EMPTY = "empty",
+}
+
 export const Messages: FC = () => {
   const navigate = useNavigate();
   const classes = useMessagesStyles();
@@ -140,6 +159,7 @@ export const Messages: FC = () => {
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState<number>();
   const [listType, setListType] = useState<ListType>(ListType.MESSAGES);
+  const [listDataStatus, setListDataStatus] = useState<ListDataStatus>(ListDataStatus.LOADING);
 
   const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -152,6 +172,14 @@ export const Messages: FC = () => {
     },
     [setSearchForm],
   );
+
+  const handleListStatus = (list: MessagesListItem[]) => {
+    if (list.length > 0) {
+      setListDataStatus(ListDataStatus.SUCCESS);
+    } else if (list.length === 0) {
+      setListDataStatus(ListDataStatus.EMPTY);
+    }
+  };
 
   const initPageData = useCallback(async () => {
     const summaryData = await fetchSummaryData({ apiUrl });
@@ -166,9 +194,9 @@ export const Messages: FC = () => {
       sourceChain: [],
       targetChain: [],
     });
-    // console.log("init messagesList", messagesList);
     setMessagesList(messagesListResponse.list);
     setMessagesListMeta(messagesListResponse.meta);
+    handleListStatus(messagesListResponse.list);
   }, [fetchSummaryData, fetchMessagesList]); // add messagesList will cause multi-render
 
   const getListData = useCallback(async () => {
@@ -179,6 +207,7 @@ export const Messages: FC = () => {
       startDateString = dateRange[0] ? dateRange[0].toISOString() : startDateString;
       endDateString = dateRange[1] ? dateRange[1].toISOString() : endDateString;
     }
+    setListDataStatus(ListDataStatus.LOADING);
     const messagesListResponse = await fetchMessagesList({
       apiUrl,
       page,
@@ -191,6 +220,7 @@ export const Messages: FC = () => {
     });
     setMessagesList(messagesListResponse.list);
     setMessagesListMeta(messagesListResponse.meta);
+    handleListStatus(messagesListResponse.list);
   }, [searchForm, page, fetchMessagesList, targetHash]);
 
   const handlePaginationChange = async (event: ChangeEvent<unknown>, page: number) => {
@@ -209,8 +239,8 @@ export const Messages: FC = () => {
   };
 
   const handleHashSearch = async (searchHash?: string) => {
-    console.log("handleHashSearch call searchHash:", searchHash);
     const targetHash = searchHash || inputValue;
+    // setListDataStatus(ListDataStatus.LOADING);
     const messagesListResponse = await fetchMessagesList({
       apiUrl,
       page: 1,
@@ -225,19 +255,18 @@ export const Messages: FC = () => {
     setTargetHash(targetHash);
     if (targetHash.length === evmTxHashLength) {
       // hash case
-      console.log("messagesListData", messagesList);
       if (messagesList.length === 1) {
         // hash case 1: one result, get transaction id and go to detail page
         const targetTransaction = messagesList[0];
         navigate(`/tx/${targetTransaction.transactionId}`);
       } else if (messagesList.length > 1) {
         // hash case 2: list result, render list in the table
-        console.log("case2: hash list result");
         setMessagesListMeta(messagesListResponse.meta);
         setMessagesList(messagesList);
         const landingCount = calculateHashSearchLandingCount(messagesList);
         setHashSearchLandingCount(landingCount);
         setListType(ListType.TRANSACTION);
+        handleListStatus(messagesListResponse.list);
       } else {
         // hash case 3: 0 result, render no result list in the table
         setMessagesListMeta(messagesListResponse.meta);
@@ -245,12 +274,12 @@ export const Messages: FC = () => {
     } else if (targetHash.length === evmAddressLength) {
       // address case
       // current page render new list through address
-      console.log("address list result");
       setMessagesListMeta(messagesListResponse.meta);
       setMessagesList(messagesList);
       const landingCount = calculateHashSearchLandingCount(messagesList);
       setHashSearchLandingCount(landingCount);
       setListType(ListType.ADDRESS);
+      handleListStatus(messagesListResponse.list);
     }
   };
 
@@ -290,11 +319,11 @@ export const Messages: FC = () => {
     navigate(`/tx/${hash}`);
   };
 
-  const handleAddressClick = (address: string) => {
-    if (!address) {
+  const handleAddressClick = (transactionId: string) => {
+    if (!transactionId) {
       return;
     }
-    handleHashSearch(address);
+    handleHashSearch(transactionId);
   };
 
   const handleSwitchClick = () => {
@@ -304,6 +333,13 @@ export const Messages: FC = () => {
     newSearchForm.fromChainId = toChain;
     newSearchForm.toChainId = fromChain;
     setSearchForm(newSearchForm);
+  };
+
+  const handleTableRowClick = (transactionId: string) => {
+    if (!transactionId) {
+      return;
+    }
+    handleHashSearch(transactionId);
   };
 
   useEffect(() => {
@@ -445,12 +481,16 @@ export const Messages: FC = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {messagesList.length &&
+                {listDataStatus === ListDataStatus.SUCCESS &&
+                  messagesList.length &&
                   messagesList.map((row) => {
                     const statusAttr = getStatusDisplay(row.status);
                     const formatTimeText = calculateRelativeTime(row.time);
                     return (
-                      <StyledTableRow key={`${row.nonce}${row.time}`}>
+                      <StyledTableRow
+                        onClick={() => handleTableRowClick(row.transactionId)}
+                        key={row.id}
+                      >
                         <StyledTableCell align="left">
                           <StatusIcon status={statusAttr} text={statusAttr} />
                         </StyledTableCell>
@@ -522,7 +562,23 @@ export const Messages: FC = () => {
                       </StyledTableRow>
                     );
                   })}
-                {!messagesList.length && (
+                {listDataStatus === ListDataStatus.LOADING &&
+                  new Array(pageSize).fill(undefined).map((item) => {
+                    return (
+                      <StyledTableRow>
+                        <StyledTableCell colSpan={7} align="center">
+                          <CustomSkeleton
+                            sx={{ bgcolor: "#151515" }}
+                            animation="wave"
+                            variant="rounded"
+                            width={"100%"}
+                            height={"28px"}
+                          />
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    );
+                  })}
+                {listDataStatus === ListDataStatus.EMPTY && !messagesList.length && (
                   <StyledTableRow>
                     <StyledTableCell colSpan={7} align="center">
                       <div className={classes.noDataTip}>
@@ -551,7 +607,7 @@ export const Messages: FC = () => {
                 shape="rounded"
                 renderItem={(item) => (
                   <StyledPaginationItem
-                    // slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+                    slots={{ previous: IconPreArrow, next: IconNextArrow }}
                     {...item}
                   />
                 )}

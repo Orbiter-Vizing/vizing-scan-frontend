@@ -14,7 +14,7 @@ import { ChainConfig } from "src/assets/chains-config";
 import IconSuccess from "src/assets/icon/success.svg?react";
 
 interface DetailInfoListProps {
-  data: DetailInfoData;
+  data: DetailInfoData | undefined;
   type: "source" | "destination";
 }
 
@@ -23,7 +23,10 @@ export const DetailInfoList: FC<DetailInfoListProps> = ({ data, type }) => {
 
   const [snackbarOpen, setsnackbarOpen] = useState(false);
 
-  const handleCopyButtonClick = async (hash: string) => {
+  const handleCopyButtonClick = async (hash: string | undefined) => {
+    if (!hash) {
+      return;
+    }
     try {
       await navigator.clipboard.writeText(hash);
       setsnackbarOpen(true);
@@ -32,8 +35,8 @@ export const DetailInfoList: FC<DetailInfoListProps> = ({ data, type }) => {
     }
   };
 
-  const handleExplorerClick = (chain: ChainConfig | undefined, txHash: string) => {
-    if (!chain) {
+  const handleExplorerClick = (chain: ChainConfig | undefined, txHash: string | undefined) => {
+    if (!chain || !txHash) {
       return;
     }
     window.open(`${chain.explorerUrl}/tx/${txHash}`);
@@ -55,7 +58,10 @@ export const DetailInfoList: FC<DetailInfoListProps> = ({ data, type }) => {
     setsnackbarOpen(false);
   };
 
-  const renderTokenSymbol = (symbol: string) => {
+  const renderTokenSymbol = (symbol: string | undefined) => {
+    if (!symbol) {
+      return;
+    }
     const token = getTokenConfigBySymbol(symbol);
     if (!token) {
       return "";
@@ -75,66 +81,99 @@ export const DetailInfoList: FC<DetailInfoListProps> = ({ data, type }) => {
       <div className={classes.detailRow}>
         <span className={classes.rowLabel}>{sourceText} Chain</span>
         <div className={classes.rowContent}>
-          <Icon
-            className={classes.chianIcon}
-            isRounded
-            size={20}
-            url={data.chain?.iconUrlColorful || ""}
-          />
-          {data.chain?.name}
+          {data ? (
+            <>
+              <Icon
+                className={classes.chianIcon}
+                isRounded
+                size={20}
+                url={data.chain?.iconUrlColorful || ""}
+              />
+              {data.chain?.name}
+            </>
+          ) : (
+            "-"
+          )}
         </div>
       </div>
       <div className={classes.detailRow}>
         <span className={classes.rowLabel}>Status</span>
         <div className={classes.rowContent}>
-          <StatusIcon status="Success" text="Success" />
+          {data ? <StatusIcon status="Success" text="Success" /> : "-"}
         </div>
       </div>
       <div className={classes.detailRow}>
         <span className={classes.rowLabel}>Block</span>
-        <div className={classes.rowContent}>{data.blockNumber}</div>
+        <div className={classes.rowContent}>{data ? <>{data.blockNumber}</> : "-"}</div>
+        {/* {data ? <div className={classes.rowContent}>{data.blockNumber}</div> : "-"} */}
       </div>
       <div className={classes.detailRow}>
         <span className={classes.rowLabel}>{sourceText} Transaction Hash</span>
-        <div className={`${classes.rowContent}`}>
-          <div className={classes.txHash}>{data.txHash}</div>
-          <IconCopy
-            onClick={() => handleCopyButtonClick(data.txHash)}
-            className={classes.hashInteractionIcon}
-          />
-          <IconExplorer
-            onClick={() => handleExplorerClick(data.chain, data.txHash)}
-            className={classes.hashInteractionIcon}
-          />
+        <div className={classes.rowContent}>
+          {data ? (
+            <>
+              <div className={classes.txHash}>{data.txHash}</div>
+              <IconCopy
+                onClick={() => handleCopyButtonClick(data.txHash)}
+                className={classes.hashInteractionIcon}
+              />
+              <IconExplorer
+                onClick={() => handleExplorerClick(data.chain, data.txHash)}
+                className={classes.hashInteractionIcon}
+              />
+            </>
+          ) : (
+            "-"
+          )}
         </div>
       </div>
       <div className={classes.detailRow}>
         <span className={classes.rowLabel}>Message Nonce</span>
-        <div className={classes.rowContent}>{data.nonce}</div>
+        <div className={classes.rowContent}>{data ? <>{data.nonce}</> : "-"}</div>
       </div>
       <div className={classes.detailRow}>
         <span className={classes.rowLabel}>Created</span>
         <div className={classes.rowContent}>
-          {dayjs(data.createdTimestamp).format("DD MMM YYYY hh:mm:ss A")}
+          {data ? (
+            <>
+              <div className={classes.rowContent}>
+                {dayjs(data.createdTimestamp).format("DD MMM YYYY hh:mm:ss A")}
+              </div>
+            </>
+          ) : (
+            "-"
+          )}
         </div>
       </div>
       <div className={classes.detailRow}>
         <span className={classes.rowLabel}>Amount</span>
         <div className={classes.rowContent}>
-          {data.amountValue}
-          {renderTokenSymbol(data.symbol)}
+          {data ? (
+            <>
+              <div className={classes.rowContent}>
+                {data.amountValue}
+                {renderTokenSymbol(data.symbol)}
+              </div>
+            </>
+          ) : (
+            "-"
+          )}
         </div>
       </div>
       <div className={classes.detailRow}>
         <span className={classes.rowLabel}>Source Omnichain Dapp</span>
-        {data.dapp ? (
-          <div className={`${classes.rowContent} ${classes.dappContent}`}>
-            <Icon className={classes.dappIcon} isRounded size={20} url={data.dapp.iconUrl} />
-            {data.dapp.name}
-          </div>
-        ) : (
-          "-"
-        )}
+        <div className={classes.rowContent}>
+          {data && data.dapp ? (
+            <>
+              <div className={`${classes.rowContent} ${classes.dappContent}`}>
+                <Icon className={classes.dappIcon} isRounded size={20} url={data.dapp.iconUrl} />
+                {data.dapp.name}
+              </div>
+            </>
+          ) : (
+            "-"
+          )}
+        </div>
       </div>
       <Snackbar
         open={snackbarOpen}

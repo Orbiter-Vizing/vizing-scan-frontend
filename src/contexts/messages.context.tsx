@@ -45,6 +45,7 @@ export interface MessagesListItem {
   status: number; // 99 success 98 confirming 0 landing
   nonce: string;
   from: string;
+  id: string;
   sourceTxHash: string;
   destTxHash: string;
   transactionId: string;
@@ -56,24 +57,24 @@ export interface MessagesListItem {
 
 interface ProcessPeriod {
   chain: ChainConfig | undefined;
-  processContent: string;
+  processContent: string | undefined;
 }
 
 export interface ProcessInfo {
-  source: ProcessPeriod;
+  source: ProcessPeriod | undefined;
   middle: ProcessPeriod;
-  destination: ProcessPeriod;
+  destination: ProcessPeriod | undefined;
 }
 
 export interface DetailInfoData {
   chain: ChainConfig | undefined;
   status: "landing" | "success";
-  blockNumber: string;
-  txHash: string;
-  nonce: string;
-  createdTimestamp: string;
-  amountValue: string;
-  symbol: string;
+  blockNumber: string | undefined;
+  txHash: string | undefined;
+  nonce: string | undefined;
+  createdTimestamp: string | undefined;
+  amountValue: string | undefined;
+  symbol: string | undefined;
   dapp: ProtocolConfig | undefined;
 }
 
@@ -85,8 +86,8 @@ export interface BottomInfo {
 
 interface fetchMessageDetailsResponse {
   process: ProcessInfo;
-  source: DetailInfoData;
-  destination: DetailInfoData;
+  source: DetailInfoData | undefined;
+  destination: DetailInfoData | undefined;
   bottomInfo: BottomInfo;
 }
 
@@ -218,7 +219,6 @@ const MessagesProvider: FC<PropsWithChildren> = (props) => {
         sourceChain,
         targetChain,
       });
-      console.log("messages context apiRes", apiRes);
       const currentEnvChainList = getCurrentEnvChainConfig();
       const filteredResponseList = apiRes.list.map((messagesListitem) => {
         const {
@@ -232,6 +232,7 @@ const MessagesProvider: FC<PropsWithChildren> = (props) => {
           sourceTime,
           sourceHash,
           targetChain,
+          id,
         } = messagesListitem;
         const protocolConfig = getProtocolConfig(dApp);
         const sourceChainConfig = currentEnvChainList.find((chain) => {
@@ -243,6 +244,7 @@ const MessagesProvider: FC<PropsWithChildren> = (props) => {
         const newItem: MessagesListItem = {
           status,
           transactionId,
+          id,
           nonce: sourceNonce,
           time: sourceTime,
           sourceTxHash: sourceHash,
@@ -269,21 +271,26 @@ const MessagesProvider: FC<PropsWithChildren> = (props) => {
         apiUrl,
         id,
       });
-      console.log("details apiRes", apiRes);
       const { message, source, destination } = apiRes;
       const currentEnvChainList = getCurrentEnvChainConfig();
       const protocolConfig = getProtocolConfig(message.dApp);
-      const sourceChainConfig = currentEnvChainList.find((chain) => {
-        return chain.id === source.chainId;
-      });
-      const destChainConfig = currentEnvChainList.find((chain) => {
-        return chain.id === destination.chainId;
-      });
+      const sourceChainConfig = source
+        ? currentEnvChainList.find((chain) => {
+            return chain.id === source.chainId;
+          })
+        : undefined;
+      const destChainConfig = destination
+        ? currentEnvChainList.find((chain) => {
+            return chain.id === destination.chainId;
+          })
+        : undefined;
       const process = {
-        source: {
-          chain: sourceChainConfig,
-          processContent: message.sourceHash,
-        },
+        source: source
+          ? {
+              chain: sourceChainConfig,
+              processContent: message.sourceHash,
+            }
+          : undefined,
         middle: {
           chain: {
             value: "vizing",
@@ -295,33 +302,39 @@ const MessagesProvider: FC<PropsWithChildren> = (props) => {
           },
           processContent: "",
         },
-        destination: {
-          chain: destChainConfig,
-          processContent: message.targetHash,
-        },
+        destination: destination
+          ? {
+              chain: destChainConfig,
+              processContent: message.targetHash,
+            }
+          : undefined,
       };
-      const sourceInfo: DetailInfoData = {
-        chain: sourceChainConfig,
-        status: "landing",
-        blockNumber: source.blockNumber,
-        txHash: source.transactionHash,
-        nonce: source.nonce,
-        createdTimestamp: source.timestamp,
-        amountValue: source.amount,
-        symbol: source.symbol,
-        dapp: protocolConfig,
-      };
-      const destinationInfo: DetailInfoData = {
-        chain: destChainConfig,
-        status: "landing",
-        blockNumber: destination.blockNumber,
-        txHash: destination.transactionHash,
-        nonce: destination.nonce,
-        createdTimestamp: destination.timestamp,
-        amountValue: destination.amount,
-        symbol: destination.symbol,
-        dapp: protocolConfig,
-      };
+      const sourceInfo: DetailInfoData | undefined = source
+        ? {
+            chain: sourceChainConfig,
+            status: "landing",
+            blockNumber: source.blockNumber,
+            txHash: source.transactionHash,
+            nonce: source.nonce,
+            createdTimestamp: source.timestamp,
+            amountValue: source.amount,
+            symbol: source.symbol,
+            dapp: protocolConfig,
+          }
+        : undefined;
+      const destinationInfo: DetailInfoData | undefined = destination
+        ? {
+            chain: destChainConfig,
+            status: "landing",
+            blockNumber: destination.blockNumber,
+            txHash: destination.transactionHash,
+            nonce: destination.nonce,
+            createdTimestamp: destination.timestamp,
+            amountValue: destination.amount,
+            symbol: destination.symbol,
+            dapp: protocolConfig,
+          }
+        : undefined;
       const bottomInfo: BottomInfo = {
         from: message.sourceAddress,
         fee: message.withholdingFee,

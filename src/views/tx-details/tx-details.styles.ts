@@ -42,9 +42,12 @@ export const useTxDetailsStyles = createUseStyles((theme: Theme) => ({
     borderRadius: 12,
   },
   processName: {
+    minWidth: 103,
+    height: 24,
     fontSize: 16,
     fontWeight: 500,
     color: theme.palette.white.main,
+    textAlign: "center",
   },
   processIcon: {},
   processIconWrap: {
@@ -58,6 +61,10 @@ export const useTxDetailsStyles = createUseStyles((theme: Theme) => ({
     border: "1px solid",
     borderColor: theme.palette.red.main,
   },
+  skeletonProcessIconWrap: {
+    height: 72,
+    width: 72,
+  },
   processHashContent: {
     borderBottom: "1px solid transparent",
     "&:hover": {
@@ -67,6 +74,8 @@ export const useTxDetailsStyles = createUseStyles((theme: Theme) => ({
     },
   },
   processContent: {
+    minWidth: 113,
+    height: 20,
     fontSize: 14,
     fontWeight: 400,
     color: theme.palette.white.transparency60,
@@ -84,7 +93,7 @@ export const useTxDetailsStyles = createUseStyles((theme: Theme) => ({
   },
   processBackgroundPattern: {
     height: 62,
-    width: 190,
+    width: "100%",
   },
   processBackgroundPatternWrap: {
     flex: 1,
@@ -148,5 +157,17 @@ export const useTxDetailsStyles = createUseStyles((theme: Theme) => ({
     fontSize: 14,
     fontWeight: 400,
     marginTop: 4,
+  },
+  bottomFromSkeleton: {
+    width: 390,
+    height: 24,
+  },
+  bottomFeeSkeleton: {
+    width: 390,
+    height: 24,
+  },
+  bottomMessageSkeleton: {
+    width: "100%",
+    height: 152,
   },
 }));

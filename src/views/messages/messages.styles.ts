@@ -91,7 +91,7 @@ export const useMessagesStyles = createUseStyles((theme: Theme) => ({
   },
   searchInput: {
     backgroundColor: "transparent",
-    borderRadius: 12,
+    borderRadius: 4,
     color: theme.palette.white.main,
     fontSize: "14px",
     fontWeight: 400,
