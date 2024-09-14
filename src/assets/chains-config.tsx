@@ -12,6 +12,7 @@ import IconTaiko from "src/assets/icon/chains/Taiko.svg";
 import IconBOB from "src/assets/icon/chains/BOB.svg";
 import IconVizing from "src/assets/icon/chains/vizing.svg";
 import IconBNB from "src/assets/icon/chains/BNBChain.svg";
+import IconZksyncEra from "src/assets/icon/chains/zkSyncEra.svg";
 // chain icon colorful
 import IconColorfulArbitrum from "src/assets/icon/chains-colorful/arbitrum.svg";
 import IconColorfulEthereum from "src/assets/icon/chains-colorful/ethereum.svg";
@@ -25,6 +26,7 @@ import IconColorfulTaiko from "src/assets/icon/chains-colorful/taiko.svg";
 import IconColorfulBOB from "src/assets/icon/chains-colorful/bob.svg";
 import IconColorfulVizing from "src/assets/icon/chains-colorful/vizing.svg";
 import IconColorfulBNB from "src/assets/icon/chains-colorful/bnb-chain.svg";
+import IconColorfulZksyncEra from "src/assets/icon/chains-colorful/zksync-era.svg";
 
 export interface ChainConfigInterface {
   development: ChainConfig[];
@@ -139,6 +141,14 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrlColorful: IconColorfulBNB,
       explorerUrl: "https://bscscan.com",
     },
+    {
+      value: "324",
+      name: "Zksync",
+      iconUrl: IconZksyncEra,
+      id: "324",
+      iconUrlColorful: IconColorfulZksyncEra,
+      explorerUrl: "https://explorer.zksync.io",
+    },
   ],
   production: [
     {
@@ -237,6 +247,14 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrlColorful: IconColorfulBNB,
       explorerUrl: "https://bscscan.com",
     },
+    {
+      value: "324",
+      name: "Zksync",
+      iconUrl: IconZksyncEra,
+      id: "324",
+      iconUrlColorful: IconColorfulZksyncEra,
+      explorerUrl: "https://explorer.zksync.io",
+    },
   ],
   test: [
     {
@@ -334,6 +352,14 @@ export const ChainsConfigMap: ChainConfigInterface = {
       id: "56",
       iconUrlColorful: IconColorfulBNB,
       explorerUrl: "https://bscscan.com",
+    },
+    {
+      value: "324",
+      name: "Zksync",
+      iconUrl: IconZksyncEra,
+      id: "324",
+      iconUrlColorful: IconColorfulZksyncEra,
+      explorerUrl: "https://explorer.zksync.io",
     },
   ],
 };
