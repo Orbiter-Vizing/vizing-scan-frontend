@@ -52,7 +52,7 @@ const StyledTableRow = styled(TableRow)(() => ({
   [`&.${tableRowClasses.root}`]: {
     "&:hover": {
       background: "rgba(255, 255, 255, 0.08)",
-      cursor: "pointer",
+      // cursor: "pointer",
     },
     border: "1px solid #292223",
     borderLeft: "none",
@@ -482,7 +482,7 @@ export const Messages: FC = () => {
                     const formatTimeText = calculateRelativeTime(row.time);
                     return (
                       <StyledTableRow
-                        onClick={(e) => handleHashNavigate(e, row.transactionId)}
+                        // onClick={(e) => handleHashNavigate(e, row.transactionId)}
                         key={row.id}
                       >
                         <StyledTableCell align="left">
