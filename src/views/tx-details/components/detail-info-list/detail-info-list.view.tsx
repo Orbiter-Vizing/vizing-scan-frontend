@@ -2,6 +2,8 @@ import { FC, useState } from "react";
 import dayjs from "dayjs";
 import Snackbar, { SnackbarCloseReason } from "@mui/material/Snackbar";
 import Box from "@mui/material/Box";
+import utc from "dayjs/plugin/utc";
+dayjs.extend(utc);
 
 import { useDetailInfoListStyles } from "src/views/tx-details/components/detail-info-list/detail-info-list.styles";
 import { StatusIcon } from "src/views/shared/status-icon/icon.view";
@@ -137,7 +139,7 @@ export const DetailInfoList: FC<DetailInfoListProps> = ({ data, type }) => {
           {data ? (
             <>
               <div className={classes.rowContent}>
-                {dayjs(data.createdTimestamp).format("DD MMM YYYY hh:mm:ss A")}
+                {dayjs.utc(data.createdTimestamp).format("DD MMM YYYY hh:mm:ss")} UTC/GMT
               </div>
             </>
           ) : (
