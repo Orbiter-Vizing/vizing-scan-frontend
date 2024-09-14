@@ -139,7 +139,7 @@ export const DetailInfoList: FC<DetailInfoListProps> = ({ data, type }) => {
           {data ? (
             <>
               <div className={classes.rowContent}>
-                {dayjs.utc(data.createdTimestamp).format("DD MMM YYYY hh:mm:ss")} UTC/GMT
+                {dayjs.utc(data.createdTimestamp).format("DD MMM YYYY hh:mm:ss")} UTC
               </div>
             </>
           ) : (
