@@ -13,7 +13,7 @@ const envConfig = {
     apiUrl: "https://testnet-analytics-api.vizing.com",
   },
   production: {
-    apiUrl: "https://openapi.vizing.com/analytics/",
+    apiUrl: "https://openapi.vizing.com",
   },
 };
 
