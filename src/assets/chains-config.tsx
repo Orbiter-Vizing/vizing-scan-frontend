@@ -47,7 +47,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconArbitrum,
       id: "421614",
       iconUrlColorful: IconColorfulArbitrum,
-      explorerUrl: "https://sepolia.arbiscan.io/",
+      explorerUrl: "https://sepolia.arbiscan.io",
     },
     {
       value: "11155111",
@@ -55,7 +55,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconEthereum,
       id: "11155111",
       iconUrlColorful: IconColorfulEthereum,
-      explorerUrl: "https://sepolia.etherscan.io/",
+      explorerUrl: "https://sepolia.etherscan.io",
     },
     {
       value: "84532",
@@ -63,7 +63,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconBase,
       id: "84532",
       iconUrlColorful: IconColorfulBase,
-      explorerUrl: "https://sepolia.basescan.org/",
+      explorerUrl: "https://sepolia.basescan.org",
     },
     {
       value: "59141",
@@ -71,7 +71,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconLinea,
       id: "59141",
       iconUrlColorful: IconColorfulLinea,
-      explorerUrl: "https://sepolia.lineascan.build/",
+      explorerUrl: "https://sepolia.lineascan.build",
     },
     {
       value: "534351",
@@ -79,7 +79,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconScroll,
       id: "534351",
       iconUrlColorful: IconColorfulScroll,
-      explorerUrl: "https://sepolia.scrollscan.com/",
+      explorerUrl: "https://sepolia.scrollscan.com",
     },
     {
       value: "11155420",
@@ -87,7 +87,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconOptimism,
       id: "11155420",
       iconUrlColorful: IconColorfulOptimism,
-      explorerUrl: "https://sepolia-optimism.etherscan.io/",
+      explorerUrl: "https://sepolia-optimism.etherscan.io",
     },
     {
       value: "2442",
@@ -95,7 +95,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconPolygon,
       id: "2442",
       iconUrlColorful: IconColorfulPolygon,
-      explorerUrl: "https://cardona-zkevm.polygonscan.com/",
+      explorerUrl: "https://cardona-zkevm.polygonscan.com",
     },
     {
       value: "168587773",
@@ -103,7 +103,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconBlast,
       id: "168587773",
       iconUrlColorful: IconColorfulBlast,
-      explorerUrl: "https://sepolia.blastscan.io/",
+      explorerUrl: "https://sepolia.blastscan.io",
     },
     {
       value: "167009",
@@ -111,7 +111,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconTaiko,
       id: "167009",
       iconUrlColorful: IconColorfulTaiko,
-      explorerUrl: "https://hekla.taikoscan.network/",
+      explorerUrl: "https://hekla.taikoscan.network",
     },
     {
       value: "111",
@@ -119,7 +119,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconBOB,
       id: "111",
       iconUrlColorful: IconColorfulBOB,
-      explorerUrl: "https://testnet-explorer.gobob.xyz/",
+      explorerUrl: "https://testnet-explorer.gobob.xyz",
     },
     {
       value: "28516",
@@ -137,7 +137,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconArbitrum,
       id: "42161",
       iconUrlColorful: IconColorfulArbitrum,
-      explorerUrl: "https://arbiscan.io/",
+      explorerUrl: "https://arbiscan.io",
     },
     {
       value: "1",
@@ -145,7 +145,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconEthereum,
       id: "1",
       iconUrlColorful: IconColorfulEthereum,
-      explorerUrl: "https://etherscan.io/",
+      explorerUrl: "https://etherscan.io",
     },
     {
       value: "8453",
@@ -153,7 +153,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconBase,
       id: "8453",
       iconUrlColorful: IconColorfulBase,
-      explorerUrl: "https://basescan.org/",
+      explorerUrl: "https://basescan.org",
     },
     {
       value: "59144",
@@ -161,7 +161,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconLinea,
       id: "59144",
       iconUrlColorful: IconColorfulLinea,
-      explorerUrl: "https://lineascan.build/",
+      explorerUrl: "https://lineascan.build",
     },
     {
       value: "534352",
@@ -169,7 +169,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconScroll,
       id: "534352",
       iconUrlColorful: IconColorfulScroll,
-      explorerUrl: "https://scrollscan.com/",
+      explorerUrl: "https://scrollscan.com",
     },
     {
       value: "10",
@@ -177,7 +177,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconOptimism,
       id: "10",
       iconUrlColorful: IconColorfulOptimism,
-      explorerUrl: "https://optimistic.etherscan.io/",
+      explorerUrl: "https://optimistic.etherscan.io",
     },
     {
       value: "1101",
@@ -185,7 +185,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconPolygon,
       id: "1101",
       iconUrlColorful: IconColorfulPolygon,
-      explorerUrl: "https://polygonscan.com/",
+      explorerUrl: "https://polygonscan.com",
     },
     {
       value: "81457",
@@ -193,7 +193,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconBlast,
       id: "81457",
       iconUrlColorful: IconColorfulBlast,
-      explorerUrl: "https://blastexplorer.io/",
+      explorerUrl: "https://blastexplorer.io",
     },
     {
       value: "167000",
@@ -201,7 +201,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconTaiko,
       id: "167000",
       iconUrlColorful: IconColorfulTaiko,
-      explorerUrl: "https://taikoscan.io/",
+      explorerUrl: "https://taikoscan.io",
     },
     {
       value: "60808",
@@ -217,7 +217,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconVizing,
       id: "28518",
       iconUrlColorful: IconColorfulVizing,
-      explorerUrl: "https://explorer.vizing.com/",
+      explorerUrl: "https://explorer.vizing.com",
     },
   ],
   test: [
@@ -227,7 +227,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconArbitrum,
       id: "421614",
       iconUrlColorful: IconColorfulArbitrum,
-      explorerUrl: "https://sepolia.arbiscan.io/",
+      explorerUrl: "https://sepolia.arbiscan.io",
     },
     {
       value: "11155111",
@@ -235,7 +235,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconEthereum,
       id: "11155111",
       iconUrlColorful: IconColorfulEthereum,
-      explorerUrl: "https://sepolia.etherscan.io/",
+      explorerUrl: "https://sepolia.etherscan.io",
     },
     {
       value: "84532",
@@ -243,7 +243,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconBase,
       id: "84532",
       iconUrlColorful: IconColorfulBase,
-      explorerUrl: "https://sepolia.basescan.org/",
+      explorerUrl: "https://sepolia.basescan.org",
     },
     {
       value: "59141",
@@ -251,7 +251,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconLinea,
       id: "59141",
       iconUrlColorful: IconColorfulLinea,
-      explorerUrl: "https://sepolia.lineascan.build/",
+      explorerUrl: "https://sepolia.lineascan.build",
     },
     {
       value: "534351",
@@ -259,7 +259,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconScroll,
       id: "534351",
       iconUrlColorful: IconColorfulScroll,
-      explorerUrl: "https://sepolia.scrollscan.com/",
+      explorerUrl: "https://sepolia.scrollscan.com",
     },
     {
       value: "11155420",
@@ -267,7 +267,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconOptimism,
       id: "11155420",
       iconUrlColorful: IconColorfulOptimism,
-      explorerUrl: "https://sepolia-optimism.etherscan.io/",
+      explorerUrl: "https://sepolia-optimism.etherscan.io",
     },
     {
       value: "2442",
@@ -275,7 +275,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconPolygon,
       id: "2442",
       iconUrlColorful: IconColorfulPolygon,
-      explorerUrl: "https://cardona-zkevm.polygonscan.com/",
+      explorerUrl: "https://cardona-zkevm.polygonscan.com",
     },
     {
       value: "168587773",
@@ -283,7 +283,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconBlast,
       id: "168587773",
       iconUrlColorful: IconColorfulBlast,
-      explorerUrl: "https://sepolia.blastscan.io/",
+      explorerUrl: "https://sepolia.blastscan.io",
     },
     {
       value: "167009",
@@ -291,7 +291,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconTaiko,
       id: "167009",
       iconUrlColorful: IconColorfulTaiko,
-      explorerUrl: "https://hekla.taikoscan.network/",
+      explorerUrl: "https://hekla.taikoscan.network",
     },
     {
       value: "111",
@@ -299,7 +299,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       iconUrl: IconBOB,
       id: "111",
       iconUrlColorful: IconColorfulBOB,
-      explorerUrl: "https://testnet-explorer.gobob.xyz/",
+      explorerUrl: "https://testnet-explorer.gobob.xyz",
     },
     {
       value: "28516",
