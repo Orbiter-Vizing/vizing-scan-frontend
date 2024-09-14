@@ -47,8 +47,8 @@ interface MessagesSummaryOutput {
   landingMessages: string;
   networks: string;
   protocols: string;
-  volume: string; // "1543533.909317470000000000"
-  volume24h: number; // 105.19027988
+  volume: string;
+  volume24h: number;
 }
 
 interface GetMessagesListParams {

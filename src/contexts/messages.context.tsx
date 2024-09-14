@@ -36,7 +36,7 @@ interface fetchMessagesDetailsParams {
 
 interface summaryDataCard {
   id: string;
-  data: string | undefined;
+  data: string | number | undefined;
   prefix: string;
   name: string;
 }
@@ -174,8 +174,8 @@ const MessagesProvider: FC<PropsWithChildren> = (props) => {
           name: "Landing Massages",
         },
         {
-          id: "volum",
-          data: apiRes.volume,
+          id: "volum24h",
+          data: apiRes.volume24h,
           prefix: "$",
           name: "Volum(24h)",
         },
