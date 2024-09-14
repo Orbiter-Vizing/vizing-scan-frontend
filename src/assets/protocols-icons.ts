@@ -232,7 +232,7 @@ export const getProtocolsSearchSelectList = () => {
   const currentEnvConfigList = [...ProtocolsConfigMap[envString]];
   currentEnvConfigList.unshift({
     id: "all",
-    name: "All",
+    name: "All Protocol",
     value: "",
     iconUrl: "",
   });
