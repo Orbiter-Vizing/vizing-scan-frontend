@@ -542,7 +542,7 @@ export const Messages: FC = () => {
                               <Icon
                                 className={classes.protocolCellIcon}
                                 isRounded
-                                size={32}
+                                size={20}
                                 url={row.protocol.iconUrl}
                               />
                               {row.protocol.name}
