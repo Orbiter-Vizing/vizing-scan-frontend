@@ -95,7 +95,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
     },
     {
       value: "2442",
-      name: "Polygon",
+      name: "Polygon zkEVM",
       iconUrl: IconPolygon,
       id: "2442",
       iconUrlColorful: IconColorfulPolygon,
@@ -119,7 +119,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
     },
     {
       value: "111",
-      name: "Bob",
+      name: "BOB",
       iconUrl: IconBOB,
       id: "111",
       iconUrlColorful: IconColorfulBOB,
@@ -143,7 +143,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
     },
     {
       value: "324",
-      name: "Zksync",
+      name: "Zksync Era",
       iconUrl: IconZksyncEra,
       id: "324",
       iconUrlColorful: IconColorfulZksyncEra,
@@ -201,7 +201,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
     },
     {
       value: "1101",
-      name: "Polygon",
+      name: "Polygon zkEVM",
       iconUrl: IconPolygon,
       id: "1101",
       iconUrlColorful: IconColorfulPolygon,
@@ -225,7 +225,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
     },
     {
       value: "60808",
-      name: "Bob",
+      name: "BOB",
       iconUrl: IconBOB,
       id: "60808",
       iconUrlColorful: IconColorfulBOB,
@@ -249,7 +249,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
     },
     {
       value: "324",
-      name: "Zksync",
+      name: "Zksync Era",
       iconUrl: IconZksyncEra,
       id: "324",
       iconUrlColorful: IconColorfulZksyncEra,
@@ -307,7 +307,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
     },
     {
       value: "2442",
-      name: "Polygon",
+      name: "Polygon zkEVM",
       iconUrl: IconPolygon,
       id: "2442",
       iconUrlColorful: IconColorfulPolygon,
@@ -331,7 +331,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
     },
     {
       value: "111",
-      name: "Bob",
+      name: "BOB",
       iconUrl: IconBOB,
       id: "111",
       iconUrlColorful: IconColorfulBOB,
@@ -355,7 +355,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
     },
     {
       value: "324",
-      name: "Zksync",
+      name: "Zksync Era",
       iconUrl: IconZksyncEra,
       id: "324",
       iconUrlColorful: IconColorfulZksyncEra,
