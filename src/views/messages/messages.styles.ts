@@ -167,7 +167,7 @@ export const useMessagesStyles = createUseStyles((theme: Theme) => ({
     marginRight: 4,
   },
   timeCell: {
-    width: 150,
+    minWidth: 120,
     color: theme.palette.white.transparency40,
   },
   paginationWrap: {
