@@ -5,7 +5,6 @@ import IconPreArrow from "src/assets/icon/pre-arrow.svg?react";
 import IconNextArrow from "src/assets/icon/next-arrow.svg?react";
 
 import { useMessagesStyles } from "src/views/messages/messages.styles";
-import { DataCard } from "src/views/shared/data-card/data-card.view";
 import { SearchSelect } from "src/views/shared/search-select/search-select.view";
 import { StatusIcon } from "src/views/shared/status-icon/icon.view";
 import { Icon } from "src/views/shared/icon/icon.view";
@@ -17,6 +16,7 @@ import { DateValue } from "src/views/shared/search-select/search-select.view";
 import { getProtocolsSearchSelectList } from "src/assets/protocols-icons";
 import { getChainsSearchSelectList } from "src/assets/chains-config";
 import { MessageListMeta } from "src/adapters/messages-api";
+import { SummaryData } from "src/views/shared/summary-data/summary-data.view";
 // assets
 import IconNoData from "src/assets/icon/no-data.svg?react";
 import IconBack from "src/assets/icon/back.svg?react";
@@ -142,9 +142,9 @@ enum ListDataStatus {
 export const Messages: FC = () => {
   const navigate = useNavigate();
   const classes = useMessagesStyles();
-  const { fetchSummaryData, fetchMessagesList, defaultSummaryData } = useMessagesContext();
+  const { fetchMessagesList } = useMessagesContext();
   const [inputValue, setInputValue] = useState("");
-  const [summaryData, setSummaryData] = useState(defaultSummaryData);
+  // const [summaryData, setSummaryData] = useState(defaultSummaryData);
   const [messagesList, setMessagesList] = useState<MessagesListItem[]>([]);
   const [messagesListMeta, setMessagesListMeta] = useState<MessageListMeta>();
   const [hashSearchLandingCount, setHashSearchLandingCount] = useState<number>();
@@ -183,8 +183,8 @@ export const Messages: FC = () => {
   };
 
   const initPageData = useCallback(async () => {
-    const summaryData = await fetchSummaryData({ apiUrl });
-    setSummaryData(summaryData);
+    // const summaryData = await fetchSummaryData({ apiUrl });
+    // setSummaryData(summaryData);
     const messagesListResponse = await fetchMessagesList({
       apiUrl,
       page: initialPage,
@@ -198,7 +198,7 @@ export const Messages: FC = () => {
     setMessagesList(messagesListResponse.list);
     setMessagesListMeta(messagesListResponse.meta);
     handleListStatus(messagesListResponse.list);
-  }, [fetchSummaryData, fetchMessagesList, apiUrl]); // add messagesList will cause multi-render
+  }, [fetchMessagesList, apiUrl]); // add messagesList will cause multi-render
 
   const getListData = useCallback(async () => {
     const { dateRange, protocolName, fromChainId, toChainId } = searchForm;
@@ -353,11 +353,12 @@ export const Messages: FC = () => {
   return (
     <div className={classes.messagesWrap}>
       {listType === ListType.MESSAGES && (
-        <div className={classes.dataCardWrap}>
-          {summaryData.map((data) => {
-            return <DataCard key={data.id} data={data} />;
-          })}
-        </div>
+        <SummaryData />
+        // <div className={classes.dataCardWrap}>
+        //   {summaryData.map((data) => {
+        //     return <DataCard key={data.id} data={data} />;
+        //   })}
+        // </div>
       )}
       {listType === ListType.ADDRESS && (
         <div className={classes.hashSearchWrap}>

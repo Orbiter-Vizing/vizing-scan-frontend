@@ -42,11 +42,11 @@ export const useMessagesStyles = createUseStyles((theme: Theme) => ({
   },
   table: {},
   tableBodyWrap: {},
-  dataCardWrap: {
-    marginBottom: 32,
-    display: "flex",
-    justifyContent: "space-between",
-  },
+  // dataCardWrap: {
+  //   marginBottom: 32,
+  //   display: "flex",
+  //   justifyContent: "space-between",
+  // },
   noDataTip: {
     paddingTop: 72,
     display: "flex",

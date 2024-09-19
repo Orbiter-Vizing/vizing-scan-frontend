@@ -188,12 +188,6 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       value: "Xmint",
     },
     {
-      id: "dApp9",
-      name: "dApp9",
-      iconUrl: logoAABank,
-      value: "dApp9",
-    },
-    {
       id: "OVTA",
       name: "OVTA",
       iconUrl: LogoOvta,
@@ -201,7 +195,7 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
     },
     {
       id: "OribterBridge",
-      name: "Oribter Bridge",
+      name: "OribterBridge",
       iconUrl: logoOrbiter,
       value: "Oribter Bridge",
     },
@@ -210,6 +204,66 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       name: "Early",
       iconUrl: logoOrbiter,
       value: "Early",
+    },
+    {
+      id: "dApp1",
+      name: "dApp1",
+      iconUrl: logoAABank,
+      value: "dApp1",
+    },
+    {
+      id: "dApp2",
+      name: "dApp2",
+      iconUrl: logoAABank,
+      value: "dApp2",
+    },
+    {
+      id: "dApp3",
+      name: "dApp3",
+      iconUrl: logoAABank,
+      value: "dApp3",
+    },
+    {
+      id: "dApp4",
+      name: "dApp4",
+      iconUrl: logoAABank,
+      value: "dApp4",
+    },
+    {
+      id: "dApp5",
+      name: "dApp5",
+      iconUrl: logoAABank,
+      value: "dApp5",
+    },
+    {
+      id: "dApp6",
+      name: "dApp6",
+      iconUrl: logoAABank,
+      value: "dApp6",
+    },
+    {
+      id: "dApp7",
+      name: "dApp7",
+      iconUrl: logoAABank,
+      value: "dApp7",
+    },
+    {
+      id: "dApp8",
+      name: "dApp8",
+      iconUrl: logoAABank,
+      value: "dApp8",
+    },
+    {
+      id: "dApp9",
+      name: "dApp9",
+      iconUrl: logoAABank,
+      value: "dApp9",
+    },
+    {
+      id: "unknown",
+      name: "unknown",
+      iconUrl: logoAABank,
+      value: "unknown",
     },
   ],
 };

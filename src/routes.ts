@@ -1,5 +1,4 @@
-export type RouteId = "messages" | "txDetails";
-// | "protocols"
+export type RouteId = "messages" | "txDetails" | "protocols";
 // | "analytics"
 // | "tools"
 // | "statistics";
@@ -24,12 +23,12 @@ export const routes: {
     path: "/tx/:hashId",
     text: "Transaction Details",
   },
-  // protocols: {
-  //   id: "protocols",
-  //   isPrivate: false,
-  //   path: "/protocols",
-  //   text: "Protocols",
-  // },
+  protocols: {
+    id: "protocols",
+    isPrivate: false,
+    path: "/protocols",
+    text: "Protocols",
+  },
   // analytics: {
   //   id: "analytics",
   //   isPrivate: false,

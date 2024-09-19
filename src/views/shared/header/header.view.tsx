@@ -13,16 +13,16 @@ const headerTabs = [
     path: routes.messages.path,
   },
   {
+    id: routes.protocols.id,
+    text: routes.protocols.text,
+    path: routes.protocols.path,
+  },
+  {
     id: "statistics",
     text: "Statistics",
     path: "https://www.orbiter.finance/statistics",
     isLink: true,
   },
-  // {
-  //   id: routes.protocols.id,
-  //   text: routes.protocols.text,
-  //   path: routes.protocols.path,
-  // },
 ];
 
 export const Header: FC = () => {

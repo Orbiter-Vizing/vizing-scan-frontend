@@ -3,12 +3,12 @@ import { Route, Routes } from "react-router-dom";
 
 import { RouteId, routes } from "src/routes";
 import { Messages } from "src/views/messages/messages.view";
-// import { Protocols } from "src/views/protocols/protocols.view";
+import { Protocols } from "src/views/protocols/protocols.view";
 import { TxDetails } from "src/views/tx-details/tx-details.view";
 
 const components: Record<RouteId, ComponentType> = {
   messages: Messages,
-  // protocols: Protocols,
+  protocols: Protocols,
   txDetails: TxDetails,
 };
 
