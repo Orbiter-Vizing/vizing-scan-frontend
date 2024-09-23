@@ -3,7 +3,6 @@ import { ChangeEvent, FC, useEffect, useState, useCallback, useRef, useMemo } fr
 import { useParams } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { Skeleton } from "@mui/material";
-import { cloneDeep } from "lodash";
 import CountUp from "react-countup";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
@@ -26,8 +25,6 @@ import { Icon } from "src/views/shared/icon/icon.view";
 import { StatusIcon } from "src/views/shared/status-icon/icon.view";
 import { getProtocolConfig } from "src/assets/protocols-icons";
 import { fetchProtocolChartDataResponse } from "src/contexts/protocols.context";
-// mockChartData
-import { mockChartData, MockChartData } from "./mock-data";
 // assets
 import IconNoData from "src/assets/icon/no-data.svg?react";
 // Mui table
@@ -187,7 +184,6 @@ export const ProtocolDetails: FC = () => {
   const [chartDataStatus, setChartDataStatus] = useState<ListDataStatus>(ListDataStatus.LOADING);
   const [messagesList, setMessagesList] = useState<MessagesListItem[]>([]);
   const [messagesListMeta, setMessagesListMeta] = useState<MessageListMeta>();
-  const [protocolMessagesCount, setProtocolMessagesCount] = useState<number>(0);
   const [protocolChartData, setProtocolChartData] = useState<fetchProtocolChartDataResponse>({
     charts: [],
     protocol: "",
@@ -280,10 +276,8 @@ export const ProtocolDetails: FC = () => {
       interval: chartInterval,
     });
     if (protocolChartData.charts.length > 0) {
-      console.log("setChartDataStatus empty");
       setChartDataStatus(ListDataStatus.SUCCESS);
     } else {
-      console.log("setChartDataStatus success");
       setChartDataStatus(ListDataStatus.EMPTY);
     }
     // console.log(typeof protocolChartData.txCount);
@@ -330,7 +324,6 @@ export const ProtocolDetails: FC = () => {
       protocolName: "",
       fromChainId: "",
       toChainId: "",
-      // queryHash: "",
     });
     setChartInterval("day");
   };
@@ -348,13 +341,11 @@ export const ProtocolDetails: FC = () => {
   );
 
   const renderChart = useCallback(() => {
-    console.log("render chart protocolChartData.charts.length", protocolChartData.charts.length);
     if (protocolChartData.charts.length === 0) {
       return;
     }
     if (!chart.current) {
       const chartDom = document.getElementById("protocol-chart");
-      console.log("echarts.init");
       chart.current = echarts.init(chartDom);
     }
     const xAxiasObject = {
@@ -384,8 +375,6 @@ export const ProtocolDetails: FC = () => {
       xAxiasObject.data.push(charItem.timeValue);
       // 2. fill the chain at every date's count data
       seriesData.forEach((chainSerie) => {
-        // console.log("protocolChartData.charts", protocolChartData.charts);
-        // console.log("protocolChartData.charts item", charItem);
         if (charItem.items) {
           const currentChainSerieData = charItem.items.find(
             (chainTxCountItem) => chainSerie.id === chainTxCountItem.chainId,
@@ -487,14 +476,11 @@ export const ProtocolDetails: FC = () => {
       targetChain: [],
       interval: "day",
     });
-    console.log("init protocolChartData", protocolChartData);
     setProtocolChartData(protocolChartData);
     isInitialChartLoaded.current = true;
     if (protocolChartData.charts.length > 0) {
-      console.log("init setChartDataStatus success");
       setChartDataStatus(ListDataStatus.SUCCESS);
     } else {
-      console.log("init setChartDataStatus empty");
       setChartDataStatus(ListDataStatus.EMPTY);
     }
   }, [apiUrl, protocolName, fetchProtocolChartData]);
@@ -523,9 +509,7 @@ export const ProtocolDetails: FC = () => {
   }, [initPageData, initProtocolChart]);
 
   useEffect(() => {
-    console.log("second effect call", isInitialChartLoaded.current);
     if (isInitialChartLoaded.current) {
-      // console.log("second effect call", isInitialChartLoaded);
       // not initial loaded, only searchForm change loaded
       getListData();
       getProtocolChartData();
@@ -534,32 +518,30 @@ export const ProtocolDetails: FC = () => {
 
   useEffect(() => {
     if (isInitialChartLoaded.current) {
-      // console.log("second effect call", isInitialChartLoaded);
       // not initial loaded, only searchForm change loaded
       getProtocolChartData();
     }
   }, [chartInterval, getProtocolChartData]);
 
   useEffect(() => {
-    console.log("protocol chart change effect");
     renderChart();
   }, [protocolChartData, renderChart]);
 
   // useEffect(() => {
   //   const initData = async () => {
-  //     await initPageData(); // 初始化页面数据
-  //     await initProtocolChart(); // 初始化图表
+  //     await initPageData(); // init page data
+  //     await initProtocolChart(); // init chart data
   //   };
 
   //   initData();
-  // }, []); // 只在组件挂载时执行
+  // }, []); // only run at mounted
 
   // // 更新数据的 useEffect
   // useEffect(() => {
   //   if (isInitialLoaded) {
-  //     // 确保只在初始化后执行
-  //     getListData(); // 获取列表数据
-  //     getProtocolChartData(); // 获取图表数据
+  //     // make sure just run after first init
+  //     getListData(); // get list data
+  //     getProtocolChartData(); // get chart data
   //   }
   // }, [searchForm, isInitialLoaded]);
 
