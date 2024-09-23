@@ -20,18 +20,20 @@ interface ListDataItem {
   iconUrl: string;
 }
 
-interface SearchSelectProps<T> {
+interface SearchSelectProps<T, P> {
   label: string;
   type: "list" | "date";
+  direction?: "row" | "column";
   listData?: ListDataItem[];
-  // value: string | [Date, Date];
-  // setFormData: (formData: MessagesSearchFrom) => void;
-  // formKey: string;
-  formData: T;
-  formKey: keyof T;
+  // binding form
+  formData?: T;
+  formKey?: keyof T;
+  setFormData?: (formData: T) => void;
+  // binding value
+  value?: P;
+  setValue?: (value: P) => void;
   getSelectValue?: (value: string) => void;
   getDateValue?: (value: DateValue) => void;
-  setFormData: (formData: T) => void;
 }
 
 type DateValuePiece = Date | null;
@@ -89,14 +91,17 @@ const shortcutsItems = [
   // { label: "Reset", getValue: () => [null, null] },
 ];
 
-export const SearchSelect = <T,>({
+export const SearchSelect = <T, P>({
   label,
   type,
+  direction,
   listData,
   formKey,
   formData,
   setFormData,
-}: SearchSelectProps<T>) => {
+  value,
+  setValue,
+}: SearchSelectProps<T, P>) => {
   const classes = useSearchSelectStyles();
 
   const [selectValue, setSelectValue] = useState<ListDataItem>();
@@ -113,15 +118,19 @@ export const SearchSelect = <T,>({
   const handleListItemClick = (item: ListDataItem) => {
     setSelectValue(item);
     handleOpenChange(false);
-    // update searchForm
-    const newForm = { ...formData };
-    newForm[formKey] = item.value as T[keyof T];
-    // if (type === "list") {
-    //   newForm[formKey] = item.value as T[keyof T];
-    // } else {
-    //   newForm[formKey] = dateValue as T[keyof T];
-    // }
-    setFormData(newForm);
+    // update searchForm or value
+
+    if (formData && formKey && setFormData) {
+      // const newForm = { ...formData };
+      // newForm[formKey] = item.value as T[keyof T];
+      // setFormData(newForm);
+      const newForm = { ...formData } as NonNullable<T>;
+      newForm[formKey] = item.value as NonNullable<T>[keyof T];
+      setFormData(newForm);
+    }
+    if (setValue) {
+      setValue(item.value as P);
+    }
   };
 
   const handleShortcutItemClick = (shortcutType: string, dateData: DateValue) => {
@@ -143,14 +152,14 @@ export const SearchSelect = <T,>({
     setCurrentShortcutItem("Custom");
     setDateValue(dateValue);
     // update searchFrom date
-    const newForm = { ...formData };
-    newForm[formKey] = dateValue as T[keyof T];
-    // if (type === "list") {
-    //   newForm[formKey] = item.value as T[keyof T];
-    // } else {
-    //   newForm[formKey] = dateValue as T[keyof T];
-    // }
-    setFormData(newForm);
+    // const newForm = { ...formData };
+    // newForm[formKey] = dateValue as T[keyof T];
+    // setFormData(newForm);
+    if (formData && formKey && setFormData) {
+      const newForm = { ...formData } as NonNullable<T>;
+      newForm[formKey] = dateValue as NonNullable<T>[keyof T];
+      setFormData(newForm);
+    }
   };
 
   const cleanSelectDate = () => {
@@ -170,13 +179,22 @@ export const SearchSelect = <T,>({
   // }, [selectValue, dateValue, formKey, type, setFormData]); // add formData will cause re-render
 
   useEffect(() => {
-    if (type === "list" && listData) {
-      const selectedItem = listData.find((item) => item.value === formData[formKey]);
-      setSelectValue(selectedItem);
-    } else if (type === "date") {
-      setDateValue(formData[formKey] as DateValue);
+    if (formData && formKey) {
+      if (type === "list" && listData) {
+        const selectedItem = listData.find((item) => item.value === formData[formKey]);
+        setSelectValue(selectedItem);
+      } else if (type === "date") {
+        setDateValue(formData[formKey] as DateValue);
+      }
     }
   }, [formData, formKey, listData, type]);
+
+  useEffect(() => {
+    if (value && listData) {
+      const selectedItem = listData.find((item) => item.value === value);
+      setSelectValue(selectedItem);
+    }
+  }, [value, listData]);
 
   return (
     <div className={classes.searchSelectWrap}>
@@ -186,17 +204,21 @@ export const SearchSelect = <T,>({
         onOpenChange={handleOpenChange}
       >
         <Popover.Trigger ref={anchorRef}>
-          <div className={classes.searchSelectButton}>
+          <div
+            className={`${classes.searchSelectButtonWrap} ${direction === "column" ? classes.columnFlex : ""}`}
+          >
             <span className={classes.label}>{label}:&nbsp;</span>
-            {type === "list" && (
-              <span className={classes.value}>{selectValue ? selectValue.name : "All"}</span>
-            )}
-            {type === "date" && (
-              <span className={classes.value}>
-                {dateValue ? getReadableDateString(dateValue) : "All"}
-              </span>
-            )}
-            {showSelectPanel ? <IconCaretUp /> : <IconCaretDown />}
+            <div className={classes.selectButton}>
+              {type === "list" && (
+                <span className={classes.value}>{selectValue ? selectValue.name : "All"}</span>
+              )}
+              {type === "date" && (
+                <span className={classes.value}>
+                  {dateValue ? getReadableDateString(dateValue) : "All"}
+                </span>
+              )}
+              {showSelectPanel ? <IconCaretUp /> : <IconCaretDown />}
+            </div>
           </div>
         </Popover.Trigger>
         {/* <Popover.Anchor ref={anchorRef} /> */}

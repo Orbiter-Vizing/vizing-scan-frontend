@@ -59,3 +59,63 @@ export const getProtocolsList = ({
       }
     });
 };
+
+interface GetProtocolChartDataParams {
+  abortSignal?: AbortSignal;
+  apiUrl: string;
+  dateRange?: [string, string] | [];
+  protocol: string;
+  sourceChain?: [string] | [];
+  targetChain?: [string] | [];
+  interval?: "day" | "hour";
+}
+
+interface GetProtocolChartDataOutput {
+  charts: ProtocolChartItem[];
+  protocol: string;
+  txCount: number;
+}
+
+interface chainTxCountItem {
+  chainId: string;
+  txCount: number;
+}
+
+export interface ProtocolChartItem {
+  items?: chainTxCountItem[];
+  timeAt: string;
+  timeValue: string;
+}
+
+export const getProtocolChartData = ({
+  abortSignal,
+  apiUrl,
+  dateRange,
+  protocol,
+  sourceChain,
+  targetChain,
+  interval,
+}: GetProtocolChartDataParams): Promise<GetProtocolChartDataOutput> => {
+  return axios
+    .request({
+      baseURL: apiUrl,
+      data: {
+        dateRange,
+        protocol,
+        sourceChain,
+        targetChain,
+        interval,
+        timestamp: new Date().getTime(),
+      },
+      method: "POST",
+      signal: abortSignal,
+      url: "analytics/protocol/charts",
+    })
+    .then((res) => {
+      if (res.data.data) {
+        return res.data.data;
+      } else {
+        throw new Error("Get protocol chart data error.");
+      }
+    });
+};

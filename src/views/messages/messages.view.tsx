@@ -124,7 +124,7 @@ export interface MessagesSearchFrom {
   protocolName: string;
   fromChainId: string;
   toChainId: string;
-  queryHash: string;
+  queryHash?: string;
 }
 
 enum ListType {

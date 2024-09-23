@@ -1,9 +1,10 @@
 import { FC, PropsWithChildren, createContext, useCallback, useContext, useMemo } from "react";
 
-import { getProtocolsList } from "src/adapters/protocols-api";
+import { getProtocolChartData, getProtocolsList } from "src/adapters/protocols-api";
 import { getProtocolConfig } from "src/assets/protocols-icons";
 import { ChainConfig, getCurrentEnvChainConfig } from "src/assets/chains-config";
 import { ProtocolConfig } from "src/assets/protocols-icons";
+import { ProtocolChartItem } from "src/adapters/protocols-api";
 
 interface fetchProtocolsListParams {
   abortSignal?: AbortSignal;
@@ -27,16 +28,38 @@ export interface fetchProtocolsListResponseItem {
   // volumeUSD7d: string;
 }
 
+interface fetchProtocolChartDataParams {
+  abortSignal?: AbortSignal;
+  apiUrl: string;
+  dateRange?: [string, string] | [];
+  protocol: string;
+  sourceChain?: [string] | [];
+  targetChain?: [string] | [];
+  interval?: "day" | "hour";
+}
+
+export interface fetchProtocolChartDataResponse {
+  charts: ProtocolChartItem[];
+  protocol: string;
+  txCount: number;
+}
+
 interface ProtocolsContextType {
   fetchProtocolsList: (
     params: fetchProtocolsListParams,
   ) => Promise<fetchProtocolsListResponseItem[]>;
+  fetchProtocolChartData: (
+    params: fetchProtocolChartDataParams,
+  ) => Promise<fetchProtocolChartDataResponse>;
 }
 
 const messagesContextNotReadyErrorMsg = "The messages context is not yet ready";
 
 const protocolsContext = createContext<ProtocolsContextType>({
   fetchProtocolsList: () => {
+    return Promise.reject(messagesContextNotReadyErrorMsg);
+  },
+  fetchProtocolChartData: () => {
     return Promise.reject(messagesContextNotReadyErrorMsg);
   },
 });
@@ -112,11 +135,36 @@ const ProtocolsProvider: FC<PropsWithChildren> = (props) => {
     [],
   );
 
+  const fetchProtocolChartData = useCallback(
+    async ({
+      abortSignal,
+      apiUrl,
+      dateRange,
+      protocol,
+      sourceChain,
+      targetChain,
+      interval,
+    }: fetchProtocolChartDataParams): Promise<fetchProtocolChartDataResponse> => {
+      const apiRes = await getProtocolChartData({
+        abortSignal,
+        apiUrl,
+        dateRange,
+        protocol,
+        sourceChain,
+        targetChain,
+        interval,
+      });
+      return apiRes;
+    },
+    [],
+  );
+
   const value = useMemo(
     () => ({
       fetchProtocolsList,
+      fetchProtocolChartData,
     }),
-    [fetchProtocolsList],
+    [fetchProtocolsList, fetchProtocolChartData],
   );
 
   return <protocolsContext.Provider value={value} {...props} />;

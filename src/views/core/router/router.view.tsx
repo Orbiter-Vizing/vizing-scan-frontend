@@ -5,11 +5,13 @@ import { RouteId, routes } from "src/routes";
 import { Messages } from "src/views/messages/messages.view";
 import { Protocols } from "src/views/protocols/protocols.view";
 import { TxDetails } from "src/views/tx-details/tx-details.view";
+import { ProtocolDetails } from "src/views/protocol-details/protocol-details.view";
 
 const components: Record<RouteId, ComponentType> = {
   messages: Messages,
   protocols: Protocols,
   txDetails: TxDetails,
+  protocolDetails: ProtocolDetails,
 };
 
 export const Router: FC = () => {
