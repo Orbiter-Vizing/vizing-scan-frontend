@@ -1,5 +1,4 @@
 import axios from "axios";
-
 interface GetProtocolsListParams {
   abortSignal?: AbortSignal;
   apiUrl: string;
@@ -111,6 +110,7 @@ export const getProtocolChartData = ({
         sourceChain,
         targetChain,
         interval,
+        version: import.meta.env.VITE_APP_VERSION,
       },
       method: "POST",
       signal: abortSignal,
