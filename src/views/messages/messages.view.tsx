@@ -260,27 +260,30 @@ export const Messages: FC = () => {
         // hash case 1: one result, get transaction id and go to detail page
         const targetTransaction = messagesList[0];
         navigate(`/tx/${targetTransaction.transactionId}`);
-      } else if (messagesList.length > 1) {
-        // hash case 2: list result, render list in the table
-        setMessagesListMeta(messagesListResponse.meta);
-        setMessagesList(messagesList);
-        const landingCount = calculateHashSearchLandingCount(messagesList);
-        setHashSearchLandingCount(landingCount);
-        setListType(ListType.TRANSACTION);
-        handleListStatus(messagesListResponse.list);
       } else {
-        // hash case 3: 0 result, render no result list in the table
-        setMessagesListMeta(messagesListResponse.meta);
+        // hash case 2: list result, render list in the table
+        // setMessagesListMeta(messagesListResponse.meta);
+        // setMessagesList(messagesList);
+        // const landingCount = calculateHashSearchLandingCount(messagesList);
+        // setHashSearchLandingCount(landingCount);
+        // setListType(ListType.TRANSACTION);
+        // handleListStatus(messagesListResponse.list);
+        navigate(`/txhub/${targetHash}`);
       }
+      // else {
+      //   // hash case 3: 0 result, render no result list in the table
+      //   setMessagesListMeta(messagesListResponse.meta);
+      // }
     } else if (targetHash.length === evmAddressLength) {
       // address case
       // current page render new list through address
-      setMessagesListMeta(messagesListResponse.meta);
-      setMessagesList(messagesList);
-      const landingCount = calculateHashSearchLandingCount(messagesList);
-      setHashSearchLandingCount(landingCount);
-      setListType(ListType.ADDRESS);
-      handleListStatus(messagesListResponse.list);
+      // setMessagesListMeta(messagesListResponse.meta);
+      // setMessagesList(messagesList);
+      // const landingCount = calculateHashSearchLandingCount(messagesList);
+      // setHashSearchLandingCount(landingCount);
+      // setListType(ListType.ADDRESS);
+      // handleListStatus(messagesListResponse.list);
+      navigate(`/address/${targetHash}`);
     }
   };
 
