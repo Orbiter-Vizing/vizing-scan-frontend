@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { Popover } from "@radix-ui/themes";
 import Calendar from "react-calendar";
 import dayjs from "dayjs";
@@ -18,6 +18,7 @@ interface ListDataItem {
   name: string;
   value: string;
   iconUrl: string;
+  disabled?: boolean;
 }
 
 interface SearchSelectProps<T, P> {
@@ -34,6 +35,11 @@ interface SearchSelectProps<T, P> {
   setValue?: (value: P) => void;
   getSelectValue?: (value: string) => void;
   getDateValue?: (value: DateValue) => void;
+  isShortcutItemYesterdayHidden?: boolean;
+  isShortcutItemWeekHidden?: boolean;
+  isShortcutItemMonthHidden?: boolean;
+  isShortcutItemQuaterHidden?: boolean;
+  isShortcutItemYearHidden?: boolean;
 }
 
 type DateValuePiece = Date | null;
@@ -101,6 +107,11 @@ export const SearchSelect = <T, P>({
   setFormData,
   value,
   setValue,
+  isShortcutItemYesterdayHidden,
+  isShortcutItemWeekHidden,
+  isShortcutItemMonthHidden,
+  isShortcutItemQuaterHidden,
+  isShortcutItemYearHidden,
 }: SearchSelectProps<T, P>) => {
   const classes = useSearchSelectStyles();
 
@@ -132,6 +143,71 @@ export const SearchSelect = <T, P>({
       setValue(item.value as P);
     }
   };
+
+  const calendarShortcutItems = useMemo(() => {
+    return [
+      {
+        label: "Yesterday",
+        getValue: (): DateValue => {
+          const today = dayjs();
+          const yesterday = today.subtract(1, "day");
+          return [yesterday.toDate(), yesterday.toDate()];
+        },
+        isHidden: isShortcutItemYesterdayHidden,
+      },
+      {
+        label: "Last Week",
+        getValue: (): DateValue => {
+          const today = dayjs();
+          const prevWeek = today.subtract(7, "day");
+          return [prevWeek.startOf("week").toDate(), prevWeek.endOf("week").toDate()];
+        },
+        isHidden: isShortcutItemWeekHidden,
+      },
+      {
+        label: "Last Month",
+        getValue: (): DateValue => {
+          const today = dayjs();
+          const startOfLastMonth = today.subtract(1, "month").startOf("month");
+          const endOfLastMonth = today.subtract(1, "month").endOf("month");
+          return [startOfLastMonth.toDate(), endOfLastMonth.toDate()];
+        },
+        isHidden: isShortcutItemMonthHidden,
+      },
+      {
+        label: "Last Quater",
+        getValue: (): DateValue => {
+          const today = dayjs();
+          const threeMonthsAgo = today.subtract(3, "month");
+          return [threeMonthsAgo.toDate(), today.toDate()];
+        },
+        isHidden: isShortcutItemQuaterHidden,
+      },
+      {
+        label: "Last Year",
+        getValue: (): DateValue => {
+          const today = dayjs();
+          const startOfLastYear = today.subtract(1, "year").startOf("year");
+          const endOfLastYear = today.subtract(1, "year").endOf("year");
+          return [startOfLastYear.toDate(), endOfLastYear.toDate()];
+        },
+        isHidden: isShortcutItemYearHidden,
+      },
+      {
+        label: "Custom",
+        getValue: (): DateValue => {
+          return [null, null];
+        },
+      },
+      // { label: "Reset", getValue: () => [null, null] },
+    ];
+  }, [
+    isShortcutItemYesterdayHidden,
+    isShortcutItemWeekHidden,
+    isShortcutItemMonthHidden,
+    isShortcutItemQuaterHidden,
+    isShortcutItemYearHidden,
+  ]);
 
   const handleShortcutItemClick = (shortcutType: string, dateData: DateValue) => {
     setCurrentShortcutItem(shortcutType);
@@ -207,7 +283,7 @@ export const SearchSelect = <T, P>({
           <div
             className={`${classes.searchSelectButtonWrap} ${direction === "column" ? classes.columnFlex : ""}`}
           >
-            <span className={classes.label}>{label}:&nbsp;</span>
+            <span className={classes.label}>{label}&nbsp;</span>
             <div className={classes.selectButton}>
               {type === "list" && (
                 <span className={classes.value}>{selectValue ? selectValue.name : "All"}</span>
@@ -236,7 +312,7 @@ export const SearchSelect = <T, P>({
                     <div
                       onClick={() => handleListItemClick(item)}
                       key={item.id}
-                      className={classes.selectItemWrap}
+                      className={`${classes.selectItemWrap} ${item.disabled ? classes.disabled : ""}`}
                     >
                       {item.iconUrl && <Icon isRounded size={16} url={item.iconUrl} />}
                       <span className={classes.selectItemName}>{item.name}</span>
@@ -249,15 +325,17 @@ export const SearchSelect = <T, P>({
           {type === "date" && (
             <div className={classes.datePanelWrap}>
               <div className={classes.shortcutsWrap}>
-                {shortcutsItems.map((item) => {
+                {calendarShortcutItems.map((item) => {
                   return (
-                    <span
-                      key={item.label}
-                      onClick={() => handleShortcutItemClick(item.label, item.getValue())}
-                      className={`${classes.shortcutItem} ${currentShortcutItem === item.label ? classes.selectedChortcutItem : ""}`}
-                    >
-                      {item.label}
-                    </span>
+                    !item.isHidden && (
+                      <span
+                        key={item.label}
+                        onClick={() => handleShortcutItemClick(item.label, item.getValue())}
+                        className={`${classes.shortcutItem} ${currentShortcutItem === item.label ? classes.selectedChortcutItem : ""}`}
+                      >
+                        {item.label}
+                      </span>
+                    )
                   );
                 })}
               </div>

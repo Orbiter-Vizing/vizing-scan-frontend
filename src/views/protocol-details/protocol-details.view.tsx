@@ -53,6 +53,7 @@ import {
 } from "echarts/charts";
 import { CanvasRenderer } from "echarts/renderers";
 import { useProtocolsContext } from "src/contexts/protocols.context";
+import { IntervalOptions } from "src/adapters/protocols-api";
 
 echarts.use([TooltipComponent, GridComponent, LegendComponent, BarChart, CanvasRenderer]);
 
@@ -158,7 +159,21 @@ const getStatusDisplay = (status: TxStatus): DisplayStatus => {
   }
 };
 
+interface intervalOption {
+  id: string;
+  name: string;
+  value: string;
+  iconUrl: string;
+  disabled: boolean;
+}
+
 const intervalOptionsList = [
+  {
+    id: "hour",
+    name: "Hour",
+    value: "hour",
+    iconUrl: "",
+  },
   {
     id: "day",
     name: "Day",
@@ -166,9 +181,9 @@ const intervalOptionsList = [
     iconUrl: "",
   },
   {
-    id: "hour",
-    name: "Hour",
-    value: "hour",
+    id: "week",
+    name: "Week",
+    value: "week",
     iconUrl: "",
   },
 ];
@@ -197,7 +212,30 @@ export const ProtocolDetails: FC = () => {
     toChainId: "",
     // interval: "hour",
   });
-  const [chartInterval, setChartInterval] = useState<"day" | "hour">("day");
+  const [chartInterval, setChartInterval] = useState<IntervalOptions>(IntervalOptions.DAY);
+  const [intervalOptionsList, setIntervalOptionList] = useState<intervalOption[]>([
+    {
+      id: "hour",
+      name: "Hour",
+      value: "hour",
+      iconUrl: "",
+      disabled: false,
+    },
+    {
+      id: "day",
+      name: "Day",
+      value: "day",
+      iconUrl: "",
+      disabled: false,
+    },
+    {
+      id: "week",
+      name: "Week",
+      value: "week",
+      iconUrl: "",
+      disabled: false,
+    },
+  ]);
   // const [isInitialLoaded, setIsInitialLoaded] = useState(false);
   const isInitialChartLoaded = useRef(false);
   const chart = useRef<echarts.ECharts | null>(null);
@@ -324,7 +362,7 @@ export const ProtocolDetails: FC = () => {
       fromChainId: "",
       toChainId: "",
     });
-    setChartInterval("day");
+    setChartInterval(IntervalOptions.DAY);
   };
 
   const handlePaginationChange = async (event: ChangeEvent<unknown>, page: number) => {
@@ -335,6 +373,134 @@ export const ProtocolDetails: FC = () => {
   const handleSetSearchForm = useCallback(
     (formData: ProtocolsSearchFrom) => {
       setSearchForm(formData);
+    },
+    [setSearchForm],
+  );
+
+  const handleSetSearchFormByDateSelect = useCallback(
+    (formData: ProtocolsSearchFrom) => {
+      setSearchForm(formData);
+      // get new date range and set new interval select options
+      const dateRange = formData.dateRange;
+      // console.log("dateRange", dateRange);
+      // let startDateTimestamp = undefined;
+      // let endDateTimestamp = undefined;
+      if (Array.isArray(dateRange)) {
+        const startDateTimestamp = dateRange[0] ? dateRange[0].getTime() : 0;
+        const endDateTimestamp = dateRange[1] ? dateRange[1].getTime() : 0;
+        const timeDiff = endDateTimestamp - startDateTimestamp;
+        const rangeDay = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        const weekLength = 7;
+        const monthLength = 31;
+        const quaterLength = 90;
+        console.log("rangeday", rangeDay);
+        if (rangeDay <= weekLength) {
+          // range <= 7 case
+          setIntervalOptionList([
+            {
+              id: "hour",
+              name: "Hour",
+              value: "hour",
+              iconUrl: "",
+              disabled: false,
+            },
+            {
+              id: "day",
+              name: "Day",
+              value: "day",
+              iconUrl: "",
+              disabled: false,
+            },
+            {
+              id: "week",
+              name: "Week",
+              value: "week",
+              iconUrl: "",
+              disabled: true,
+            },
+          ]);
+          setChartInterval(IntervalOptions.DAY);
+        } else if (rangeDay > weekLength && rangeDay <= monthLength) {
+          // 7 < range <= 30 case
+          setIntervalOptionList([
+            {
+              id: "hour",
+              name: "Hour",
+              value: "hour",
+              iconUrl: "",
+              disabled: false,
+            },
+            {
+              id: "day",
+              name: "Day",
+              value: "day",
+              iconUrl: "",
+              disabled: false,
+            },
+            {
+              id: "week",
+              name: "Week",
+              value: "week",
+              iconUrl: "",
+              disabled: false,
+            },
+          ]);
+          setChartInterval(IntervalOptions.DAY);
+        } else if (rangeDay > monthLength && rangeDay <= quaterLength) {
+          // 30 < range <= 90 case
+          setIntervalOptionList([
+            {
+              id: "hour",
+              name: "Hour",
+              value: "hour",
+              iconUrl: "",
+              disabled: true,
+            },
+            {
+              id: "day",
+              name: "Day",
+              value: "day",
+              iconUrl: "",
+              disabled: false,
+            },
+            {
+              id: "week",
+              name: "Week",
+              value: "week",
+              iconUrl: "",
+              disabled: false,
+            },
+          ]);
+          setChartInterval(IntervalOptions.WEEK);
+        } else if (rangeDay > quaterLength) {
+          // range > 90 case
+          setIntervalOptionList([
+            {
+              id: "hour",
+              name: "Hour",
+              value: "hour",
+              iconUrl: "",
+              disabled: true,
+            },
+            {
+              id: "day",
+              name: "Day",
+              value: "day",
+              iconUrl: "",
+              disabled: false,
+            },
+            {
+              id: "week",
+              name: "Week",
+              value: "week",
+              iconUrl: "",
+              disabled: false,
+            },
+          ]);
+          setChartInterval(IntervalOptions.WEEK);
+        }
+      }
+      // setIntervalOptionList()
     },
     [setSearchForm],
   );
@@ -473,7 +639,7 @@ export const ProtocolDetails: FC = () => {
       protocol: protocolName,
       sourceChain: [],
       targetChain: [],
-      interval: "day",
+      interval: chartInterval,
     });
     setProtocolChartData(protocolChartData);
     isInitialChartLoaded.current = true;
@@ -482,7 +648,7 @@ export const ProtocolDetails: FC = () => {
     } else {
       setChartDataStatus(ListDataStatus.EMPTY);
     }
-  }, [apiUrl, protocolName, fetchProtocolChartData]);
+  }, [apiUrl, protocolName, fetchProtocolChartData, chartInterval]);
 
   const initPageData = useCallback(async () => {
     if (!protocolName) {
@@ -602,7 +768,8 @@ export const ProtocolDetails: FC = () => {
               direction="column"
               formData={searchForm}
               formKey="dateRange"
-              setFormData={handleSetSearchForm}
+              setFormData={handleSetSearchFormByDateSelect}
+              isShortcutItemYearHidden={true}
             />
           </div>
           <div className={`${classes.serachRowItem} ${classes.rowItemChain}`}>
@@ -627,7 +794,7 @@ export const ProtocolDetails: FC = () => {
               setFormData={handleSetSearchForm}
             />
           </div>
-          <div className={classes.serachRowItem}>
+          <div className={`${classes.serachRowItem} ${classes.rowItemInterval}`}>
             <SearchSelect
               label="Interval"
               type="list"

@@ -60,6 +60,12 @@ export const getProtocolsList = ({
     });
 };
 
+export enum IntervalOptions {
+  HOUR = "hour",
+  DAY = "day",
+  WEEK = "week",
+}
+
 interface GetProtocolChartDataParams {
   abortSignal?: AbortSignal;
   apiUrl: string;
@@ -67,7 +73,7 @@ interface GetProtocolChartDataParams {
   protocol: string;
   sourceChain?: [string] | [];
   targetChain?: [string] | [];
-  interval?: "day" | "hour";
+  interval?: IntervalOptions;
 }
 
 interface GetProtocolChartDataOutput {
@@ -105,7 +111,6 @@ export const getProtocolChartData = ({
         sourceChain,
         targetChain,
         interval,
-        timestamp: new Date().getTime(),
       },
       method: "POST",
       signal: abortSignal,

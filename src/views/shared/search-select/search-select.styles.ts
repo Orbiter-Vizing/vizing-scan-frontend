@@ -111,4 +111,9 @@ export const useSearchSelectStyles = createUseStyles((theme: Theme) => ({
     color: theme.palette.white.transparency40,
     padding: "10px",
   },
+  disabled: {
+    opacity: 0.5,
+    pointerEvents: "none",
+    cursor: "not-allowed",
+  },
 }));

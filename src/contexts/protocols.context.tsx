@@ -1,6 +1,10 @@
 import { FC, PropsWithChildren, createContext, useCallback, useContext, useMemo } from "react";
 
-import { getProtocolChartData, getProtocolsList } from "src/adapters/protocols-api";
+import {
+  getProtocolChartData,
+  getProtocolsList,
+  IntervalOptions,
+} from "src/adapters/protocols-api";
 import { getProtocolConfig } from "src/assets/protocols-icons";
 import { ChainConfig, getCurrentEnvChainConfig } from "src/assets/chains-config";
 import { ProtocolConfig } from "src/assets/protocols-icons";
@@ -35,7 +39,7 @@ interface fetchProtocolChartDataParams {
   protocol: string;
   sourceChain?: [string] | [];
   targetChain?: [string] | [];
-  interval?: "day" | "hour";
+  interval?: IntervalOptions;
 }
 
 export interface fetchProtocolChartDataResponse {

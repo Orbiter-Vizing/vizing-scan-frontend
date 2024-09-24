@@ -124,6 +124,9 @@ export const useProtocolDetailsStyles = createUseStyles((theme: Theme) => ({
   rowItemChain: {
     minWidth: 160,
   },
+  rowItemInterval: {
+    minWidth: 120,
+  },
   // table style
   tableWrap: {
     marginTop: 12,
