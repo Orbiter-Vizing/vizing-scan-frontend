@@ -4,7 +4,7 @@ import Skeleton from "@mui/material/Skeleton";
 import IconPreArrow from "src/assets/icon/pre-arrow.svg?react";
 import IconNextArrow from "src/assets/icon/next-arrow.svg?react";
 
-import { useAddressTxListStyles } from "src/views/address-tx-list/address-tx-list.styles";
+import { useTxHubListStyles } from "src/views/tx-hub-list/tx-hub-list.styles";
 import { SearchSelect } from "src/views/shared/search-select/search-select.view";
 import { StatusIcon } from "src/views/shared/status-icon/icon.view";
 import { Icon } from "src/views/shared/icon/icon.view";
@@ -129,10 +129,10 @@ enum ListDataStatus {
   EMPTY = "empty",
 }
 
-export const AddressTxList: FC = () => {
+export const TxHubList: FC = () => {
   const navigate = useNavigate();
-  const { address } = useParams();
-  const classes = useAddressTxListStyles();
+  const { txHash } = useParams();
+  const classes = useTxHubListStyles();
   const { fetchMessagesList } = useMessagesContext();
   const [messagesList, setMessagesList] = useState<MessagesListItem[]>([]);
   const [messagesListMeta, setMessagesListMeta] = useState<MessageListMeta>();
@@ -142,7 +142,7 @@ export const AddressTxList: FC = () => {
     protocolName: "",
     fromChainId: "",
     toChainId: "",
-    queryHash: address,
+    queryHash: txHash,
   });
   const [page, setPage] = useState(1);
   const [listDataStatus, setListDataStatus] = useState<ListDataStatus>(ListDataStatus.LOADING);
@@ -165,12 +165,11 @@ export const AddressTxList: FC = () => {
   };
 
   const initPageData = useCallback(async () => {
-    console.log("initPageData call");
     const messagesListResponse = await fetchMessagesList({
       apiUrl,
       page: initialPage,
       pageSize,
-      q: address,
+      q: txHash,
       dateRange: [],
       protocol: [],
       sourceChain: [],
@@ -182,10 +181,9 @@ export const AddressTxList: FC = () => {
     setMessagesListMeta(messagesListResponse.meta);
     handleListStatus(messagesListResponse.list);
     isInitialDataLoaded.current = true;
-  }, [fetchMessagesList, apiUrl, address]); // add messagesList will cause multi-render
+  }, [fetchMessagesList, apiUrl, txHash]); // add messagesList will cause multi-render
 
   const getListData = useCallback(async () => {
-    console.log("getListData call");
     const { dateRange, protocolName, fromChainId, toChainId } = searchForm;
     let startDateString = null;
     let endDateString = null;
@@ -198,7 +196,7 @@ export const AddressTxList: FC = () => {
       apiUrl,
       page,
       pageSize,
-      q: address,
+      q: txHash,
       dateRange: startDateString && endDateString ? [startDateString, endDateString] : [],
       protocol: protocolName ? [protocolName] : [],
       sourceChain: fromChainId ? [fromChainId] : [],
@@ -207,7 +205,7 @@ export const AddressTxList: FC = () => {
     setMessagesList(messagesListResponse.list);
     setMessagesListMeta(messagesListResponse.meta);
     handleListStatus(messagesListResponse.list);
-  }, [searchForm, page, fetchMessagesList, apiUrl, address]);
+  }, [searchForm, page, fetchMessagesList, txHash, apiUrl]);
 
   const handlePaginationChange = async (event: ChangeEvent<unknown>, page: number) => {
     setPage(page);
@@ -223,49 +221,6 @@ export const AddressTxList: FC = () => {
     });
     return landingCount;
   };
-
-  // const handleHashSearch = async (searchHash?: string) => {
-  //   const targetHash = searchHash || inputValue;
-  //   // setListDataStatus(ListDataStatus.LOADING);
-  //   const messagesListResponse = await fetchMessagesList({
-  //     apiUrl,
-  //     page: 1,
-  //     pageSize,
-  //     q: targetHash,
-  //     dateRange: [],
-  //     protocol: [],
-  //     sourceChain: [],
-  //     targetChain: [],
-  //   });
-  //   const messagesList = messagesListResponse.list;
-  //   setTargetHash(targetHash);
-  //   if (targetHash.length === evmTxHashLength) {
-  //     // hash case
-  //     if (messagesList.length === 1) {
-  //       // hash case 1: one result, get transaction id and go to detail page
-  //       const targetTransaction = messagesList[0];
-  //       navigate(`/tx/${targetTransaction.transactionId}`);
-  //     } else if (messagesList.length > 1) {
-  //       // hash case 2: list result, render list in the table
-  //       setMessagesListMeta(messagesListResponse.meta);
-  //       setMessagesList(messagesList);
-  //       const landingCount = calculateHashSearchLandingCount(messagesList);
-  //       setHashSearchLandingCount(landingCount);
-  //       handleListStatus(messagesListResponse.list);
-  //     } else {
-  //       // hash case 3: 0 result, render no result list in the table
-  //       setMessagesListMeta(messagesListResponse.meta);
-  //     }
-  //   } else if (targetHash.length === evmAddressLength) {
-  //     // address case
-  //     // current page render new list through address
-  //     setMessagesListMeta(messagesListResponse.meta);
-  //     setMessagesList(messagesList);
-  //     const landingCount = calculateHashSearchLandingCount(messagesList);
-  //     setHashSearchLandingCount(landingCount);
-  //     handleListStatus(messagesListResponse.list);
-  //   }
-  // };
 
   const handleHashNavigate = (e: React.MouseEvent, hash: string) => {
     e.stopPropagation();
@@ -292,14 +247,6 @@ export const AddressTxList: FC = () => {
   };
 
   useEffect(() => {
-    // console.log("init effect call");
-    // const initTimerId = setTimeout(() => {
-    //   console.log("timeout init call");
-    //   initPageData();
-    // }, 50);
-    // return () => {
-    //   clearTimeout(initTimerId);
-    // };
     initPageData();
   }, [initPageData]);
 
@@ -314,8 +261,8 @@ export const AddressTxList: FC = () => {
     <div className={classes.messagesWrap}>
       <div className={classes.hashSearchWrap}>
         <div className={classes.hashLine}>
-          <span className={classes.label}>Address</span>
-          <div className={classes.targetHash}>{address || "--"}</div>
+          <span className={classes.label}>Transaction Details</span>
+          <div className={classes.targetHash}>{txHash || "--"}</div>
         </div>
         <div className={classes.messageSummaryLine}>
           <div className={classes.messageSummaryItem}>

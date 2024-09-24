@@ -7,6 +7,7 @@ import { Protocols } from "src/views/protocols/protocols.view";
 import { TxDetails } from "src/views/tx-details/tx-details.view";
 import { ProtocolDetails } from "src/views/protocol-details/protocol-details.view";
 import { AddressTxList } from "src/views/address-tx-list/address-tx-list.view";
+import { TxHubList } from "src/views/tx-hub-list/tx-hub-list.view";
 
 const components: Record<RouteId, ComponentType> = {
   messages: Messages,
@@ -14,6 +15,7 @@ const components: Record<RouteId, ComponentType> = {
   txDetails: TxDetails,
   protocolDetails: ProtocolDetails,
   addressTxList: AddressTxList,
+  txHubList: TxHubList,
 };
 
 export const Router: FC = () => {

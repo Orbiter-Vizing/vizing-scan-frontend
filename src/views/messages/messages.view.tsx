@@ -321,11 +321,11 @@ export const Messages: FC = () => {
     navigate(`/tx/${hash}`);
   };
 
-  const handleAddressClick = (transactionId: string) => {
-    if (!transactionId) {
+  const handleAddressClick = (address: string) => {
+    if (!address) {
       return;
     }
-    handleHashSearch(transactionId);
+    navigate(`/address/${address}`);
   };
 
   const handleSwitchClick = () => {

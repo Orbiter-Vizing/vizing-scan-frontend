@@ -1,7 +1,10 @@
-export type RouteId = "messages" | "txDetails" | "protocols" | "protocolDetails" | "addressTxList";
-// | "analytics"
-// | "tools"
-// | "statistics";
+export type RouteId =
+  | "messages"
+  | "txDetails"
+  | "protocols"
+  | "protocolDetails"
+  | "addressTxList"
+  | "txHubList";
 
 export const routes: {
   [P in RouteId]: {
@@ -41,22 +44,10 @@ export const routes: {
     path: "/address/:address",
     text: "Address Tx List",
   },
-  // analytics: {
-  //   id: "analytics",
-  //   isPrivate: false,
-  //   path: "/analytics",
-  //   text: "Analytics",
-  // },
-  // tools: {
-  //   id: "tools",
-  //   isPrivate: false,
-  //   path: "/tools",
-  //   text: "Tools",
-  // },
-  // statistics: {
-  //   id: "statistics",
-  //   isPrivate: false,
-  //   path: "/statistics",
-  //   text: "Statistics",
-  // },
+  txHubList: {
+    id: "txHubList",
+    isPrivate: false,
+    path: "/txhub/:txHash",
+    text: "Transaction Hub List",
+  },
 };
