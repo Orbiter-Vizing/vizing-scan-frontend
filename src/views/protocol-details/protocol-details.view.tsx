@@ -205,12 +205,11 @@ export const ProtocolDetails: FC = () => {
   const apiUrl = getCurrentEnvApiUrl();
   const currentProtocolConfig = getProtocolConfig(protocolName);
 
-  const handleAddressClick = (transactionId: string) => {
-    if (!transactionId) {
+  const handleAddressClick = (address: string) => {
+    if (!address) {
       return;
     }
-    // TODO: jump to address or tx hash search page
-    // handleHashSearch(transactionId);
+    navigate(`/address/${address}`);
   };
 
   const handleHashNavigate = (e: React.MouseEvent, hash: string) => {

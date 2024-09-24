@@ -1,6 +1,7 @@
 import { FC, useState, useCallback, useEffect } from "react";
 import Skeleton from "@mui/material/Skeleton";
 import CountUp from "react-countup";
+import { useNavigate } from "react-router-dom";
 
 import { useProtocolsStyles } from "src/views/protocols/protocols.styles";
 import { SummaryData } from "src/views/shared/summary-data/summary-data.view";
@@ -25,6 +26,7 @@ import TableRow, { tableRowClasses } from "@mui/material/TableRow";
 import Pagination from "@mui/material/Pagination";
 import PaginationItem, { paginationItemClasses } from "@mui/material/PaginationItem";
 import { ChainConfig } from "src/assets/chains-config";
+import { ProtocolConfig } from "src/assets/protocols-icons";
 
 enum ListDataStatus {
   SUCCESS = "success",
@@ -49,7 +51,7 @@ const StyledTableRow = styled(TableRow)(() => ({
   [`&.${tableRowClasses.root}`]: {
     "&:hover": {
       background: "rgba(255, 255, 255, 0.08)",
-      // cursor: "pointer",
+      cursor: "pointer",
     },
     border: "1px solid #292223",
     borderLeft: "none",
@@ -97,6 +99,7 @@ const tableCellsNumber = 8;
 
 export const Protocols: FC = () => {
   const classes = useProtocolsStyles();
+  const navigate = useNavigate();
   const { fetchProtocolsList } = useProtocolsContext();
 
   const [listDataStatus, setListDataStatus] = useState<ListDataStatus>(ListDataStatus.LOADING);
@@ -126,6 +129,13 @@ export const Protocols: FC = () => {
     } else if (list.length === 0) {
       setListDataStatus(ListDataStatus.EMPTY);
     }
+  };
+
+  const handleRowClick = (protocol: ProtocolConfig | undefined) => {
+    if (!protocol) {
+      return;
+    }
+    navigate(`/protocol/${protocol.name}`);
   };
 
   const initPageData = useCallback(async () => {
@@ -188,7 +198,7 @@ export const Protocols: FC = () => {
                   // const formatTimeText = calculateRelativeTime(row.time);
                   return (
                     <StyledTableRow
-                      // onClick={(e) => handleHashNavigate(e, row.transactionId)}
+                      onClick={() => handleRowClick(row.protocol)}
                       key={row.protocol?.id}
                     >
                       <StyledTableCell align="left">
