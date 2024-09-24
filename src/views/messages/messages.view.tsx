@@ -52,7 +52,7 @@ const StyledTableRow = styled(TableRow)(() => ({
   [`&.${tableRowClasses.root}`]: {
     "&:hover": {
       background: "rgba(255, 255, 255, 0.08)",
-      // cursor: "pointer",
+      cursor: "pointer",
     },
     border: "1px solid #292223",
     borderLeft: "none",
@@ -324,7 +324,8 @@ export const Messages: FC = () => {
     navigate(`/tx/${hash}`);
   };
 
-  const handleAddressClick = (address: string) => {
+  const handleAddressClick = (e: React.MouseEvent, address: string) => {
+    e.stopPropagation();
     if (!address) {
       return;
     }
@@ -338,6 +339,13 @@ export const Messages: FC = () => {
     newSearchForm.fromChainId = toChain;
     newSearchForm.toChainId = fromChain;
     setSearchForm(newSearchForm);
+  };
+
+  const handleRowClick = (transactionId: string) => {
+    if (!transactionId) {
+      return;
+    }
+    navigate(`/tx/${transactionId}`);
   };
 
   useEffect(() => {
@@ -487,7 +495,7 @@ export const Messages: FC = () => {
                     const formatTimeText = calculateRelativeTime(row.time);
                     return (
                       <StyledTableRow
-                        // onClick={(e) => handleHashNavigate(e, row.transactionId)}
+                        onClick={() => handleRowClick(row.transactionId)}
                         key={row.id}
                       >
                         <StyledTableCell align="left">
@@ -498,7 +506,7 @@ export const Messages: FC = () => {
                         </StyledTableCell>
                         <StyledTableCell align="left">
                           <div
-                            onClick={() => handleAddressClick(row.from)}
+                            onClick={(e) => handleAddressClick(e, row.from)}
                             className={classes.addressCell}
                           >
                             {row.from}

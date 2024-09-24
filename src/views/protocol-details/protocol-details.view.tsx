@@ -243,7 +243,8 @@ export const ProtocolDetails: FC = () => {
   const apiUrl = getCurrentEnvApiUrl();
   const currentProtocolConfig = getProtocolConfig(protocolName);
 
-  const handleAddressClick = (address: string) => {
+  const handleAddressClick = (e: React.MouseEvent, address: string) => {
+    e.stopPropagation();
     if (!address) {
       return;
     }
@@ -504,6 +505,13 @@ export const ProtocolDetails: FC = () => {
     },
     [setSearchForm],
   );
+
+  const handleRowClick = (transactionId: string) => {
+    if (!transactionId) {
+      return;
+    }
+    navigate(`/tx/${transactionId}`);
+  };
 
   const renderChart = useCallback(() => {
     if (protocolChartData.charts.length === 0) {
@@ -843,7 +851,7 @@ export const ProtocolDetails: FC = () => {
                     const formatTimeText = calculateRelativeTime(row.time);
                     return (
                       <StyledTableRow
-                        // onClick={(e) => handleHashNavigate(e, row.transactionId)}
+                        onClick={() => handleRowClick(row.transactionId)}
                         key={row.id}
                       >
                         <StyledTableCell align="left">
@@ -854,7 +862,7 @@ export const ProtocolDetails: FC = () => {
                         </StyledTableCell>
                         <StyledTableCell align="left">
                           <div
-                            onClick={() => handleAddressClick(row.from)}
+                            onClick={(e) => handleAddressClick(e, row.from)}
                             className={classes.addressCell}
                           >
                             {row.from}
