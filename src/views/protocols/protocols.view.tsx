@@ -144,7 +144,6 @@ export const Protocols: FC = () => {
     const protocolsListResponse = await fetchProtocolsList({
       apiUrl,
     });
-    console.log("protocols initPageData");
     setProtocolsList(protocolsListResponse);
     handleListStatus(protocolsListResponse);
   }, [fetchProtocolsList, apiUrl]); // add messagesList will cause multi-render

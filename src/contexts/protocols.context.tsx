@@ -75,7 +75,6 @@ const ProtocolsProvider: FC<PropsWithChildren> = (props) => {
       page,
       pageSize,
     }: fetchProtocolsListParams): Promise<fetchProtocolsListResponseItem[]> => {
-      console.log("fetchProtocolsList call");
       const apiRes = await getProtocolsList({
         apiUrl,
         page,

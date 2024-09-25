@@ -125,10 +125,10 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
         "The First Seamless Transaction Tech in Omni Layer2 Cross-Rollup Game. Play to earn Airdrop.",
     },
     {
-      id: "ColorProtocol",
+      id: "Color",
       name: "Color Protocol",
       iconUrl: logoColorProtocol,
-      value: "Color Protocol",
+      value: "Color",
       links: [
         {
           linkLogo: IconTwitter,
@@ -490,10 +490,10 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
         "The Omnichain SLG Game. Mine, Craft, Build, and Battle in the wild Astra  Season 1 is Ongoing",
     },
     {
-      id: "ColorProtocol",
+      id: "Color",
       name: "Color Protocol",
       iconUrl: logoColorProtocol,
-      value: "Color Protocol",
+      value: "Color",
       links: [
         {
           linkLogo: IconTwitter,
@@ -596,10 +596,10 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
         "The First Seamless Transaction Tech in Omni Layer2 Cross-Rollup Game. Play to earn Airdrop.",
     },
     {
-      id: "ColorProtocol",
+      id: "Color",
       name: "Color Protocol",
       iconUrl: logoColorProtocol,
-      value: "Color Protocol",
+      value: "Color",
       links: [
         {
           linkLogo: IconTwitter,
@@ -873,13 +873,13 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
   ],
 };
 
-export const getProtocolConfig = (protocolName: string | undefined) => {
-  if (!protocolName) {
+export const getProtocolConfig = (protocolId: string | undefined) => {
+  if (!protocolId) {
     return;
   }
   const envString = import.meta.env.MODE as EnvMode;
   const result = ProtocolsConfigMap[envString].find((protocol) => {
-    return protocol.name === protocolName;
+    return protocol.id === protocolId;
   });
   return result;
 };

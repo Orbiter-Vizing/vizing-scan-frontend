@@ -50,7 +50,6 @@ export const getProtocolsList = ({
       url: "analytics/protocol/list",
     })
     .then((res) => {
-      console.log("getProtocolsList res", res);
       if (res.data.data) {
         return res.data.data;
       } else {
