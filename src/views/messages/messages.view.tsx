@@ -206,7 +206,6 @@ export const Messages: FC = () => {
 
   const handlePaginationChange = async (event: ChangeEvent<unknown>, page: number) => {
     setPage(page);
-    getListData();
   };
 
   const handleHashNavigate = (e: React.MouseEvent, hash: string) => {
