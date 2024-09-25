@@ -321,41 +321,37 @@ export const ProtocolDetails: FC = () => {
     setProtocolChartData(protocolChartData);
   }, [apiUrl, fetchProtocolChartData, searchForm, chartInterval]);
 
-  const getCachedCurretEnvChainSeriesDataTemplate = useMemo(() => {
-    const getCurretEnvChainSeriesDataTemplate = () => {
-      const currentEnvChainConfig = getCurrentEnvChainConfig();
-      const seriesDataTemplate: Array<{
-        name: string;
-        id: string;
-        type: string;
-        stack: string;
-        emphasis: { focus: string };
-        data: number[];
+  const getCurretEnvChainSeriesDataTemplate = () => {
+    const currentEnvChainConfig = getCurrentEnvChainConfig();
+    const seriesDataTemplate: Array<{
+      name: string;
+      id: string;
+      type: string;
+      stack: string;
+      emphasis: { focus: string };
+      data: number[];
+      itemStyle: {
+        color: string;
+      };
+    }> = [];
+    currentEnvChainConfig.forEach((chainConfig) => {
+      const { name, id, chartColor } = chainConfig;
+      seriesDataTemplate.push({
+        name,
+        id,
+        type: "bar",
+        stack: "count",
+        emphasis: {
+          focus: "series",
+        },
+        data: [],
         itemStyle: {
-          color: string;
-        };
-      }> = [];
-      currentEnvChainConfig.forEach((chainConfig) => {
-        const { name, id, chartColor } = chainConfig;
-        seriesDataTemplate.push({
-          name,
-          id,
-          type: "bar",
-          stack: "count",
-          emphasis: {
-            focus: "series",
-          },
-          data: [],
-          itemStyle: {
-            color: chartColor,
-          },
-        });
+          color: chartColor,
+        },
       });
-      return seriesDataTemplate;
-    };
-
-    return getCurretEnvChainSeriesDataTemplate();
-  }, []);
+    });
+    return seriesDataTemplate;
+  };
 
   const resetSearchForm = () => {
     // setMessagesList([]);
@@ -542,7 +538,7 @@ export const ProtocolDetails: FC = () => {
         show: false,
       },
     };
-    const seriesData = getCachedCurretEnvChainSeriesDataTemplate;
+    const seriesData = getCurretEnvChainSeriesDataTemplate();
     xAxiasObject.data = []; // walk around for ts check: string cannot assign to never
     protocolChartData.charts.forEach((charItem) => {
       // 1. create xAxis array
@@ -636,7 +632,7 @@ export const ProtocolDetails: FC = () => {
     };
 
     chart.current.setOption(option);
-  }, [chartInterval, protocolChartData.charts, getCachedCurretEnvChainSeriesDataTemplate]);
+  }, [chartInterval, protocolChartData.charts]);
 
   const initProtocolChart = useCallback(async () => {
     if (!protocolName) {
