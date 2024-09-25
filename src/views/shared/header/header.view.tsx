@@ -5,6 +5,7 @@ import { useHeaderStyles } from "src/views/shared/header/header.styles";
 import VizingScanLogo from "src/assets/vizing-scan-logo.svg?react";
 import VizingScanText from "src/assets/vizing-scan-text.svg?react";
 import { routes } from "src/routes";
+import { HashSearchInput } from "src/views/shared/hash-search-input/hash-search-input.view";
 
 const headerTabs = [
   {
@@ -57,15 +58,9 @@ export const Header: FC = () => {
           );
         })}
       </div>
-      {/* <div className={classes.rightBlock}>
-        {socialMediaList.map((item) => (
-          <a key={item.id} href={item.link} target="_blank">
-            <span>
-              <item.icon className={classes.socialIcon} />
-            </span>
-          </a>
-        ))}
-      </div> */}
+      <div className={classes.rightBlock}>
+        {location.pathname !== routes.messages.path && <HashSearchInput />}
+      </div>
     </div>
   );
 };

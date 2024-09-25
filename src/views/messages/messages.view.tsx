@@ -8,7 +8,7 @@ import { useMessagesStyles } from "src/views/messages/messages.styles";
 import { SearchSelect } from "src/views/shared/search-select/search-select.view";
 import { StatusIcon } from "src/views/shared/status-icon/icon.view";
 import { Icon } from "src/views/shared/icon/icon.view";
-import { getCurrentEnvApiUrl, evmTxHashLength, evmAddressLength } from "src/constants";
+import { getCurrentEnvApiUrl } from "src/constants";
 import { useMessagesContext } from "src/contexts/messages.context";
 import { MessagesListItem } from "src/contexts/messages.context";
 import { calculateRelativeTime } from "src/utils";
@@ -17,12 +17,10 @@ import { getProtocolsSearchSelectList } from "src/assets/protocols-icons";
 import { getChainsSearchSelectList } from "src/assets/chains-config";
 import { MessageListMeta } from "src/adapters/messages-api";
 import { SummaryData } from "src/views/shared/summary-data/summary-data.view";
+import { HashSearchInput } from "src/views/shared/hash-search-input/hash-search-input.view";
 // assets
 import IconNoData from "src/assets/icon/no-data.svg?react";
-import IconBack from "src/assets/icon/back.svg?react";
 import IconTransaction from "src/assets/icon/transaction.svg?react";
-import SearchIcon from "src/assets/icon/search.svg?react";
-import DeleteIcon from "src/assets/icon/delete.svg?react";
 // Mui table
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -127,12 +125,6 @@ export interface MessagesSearchFrom {
   queryHash?: string;
 }
 
-enum ListType {
-  ADDRESS = "address",
-  TRANSACTION = "transaction",
-  MESSAGES = "messages",
-}
-
 enum ListDataStatus {
   SUCCESS = "success",
   LOADING = "loading",
@@ -143,12 +135,8 @@ export const Messages: FC = () => {
   const navigate = useNavigate();
   const classes = useMessagesStyles();
   const { fetchMessagesList } = useMessagesContext();
-  const [inputValue, setInputValue] = useState("");
-  // const [summaryData, setSummaryData] = useState(defaultSummaryData);
   const [messagesList, setMessagesList] = useState<MessagesListItem[]>([]);
   const [messagesListMeta, setMessagesListMeta] = useState<MessageListMeta>();
-  const [hashSearchLandingCount, setHashSearchLandingCount] = useState<number>();
-  const [targetHash, setTargetHash] = useState<string>();
   const [searchForm, setSearchForm] = useState<MessagesSearchFrom>({
     dateRange: [null, null],
     protocolName: "",
@@ -157,15 +145,8 @@ export const Messages: FC = () => {
     queryHash: "",
   });
   const [page, setPage] = useState(1);
-  // const [totalPage, setTotalPage] = useState<number>();
-  const [listType, setListType] = useState<ListType>(ListType.MESSAGES);
   const [listDataStatus, setListDataStatus] = useState<ListDataStatus>(ListDataStatus.LOADING);
   const apiUrl = getCurrentEnvApiUrl();
-
-  const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setInputValue(value);
-  };
 
   const handleSetSearchForm = useCallback(
     (formData: MessagesSearchFrom) => {
@@ -213,7 +194,6 @@ export const Messages: FC = () => {
       apiUrl,
       page,
       pageSize,
-      q: targetHash,
       dateRange: startDateString && endDateString ? [startDateString, endDateString] : [],
       protocol: protocolName ? [protocolName] : [],
       sourceChain: fromChainId ? [fromChainId] : [],
@@ -222,98 +202,11 @@ export const Messages: FC = () => {
     setMessagesList(messagesListResponse.list);
     setMessagesListMeta(messagesListResponse.meta);
     handleListStatus(messagesListResponse.list);
-  }, [searchForm, page, fetchMessagesList, targetHash, apiUrl]);
+  }, [searchForm, page, fetchMessagesList, apiUrl]);
 
   const handlePaginationChange = async (event: ChangeEvent<unknown>, page: number) => {
     setPage(page);
     getListData();
-  };
-
-  const calculateHashSearchLandingCount = (totalList: MessagesListItem[]) => {
-    let landingCount = 0;
-    totalList.forEach((item: MessagesListItem) => {
-      if (item.status === TxStatus.Landing) {
-        landingCount += 1;
-      }
-    });
-    return landingCount;
-  };
-
-  const handleHashSearch = async (searchHash?: string) => {
-    const targetHash = searchHash || inputValue;
-    // setListDataStatus(ListDataStatus.LOADING);
-    const messagesListResponse = await fetchMessagesList({
-      apiUrl,
-      page: 1,
-      pageSize,
-      q: targetHash,
-      dateRange: [],
-      protocol: [],
-      sourceChain: [],
-      targetChain: [],
-    });
-    const messagesList = messagesListResponse.list;
-    setTargetHash(targetHash);
-    if (targetHash.length === evmTxHashLength) {
-      // hash case
-      if (messagesList.length === 1) {
-        // hash case 1: one result, get transaction id and go to detail page
-        const targetTransaction = messagesList[0];
-        navigate(`/tx/${targetTransaction.transactionId}`);
-      } else {
-        // hash case 2: list result, render list in the table
-        // setMessagesListMeta(messagesListResponse.meta);
-        // setMessagesList(messagesList);
-        // const landingCount = calculateHashSearchLandingCount(messagesList);
-        // setHashSearchLandingCount(landingCount);
-        // setListType(ListType.TRANSACTION);
-        // handleListStatus(messagesListResponse.list);
-        navigate(`/txhub/${targetHash}`);
-      }
-      // else {
-      //   // hash case 3: 0 result, render no result list in the table
-      //   setMessagesListMeta(messagesListResponse.meta);
-      // }
-    } else if (targetHash.length === evmAddressLength) {
-      // address case
-      // current page render new list through address
-      // setMessagesListMeta(messagesListResponse.meta);
-      // setMessagesList(messagesList);
-      // const landingCount = calculateHashSearchLandingCount(messagesList);
-      // setHashSearchLandingCount(landingCount);
-      // setListType(ListType.ADDRESS);
-      // handleListStatus(messagesListResponse.list);
-      navigate(`/address/${targetHash}`);
-    }
-  };
-
-  const handleKeyDown = async (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      handleHashSearch();
-    }
-  };
-
-  const resetList = () => {
-    setMessagesList([]);
-    setMessagesListMeta(undefined);
-    setTargetHash(undefined);
-    setSearchForm({
-      dateRange: [null, null],
-      protocolName: "",
-      fromChainId: "",
-      toChainId: "",
-      queryHash: "",
-    });
-  };
-
-  const handleInputDeleteClick = () => {
-    setInputValue("");
-  };
-
-  const handleBackIconClick = () => {
-    setListType(ListType.MESSAGES);
-    setInputValue("");
-    resetList();
   };
 
   const handleHashNavigate = (e: React.MouseEvent, hash: string) => {
@@ -363,81 +256,10 @@ export const Messages: FC = () => {
 
   return (
     <div className={classes.messagesWrap}>
-      {listType === ListType.MESSAGES && (
-        <SummaryData />
-        // <div className={classes.dataCardWrap}>
-        //   {summaryData.map((data) => {
-        //     return <DataCard key={data.id} data={data} />;
-        //   })}
-        // </div>
-      )}
-      {listType === ListType.ADDRESS && (
-        <div className={classes.hashSearchWrap}>
-          <div className={classes.backIconWrap}>
-            <IconBack onClick={handleBackIconClick} className={classes.backIcon} />
-            Messages List
-          </div>
-          <div className={classes.hashLine}>
-            <span className={classes.label}>Address</span>
-            <div className={classes.targetHash}>{targetHash}</div>
-          </div>
-          <div className={classes.messageSummaryLine}>
-            <div className={classes.messageSummaryItem}>
-              <span className={classes.label}>Total Messages</span>
-              <div className={classes.messageSummaryContent}>
-                {messagesListMeta ? messagesListMeta.itemCount : "--"}
-              </div>
-            </div>
-            <div className={classes.messageSummaryItem}>
-              <span className={classes.label}>Landing Messages</span>
-              <div className={classes.messageSummaryContent}>{hashSearchLandingCount || "--"}</div>
-            </div>
-          </div>
-        </div>
-      )}
-      {listType === ListType.TRANSACTION && (
-        <div className={classes.hashSearchWrap}>
-          <div className={classes.backIconWrap}>
-            <IconBack onClick={handleBackIconClick} className={classes.backIcon} />
-            Messages List
-          </div>
-          <div className={classes.hashLine}>
-            <span className={classes.label}>Transaction Details</span>
-            <div className={classes.targetHash}>{targetHash}</div>
-          </div>
-          <div className={classes.messageSummaryLine}>
-            <div className={classes.messageSummaryItem}>
-              <span className={classes.label}>Total Messages</span>
-              <div className={classes.messageSummaryContent}>
-                {messagesListMeta ? messagesListMeta.itemCount : "--"}
-              </div>
-            </div>
-            <div className={classes.messageSummaryItem}>
-              <span className={classes.label}>Landing Messages</span>
-              <div className={classes.messageSummaryContent}>{hashSearchLandingCount || "--"}</div>
-            </div>
-          </div>
-        </div>
-      )}
+      <SummaryData />
       <div>
         <div className={classes.tableHead}>
-          {listType === ListType.MESSAGES && (
-            <div className={classes.searchInputWrap}>
-              <SearchIcon className={classes.searchIcon} />
-              <input
-                autoFocus
-                className={classes.searchInput}
-                onChange={onInputChange}
-                onKeyDown={handleKeyDown}
-                placeholder="Search by Address or Txn Hash"
-                value={inputValue}
-              />
-              {inputValue && (
-                <DeleteIcon onClick={handleInputDeleteClick} className={classes.deleteIcon} />
-              )}
-            </div>
-          )}
-          <div></div>
+          <HashSearchInput />
           <div className={classes.searchSelectWrap}>
             <SearchSelect
               label="Date"
