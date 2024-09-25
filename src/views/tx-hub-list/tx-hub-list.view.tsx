@@ -1,10 +1,10 @@
-import { ChangeEvent, FC, useEffect, useState, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { ChangeEvent, FC, useEffect, useState, useCallback, useRef } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Skeleton from "@mui/material/Skeleton";
 import IconPreArrow from "src/assets/icon/pre-arrow.svg?react";
 import IconNextArrow from "src/assets/icon/next-arrow.svg?react";
 
-import { useMessagesStyles } from "src/views/messages/messages.styles";
+import { useTxHubListStyles } from "src/views/tx-hub-list/tx-hub-list.styles";
 import { SearchSelect } from "src/views/shared/search-select/search-select.view";
 import { StatusIcon } from "src/views/shared/status-icon/icon.view";
 import { Icon } from "src/views/shared/icon/icon.view";
@@ -16,8 +16,6 @@ import { DateValue } from "src/views/shared/search-select/search-select.view";
 import { getProtocolsSearchSelectList } from "src/assets/protocols-icons";
 import { getChainsSearchSelectList } from "src/assets/chains-config";
 import { MessageListMeta } from "src/adapters/messages-api";
-import { SummaryData } from "src/views/shared/summary-data/summary-data.view";
-import { HashSearchInput } from "src/views/shared/hash-search-input/hash-search-input.view";
 // assets
 import IconNoData from "src/assets/icon/no-data.svg?react";
 import IconTransaction from "src/assets/icon/transaction.svg?react";
@@ -50,7 +48,7 @@ const StyledTableRow = styled(TableRow)(() => ({
   [`&.${tableRowClasses.root}`]: {
     "&:hover": {
       background: "rgba(255, 255, 255, 0.08)",
-      cursor: "pointer",
+      // cursor: "pointer",
     },
     border: "1px solid #292223",
     borderLeft: "none",
@@ -131,22 +129,25 @@ enum ListDataStatus {
   EMPTY = "empty",
 }
 
-export const Messages: FC = () => {
+export const TxHubList: FC = () => {
   const navigate = useNavigate();
-  const classes = useMessagesStyles();
+  const { txHash } = useParams();
+  const classes = useTxHubListStyles();
   const { fetchMessagesList } = useMessagesContext();
   const [messagesList, setMessagesList] = useState<MessagesListItem[]>([]);
   const [messagesListMeta, setMessagesListMeta] = useState<MessageListMeta>();
+  const [landingCount, setLandingCount] = useState<number>();
   const [searchForm, setSearchForm] = useState<MessagesSearchFrom>({
     dateRange: [null, null],
     protocolName: "",
     fromChainId: "",
     toChainId: "",
-    queryHash: "",
+    queryHash: txHash,
   });
   const [page, setPage] = useState(1);
   const [listDataStatus, setListDataStatus] = useState<ListDataStatus>(ListDataStatus.LOADING);
   const apiUrl = getCurrentEnvApiUrl();
+  const isInitialDataLoaded = useRef(false);
 
   const handleSetSearchForm = useCallback(
     (formData: MessagesSearchFrom) => {
@@ -164,22 +165,23 @@ export const Messages: FC = () => {
   };
 
   const initPageData = useCallback(async () => {
-    // const summaryData = await fetchSummaryData({ apiUrl });
-    // setSummaryData(summaryData);
     const messagesListResponse = await fetchMessagesList({
       apiUrl,
       page: initialPage,
       pageSize,
-      q: "",
+      q: txHash,
       dateRange: [],
       protocol: [],
       sourceChain: [],
       targetChain: [],
     });
+    const landingCount = calculateHashSearchLandingCount(messagesListResponse.list);
+    setLandingCount(landingCount);
     setMessagesList(messagesListResponse.list);
     setMessagesListMeta(messagesListResponse.meta);
     handleListStatus(messagesListResponse.list);
-  }, [fetchMessagesList, apiUrl]); // add messagesList will cause multi-render
+    isInitialDataLoaded.current = true;
+  }, [fetchMessagesList, apiUrl, txHash]); // add messagesList will cause multi-render
 
   const getListData = useCallback(async () => {
     const { dateRange, protocolName, fromChainId, toChainId } = searchForm;
@@ -194,6 +196,7 @@ export const Messages: FC = () => {
       apiUrl,
       page,
       pageSize,
+      q: txHash,
       dateRange: startDateString && endDateString ? [startDateString, endDateString] : [],
       protocol: protocolName ? [protocolName] : [],
       sourceChain: fromChainId ? [fromChainId] : [],
@@ -202,11 +205,21 @@ export const Messages: FC = () => {
     setMessagesList(messagesListResponse.list);
     setMessagesListMeta(messagesListResponse.meta);
     handleListStatus(messagesListResponse.list);
-  }, [searchForm, page, fetchMessagesList, apiUrl]);
+  }, [searchForm, page, fetchMessagesList, txHash, apiUrl]);
 
   const handlePaginationChange = async (event: ChangeEvent<unknown>, page: number) => {
     setPage(page);
     getListData();
+  };
+
+  const calculateHashSearchLandingCount = (totalList: MessagesListItem[]) => {
+    let landingCount = 0;
+    totalList.forEach((item: MessagesListItem) => {
+      if (item.status === TxStatus.Landing) {
+        landingCount += 1;
+      }
+    });
+    return landingCount;
   };
 
   const handleHashNavigate = (e: React.MouseEvent, hash: string) => {
@@ -217,8 +230,7 @@ export const Messages: FC = () => {
     navigate(`/tx/${hash}`);
   };
 
-  const handleAddressClick = (e: React.MouseEvent, address: string) => {
-    e.stopPropagation();
+  const handleAddressClick = (address: string) => {
     if (!address) {
       return;
     }
@@ -234,32 +246,39 @@ export const Messages: FC = () => {
     setSearchForm(newSearchForm);
   };
 
-  const handleRowClick = (transactionId: string) => {
-    if (!transactionId) {
-      return;
-    }
-    navigate(`/tx/${transactionId}`);
-  };
-
   useEffect(() => {
     initPageData();
   }, [initPageData]);
 
   // after searchForm select, get new list
   useEffect(() => {
-    getListData();
+    if (isInitialDataLoaded.current) {
+      getListData();
+    }
   }, [searchForm, getListData]);
-
-  // useEffect(() => {
-  //   getListData();
-  // }, [inputValue, getListData]);
 
   return (
     <div className={classes.messagesWrap}>
-      <SummaryData />
+      <div className={classes.hashSearchWrap}>
+        <div className={classes.hashLine}>
+          <span className={classes.label}>Transaction Details</span>
+          <div className={classes.targetHash}>{txHash || "--"}</div>
+        </div>
+        <div className={classes.messageSummaryLine}>
+          <div className={classes.messageSummaryItem}>
+            <span className={classes.label}>Total Messages</span>
+            <div className={classes.messageSummaryContent}>
+              {messagesListMeta ? messagesListMeta.itemCount : "--"}
+            </div>
+          </div>
+          <div className={classes.messageSummaryItem}>
+            <span className={classes.label}>Landing Messages</span>
+            <div className={classes.messageSummaryContent}>{landingCount || "--"}</div>
+          </div>
+        </div>
+      </div>
       <div>
         <div className={classes.tableHead}>
-          <HashSearchInput />
           <div className={classes.searchSelectWrap}>
             <SearchSelect
               label="Date"
@@ -317,7 +336,7 @@ export const Messages: FC = () => {
                     const formatTimeText = calculateRelativeTime(row.time);
                     return (
                       <StyledTableRow
-                        onClick={() => handleRowClick(row.transactionId)}
+                        // onClick={(e) => handleHashNavigate(e, row.transactionId)}
                         key={row.id}
                       >
                         <StyledTableCell align="left">
@@ -328,7 +347,7 @@ export const Messages: FC = () => {
                         </StyledTableCell>
                         <StyledTableCell align="left">
                           <div
-                            onClick={(e) => handleAddressClick(e, row.from)}
+                            onClick={() => handleAddressClick(row.from)}
                             className={classes.addressCell}
                           >
                             {row.from}
@@ -376,7 +395,7 @@ export const Messages: FC = () => {
                               <Icon
                                 className={classes.protocolCellIcon}
                                 isRounded
-                                size={20}
+                                size={32}
                                 url={row.protocol.iconUrl}
                               />
                               {row.protocol.name}

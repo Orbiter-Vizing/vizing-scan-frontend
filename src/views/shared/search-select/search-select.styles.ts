@@ -4,17 +4,27 @@ import { Theme } from "src/styles/theme";
 
 export const useSearchSelectStyles = createUseStyles((theme: Theme) => ({
   searchSelectWrap: {},
-  searchSelectButton: {
+  searchSelectButtonWrap: {
     "&:hover": {
       cursor: "pointer",
     },
     display: "flex",
+    flexDirection: "row",
     alignItems: "center",
     padding: "0 8px 0",
     color: theme.palette.white.main,
     fontSize: 14,
     fontWeight: 400,
     height: 44,
+  },
+  columnFlex: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+  },
+  selectButton: {
+    display: "flex",
+    alignItems: "center",
   },
   label: {
     color: theme.palette.white.transparency40,
@@ -33,7 +43,7 @@ export const useSearchSelectStyles = createUseStyles((theme: Theme) => ({
       backgroundColor: theme.palette.white.transparency10,
       borderRadius: 2,
     },
-    height: 256,
+    maxHeight: 256,
     minWidth: 144,
     overflowY: "scroll",
     overflowX: "hidden",
@@ -100,5 +110,10 @@ export const useSearchSelectStyles = createUseStyles((theme: Theme) => ({
     fontSize: 12,
     color: theme.palette.white.transparency40,
     padding: "10px",
+  },
+  disabled: {
+    opacity: 0.5,
+    pointerEvents: "none",
+    cursor: "not-allowed",
   },
 }));

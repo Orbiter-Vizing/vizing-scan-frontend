@@ -6,6 +6,7 @@ import { Layout } from "src/views/core/layout/layout.view";
 // import { routes } from "src/routes";
 import { Router } from "src/views/core/router/router.view";
 import { MessagesProvider } from "src/contexts/messages.context";
+import { ProtocolsProvider } from "src/contexts/protocols.context";
 
 // const router = createBrowserRouter([
 //   {
@@ -23,10 +24,12 @@ export const App = (): JSX.Element => {
 
   return (
     <MessagesProvider>
-      <Layout>
-        {/* <RouterProvider router={router} /> */}
-        <Router />
-      </Layout>
+      <ProtocolsProvider>
+        <Layout>
+          {/* <RouterProvider router={router} /> */}
+          <Router />
+        </Layout>
+      </ProtocolsProvider>
     </MessagesProvider>
   );
 };

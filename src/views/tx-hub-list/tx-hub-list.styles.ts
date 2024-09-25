@@ -2,7 +2,7 @@ import { createUseStyles } from "react-jss";
 
 import { Theme } from "src/styles/theme";
 
-export const useMessagesStyles = createUseStyles((theme: Theme) => ({
+export const useTxHubListStyles = createUseStyles((theme: Theme) => ({
   messagesWrap: {},
   hashSearchWrap: {
     width: "100%",
@@ -38,15 +38,10 @@ export const useMessagesStyles = createUseStyles((theme: Theme) => ({
   },
   tableHead: {
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
   },
   table: {},
   tableBodyWrap: {},
-  // dataCardWrap: {
-  //   marginBottom: 32,
-  //   display: "flex",
-  //   justifyContent: "space-between",
-  // },
   noDataTip: {
     paddingTop: 72,
     display: "flex",
@@ -73,47 +68,6 @@ export const useMessagesStyles = createUseStyles((theme: Theme) => ({
     fontWeight: 400,
     color: theme.palette.white.transparency60,
   },
-  backIconWrap: {
-    display: "flex",
-    alignItems: "center",
-    marginBottom: 20,
-    fontSize: 14,
-    color: theme.palette.white.transparency40,
-    // opacity: "0.3",
-  },
-  backIcon: {
-    "&:hover": {
-      cursor: "pointer",
-    },
-    height: 24,
-    width: 24,
-    marginRight: 4,
-  },
-  searchInput: {
-    backgroundColor: "transparent",
-    borderRadius: 4,
-    color: theme.palette.white.main,
-    fontSize: "14px",
-    fontWeight: 400,
-    lineHeight: "20px",
-    outline: "none",
-    textAlign: "left",
-    width: 506,
-    height: 44,
-    border: "1px solid rgba(255, 255, 255, 0.12)",
-    padding: "12px 30px 12px 38px",
-  },
-  searchInputWrap: {
-    position: "relative",
-  },
-  searchIcon: {
-    position: "absolute",
-    left: 16,
-    top: "50%",
-    transform: "translateY(-50%)",
-    height: 20,
-    width: 20,
-  },
   searchSelectWrap: {
     display: "flex",
     alignItems: "center",
@@ -126,7 +80,7 @@ export const useMessagesStyles = createUseStyles((theme: Theme) => ({
     width: 20,
   },
   tableWrap: {
-    marginTop: 18,
+    marginTop: 12,
     border: "1px solid",
     borderColor: theme.palette.black.black03,
     borderRadius: 4,
@@ -167,7 +121,7 @@ export const useMessagesStyles = createUseStyles((theme: Theme) => ({
     marginRight: 4,
   },
   timeCell: {
-    minWidth: 120,
+    width: 150,
     color: theme.palette.white.transparency40,
   },
   paginationWrap: {
@@ -179,18 +133,5 @@ export const useMessagesStyles = createUseStyles((theme: Theme) => ({
     height: 20,
     width: 20,
     marginRight: 4,
-  },
-  deleteIcon: {
-    "&:hover": {
-      cursor: "pointer",
-    },
-    position: "absolute",
-    right: 4,
-    top: "50%",
-    transform: "translateY(-50%)",
-    height: 20,
-    width: 20,
-    fill: theme.palette.white.main,
-    opacity: 0.4,
   },
 }));

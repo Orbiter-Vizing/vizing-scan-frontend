@@ -8,6 +8,7 @@ export const useHeaderStyles = createUseStyles((theme: Theme) => ({
     zIndex: 1,
     display: "flex",
     height: 64,
+    justifyContent: "space-between",
   },
   logoWrap: {
     "&:hover": {

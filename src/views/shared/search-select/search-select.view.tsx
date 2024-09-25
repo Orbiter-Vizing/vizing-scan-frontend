@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { Popover } from "@radix-ui/themes";
 import Calendar from "react-calendar";
 import dayjs from "dayjs";
@@ -18,20 +18,28 @@ interface ListDataItem {
   name: string;
   value: string;
   iconUrl: string;
+  disabled?: boolean;
 }
 
-interface SearchSelectProps<T> {
+interface SearchSelectProps<T, P> {
   label: string;
   type: "list" | "date";
+  direction?: "row" | "column";
   listData?: ListDataItem[];
-  // value: string | [Date, Date];
-  // setFormData: (formData: MessagesSearchFrom) => void;
-  // formKey: string;
-  formData: T;
-  formKey: keyof T;
+  // binding form
+  formData?: T;
+  formKey?: keyof T;
+  setFormData?: (formData: T) => void;
+  // binding value
+  value?: P;
+  setValue?: (value: P) => void;
   getSelectValue?: (value: string) => void;
   getDateValue?: (value: DateValue) => void;
-  setFormData: (formData: T) => void;
+  isShortcutItemYesterdayHidden?: boolean;
+  isShortcutItemWeekHidden?: boolean;
+  isShortcutItemMonthHidden?: boolean;
+  isShortcutItemQuaterHidden?: boolean;
+  isShortcutItemYearHidden?: boolean;
 }
 
 type DateValuePiece = Date | null;
@@ -89,14 +97,22 @@ const shortcutsItems = [
   // { label: "Reset", getValue: () => [null, null] },
 ];
 
-export const SearchSelect = <T,>({
+export const SearchSelect = <T, P>({
   label,
   type,
+  direction,
   listData,
   formKey,
   formData,
   setFormData,
-}: SearchSelectProps<T>) => {
+  value,
+  setValue,
+  isShortcutItemYesterdayHidden,
+  isShortcutItemWeekHidden,
+  isShortcutItemMonthHidden,
+  isShortcutItemQuaterHidden,
+  isShortcutItemYearHidden,
+}: SearchSelectProps<T, P>) => {
   const classes = useSearchSelectStyles();
 
   const [selectValue, setSelectValue] = useState<ListDataItem>();
@@ -113,16 +129,85 @@ export const SearchSelect = <T,>({
   const handleListItemClick = (item: ListDataItem) => {
     setSelectValue(item);
     handleOpenChange(false);
-    // update searchForm
-    const newForm = { ...formData };
-    newForm[formKey] = item.value as T[keyof T];
-    // if (type === "list") {
-    //   newForm[formKey] = item.value as T[keyof T];
-    // } else {
-    //   newForm[formKey] = dateValue as T[keyof T];
-    // }
-    setFormData(newForm);
+    // update searchForm or value
+
+    if (formData && formKey && setFormData) {
+      // const newForm = { ...formData };
+      // newForm[formKey] = item.value as T[keyof T];
+      // setFormData(newForm);
+      const newForm = { ...formData } as NonNullable<T>;
+      newForm[formKey] = item.value as NonNullable<T>[keyof T];
+      setFormData(newForm);
+    }
+    if (setValue) {
+      setValue(item.value as P);
+    }
   };
+
+  const calendarShortcutItems = useMemo(() => {
+    return [
+      {
+        label: "Yesterday",
+        getValue: (): DateValue => {
+          const today = dayjs();
+          const yesterday = today.subtract(1, "day");
+          return [yesterday.toDate(), yesterday.toDate()];
+        },
+        isHidden: isShortcutItemYesterdayHidden,
+      },
+      {
+        label: "Last Week",
+        getValue: (): DateValue => {
+          const today = dayjs();
+          const prevWeek = today.subtract(7, "day");
+          return [prevWeek.startOf("week").toDate(), prevWeek.endOf("week").toDate()];
+        },
+        isHidden: isShortcutItemWeekHidden,
+      },
+      {
+        label: "Last Month",
+        getValue: (): DateValue => {
+          const today = dayjs();
+          const startOfLastMonth = today.subtract(1, "month").startOf("month");
+          const endOfLastMonth = today.subtract(1, "month").endOf("month");
+          return [startOfLastMonth.toDate(), endOfLastMonth.toDate()];
+        },
+        isHidden: isShortcutItemMonthHidden,
+      },
+      {
+        label: "Last Quater",
+        getValue: (): DateValue => {
+          const today = dayjs();
+          const threeMonthsAgo = today.subtract(3, "month");
+          return [threeMonthsAgo.toDate(), today.toDate()];
+        },
+        isHidden: isShortcutItemQuaterHidden,
+      },
+      {
+        label: "Last Year",
+        getValue: (): DateValue => {
+          const today = dayjs();
+          const startOfLastYear = today.subtract(1, "year").startOf("year");
+          const endOfLastYear = today.subtract(1, "year").endOf("year");
+          return [startOfLastYear.toDate(), endOfLastYear.toDate()];
+        },
+        isHidden: isShortcutItemYearHidden,
+      },
+      {
+        label: "Custom",
+        getValue: (): DateValue => {
+          return [null, null];
+        },
+      },
+      // { label: "Reset", getValue: () => [null, null] },
+    ];
+  }, [
+    isShortcutItemYesterdayHidden,
+    isShortcutItemWeekHidden,
+    isShortcutItemMonthHidden,
+    isShortcutItemQuaterHidden,
+    isShortcutItemYearHidden,
+  ]);
 
   const handleShortcutItemClick = (shortcutType: string, dateData: DateValue) => {
     setCurrentShortcutItem(shortcutType);
@@ -139,18 +224,13 @@ export const SearchSelect = <T,>({
   };
 
   const handleCalendarChange = (dateValue: DateValue) => {
-    // console.log("data", dateValue);
     setCurrentShortcutItem("Custom");
     setDateValue(dateValue);
-    // update searchFrom date
-    const newForm = { ...formData };
-    newForm[formKey] = dateValue as T[keyof T];
-    // if (type === "list") {
-    //   newForm[formKey] = item.value as T[keyof T];
-    // } else {
-    //   newForm[formKey] = dateValue as T[keyof T];
-    // }
-    setFormData(newForm);
+    if (formData && formKey && setFormData) {
+      const newForm = { ...formData } as NonNullable<T>;
+      newForm[formKey] = dateValue as NonNullable<T>[keyof T];
+      setFormData(newForm);
+    }
   };
 
   const cleanSelectDate = () => {
@@ -170,13 +250,22 @@ export const SearchSelect = <T,>({
   // }, [selectValue, dateValue, formKey, type, setFormData]); // add formData will cause re-render
 
   useEffect(() => {
-    if (type === "list" && listData) {
-      const selectedItem = listData.find((item) => item.value === formData[formKey]);
-      setSelectValue(selectedItem);
-    } else if (type === "date") {
-      setDateValue(formData[formKey] as DateValue);
+    if (formData && formKey) {
+      if (type === "list" && listData) {
+        const selectedItem = listData.find((item) => item.value === formData[formKey]);
+        setSelectValue(selectedItem);
+      } else if (type === "date") {
+        setDateValue(formData[formKey] as DateValue);
+      }
     }
   }, [formData, formKey, listData, type]);
+
+  useEffect(() => {
+    if (value && listData) {
+      const selectedItem = listData.find((item) => item.value === value);
+      setSelectValue(selectedItem);
+    }
+  }, [value, listData]);
 
   return (
     <div className={classes.searchSelectWrap}>
@@ -186,17 +275,21 @@ export const SearchSelect = <T,>({
         onOpenChange={handleOpenChange}
       >
         <Popover.Trigger ref={anchorRef}>
-          <div className={classes.searchSelectButton}>
-            <span className={classes.label}>{label}:&nbsp;</span>
-            {type === "list" && (
-              <span className={classes.value}>{selectValue ? selectValue.name : "All"}</span>
-            )}
-            {type === "date" && (
-              <span className={classes.value}>
-                {dateValue ? getReadableDateString(dateValue) : "All"}
-              </span>
-            )}
-            {showSelectPanel ? <IconCaretUp /> : <IconCaretDown />}
+          <div
+            className={`${classes.searchSelectButtonWrap} ${direction === "column" ? classes.columnFlex : ""}`}
+          >
+            <span className={classes.label}>{label}&nbsp;</span>
+            <div className={classes.selectButton}>
+              {type === "list" && (
+                <span className={classes.value}>{selectValue ? selectValue.name : "All"}</span>
+              )}
+              {type === "date" && (
+                <span className={classes.value}>
+                  {dateValue ? getReadableDateString(dateValue) : "All"}
+                </span>
+              )}
+              {showSelectPanel ? <IconCaretUp /> : <IconCaretDown />}
+            </div>
           </div>
         </Popover.Trigger>
         {/* <Popover.Anchor ref={anchorRef} /> */}
@@ -214,7 +307,7 @@ export const SearchSelect = <T,>({
                     <div
                       onClick={() => handleListItemClick(item)}
                       key={item.id}
-                      className={classes.selectItemWrap}
+                      className={`${classes.selectItemWrap} ${item.disabled ? classes.disabled : ""}`}
                     >
                       {item.iconUrl && <Icon isRounded size={16} url={item.iconUrl} />}
                       <span className={classes.selectItemName}>{item.name}</span>
@@ -227,15 +320,17 @@ export const SearchSelect = <T,>({
           {type === "date" && (
             <div className={classes.datePanelWrap}>
               <div className={classes.shortcutsWrap}>
-                {shortcutsItems.map((item) => {
+                {calendarShortcutItems.map((item) => {
                   return (
-                    <span
-                      key={item.label}
-                      onClick={() => handleShortcutItemClick(item.label, item.getValue())}
-                      className={`${classes.shortcutItem} ${currentShortcutItem === item.label ? classes.selectedChortcutItem : ""}`}
-                    >
-                      {item.label}
-                    </span>
+                    !item.isHidden && (
+                      <span
+                        key={item.label}
+                        onClick={() => handleShortcutItemClick(item.label, item.getValue())}
+                        className={`${classes.shortcutItem} ${currentShortcutItem === item.label ? classes.selectedChortcutItem : ""}`}
+                      >
+                        {item.label}
+                      </span>
+                    )
                   );
                 })}
               </div>
