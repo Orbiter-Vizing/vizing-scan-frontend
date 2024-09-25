@@ -53,7 +53,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       id: "421614",
       iconUrlColorful: IconColorfulArbitrum,
       explorerUrl: "https://sepolia.arbiscan.io",
-      chartColor: "#017cfd",
+      chartColor: "#576FC7",
     },
     {
       value: "11155111",
@@ -62,7 +62,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       id: "11155111",
       iconUrlColorful: IconColorfulEthereum,
       explorerUrl: "https://sepolia.etherscan.io",
-      chartColor: "#91cc75",
+      chartColor: "#91CC74",
     },
     {
       value: "84532",
@@ -71,7 +71,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       id: "84532",
       iconUrlColorful: IconColorfulBase,
       explorerUrl: "https://sepolia.basescan.org",
-      chartColor: "#fac858",
+      chartColor: "#FBC858",
     },
     {
       value: "59141",
@@ -80,7 +80,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       id: "59141",
       iconUrlColorful: IconColorfulLinea,
       explorerUrl: "https://sepolia.lineascan.build",
-      chartColor: "#ee6666",
+      chartColor: "#EF6668",
     },
     {
       value: "534351",
@@ -107,7 +107,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       id: "2442",
       iconUrlColorful: IconColorfulPolygon,
       explorerUrl: "https://cardona-zkevm.polygonscan.com",
-      chartColor: "#6100ff",
+      chartColor: "#FD8453",
     },
     {
       value: "168587773",
@@ -134,7 +134,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       id: "111",
       iconUrlColorful: IconColorfulBOB,
       explorerUrl: "https://testnet-explorer.gobob.xyz",
-      chartColor: "#6366f1",
+      chartColor: "#686789",
     },
     {
       value: "28516",
@@ -143,7 +143,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       id: "28516",
       iconUrlColorful: IconColorfulVizing,
       explorerUrl: "https://explorer-sepolia.vizing.com",
-      chartColor: "#cb3130",
+      chartColor: "#ab545a",
     },
     {
       value: "56",
@@ -152,7 +152,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       id: "56",
       iconUrlColorful: IconColorfulBNB,
       explorerUrl: "https://bscscan.com",
-      chartColor: "#f97315",
+      chartColor: "#d89c7a",
     },
     {
       value: "324",
@@ -172,7 +172,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       id: "42161",
       iconUrlColorful: IconColorfulArbitrum,
       explorerUrl: "https://arbiscan.io",
-      chartColor: "#017cfd",
+      chartColor: "#576FC7",
     },
     {
       value: "1",
@@ -181,7 +181,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       id: "1",
       iconUrlColorful: IconColorfulEthereum,
       explorerUrl: "https://etherscan.io",
-      chartColor: "#91cc75",
+      chartColor: "#91CC74",
     },
     {
       value: "8453",
@@ -190,7 +190,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       id: "8453",
       iconUrlColorful: IconColorfulBase,
       explorerUrl: "https://basescan.org",
-      chartColor: "#fac858",
+      chartColor: "#FBC858",
     },
     {
       value: "59144",
@@ -199,7 +199,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       id: "59144",
       iconUrlColorful: IconColorfulLinea,
       explorerUrl: "https://lineascan.build",
-      chartColor: "#ee6666",
+      chartColor: "#EF6668",
     },
     {
       value: "534352",
@@ -226,7 +226,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       id: "1101",
       iconUrlColorful: IconColorfulPolygon,
       explorerUrl: "https://polygonscan.com",
-      chartColor: "#6100ff",
+      chartColor: "#FD8453",
     },
     {
       value: "81457",
@@ -253,7 +253,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       id: "60808",
       iconUrlColorful: IconColorfulBOB,
       explorerUrl: "https://explorer.gobob.xyz",
-      chartColor: "#6366f1",
+      chartColor: "#686789",
     },
     {
       value: "28518",
@@ -262,7 +262,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       id: "28518",
       iconUrlColorful: IconColorfulVizing,
       explorerUrl: "https://explorer.vizing.com",
-      chartColor: "#cb3130",
+      chartColor: "#ab545a",
     },
     {
       value: "56",
@@ -271,7 +271,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       id: "56",
       iconUrlColorful: IconColorfulBNB,
       explorerUrl: "https://bscscan.com",
-      chartColor: "#f97315",
+      chartColor: "#d89c7a",
     },
     {
       value: "324",
@@ -291,7 +291,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       id: "421614",
       iconUrlColorful: IconColorfulArbitrum,
       explorerUrl: "https://sepolia.arbiscan.io",
-      chartColor: "#017cfd",
+      chartColor: "#576FC7",
     },
     {
       value: "11155111",
@@ -309,7 +309,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       id: "84532",
       iconUrlColorful: IconColorfulBase,
       explorerUrl: "https://sepolia.basescan.org",
-      chartColor: "#fac858",
+      chartColor: "#FBC858",
     },
     {
       value: "59141",
@@ -318,7 +318,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       id: "59141",
       iconUrlColorful: IconColorfulLinea,
       explorerUrl: "https://sepolia.lineascan.build",
-      chartColor: "#ee6666",
+      chartColor: "#EF6668",
     },
     {
       value: "534351",
@@ -345,7 +345,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       id: "2442",
       iconUrlColorful: IconColorfulPolygon,
       explorerUrl: "https://cardona-zkevm.polygonscan.com",
-      chartColor: "#6100ff",
+      chartColor: "#FD8453",
     },
     {
       value: "168587773",
@@ -372,7 +372,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       id: "111",
       iconUrlColorful: IconColorfulBOB,
       explorerUrl: "https://testnet-explorer.gobob.xyz",
-      chartColor: "#6366f1",
+      chartColor: "#686789",
     },
     {
       value: "28516",
@@ -381,7 +381,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       id: "28516",
       iconUrlColorful: IconColorfulVizing,
       explorerUrl: "https://explorer-sepolia.vizing.com",
-      chartColor: "#cb3130",
+      chartColor: "#ab545a",
     },
     {
       value: "56",
@@ -390,7 +390,7 @@ export const ChainsConfigMap: ChainConfigInterface = {
       id: "56",
       iconUrlColorful: IconColorfulBNB,
       explorerUrl: "https://bscscan.com",
-      chartColor: "#f97315",
+      chartColor: "#d89c7a",
     },
     {
       value: "324",
