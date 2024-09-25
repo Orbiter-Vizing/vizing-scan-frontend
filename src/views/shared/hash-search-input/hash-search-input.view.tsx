@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useHashSearchInputStyles } from "src/views/shared/hash-search-input/hash-search-input.styles";
@@ -18,10 +18,14 @@ export const HashSearchInput = () => {
   const apiUrl = getCurrentEnvApiUrl();
 
   const [inputValue, setInputValue] = useState("");
+  const [isShowInvalidTip, setIsShowInvalidTip] = useState(false);
 
   const handleHashSearch = async () => {
-    // TODO: check targetHash is valid value
     const targetHash = inputValue;
+    if (targetHash.length !== evmTxHashLength && targetHash.length !== evmAddressLength) {
+      setIsShowInvalidTip(true);
+      return;
+    }
     const messagesListResponse = await fetchMessagesList({
       apiUrl,
       page: initialPage,
@@ -64,6 +68,10 @@ export const HashSearchInput = () => {
     setInputValue("");
   };
 
+  useEffect(() => {
+    setIsShowInvalidTip(false);
+  }, [inputValue]);
+
   return (
     <div className={classes.searchInputWrap}>
       <SearchIcon className={classes.searchIcon} />
@@ -76,6 +84,7 @@ export const HashSearchInput = () => {
         value={inputValue}
       />
       {inputValue && <DeleteIcon onClick={handleInputDeleteClick} className={classes.deleteIcon} />}
+      {isShowInvalidTip && <p className={classes.invalidTip}>Invalid entry</p>}
     </div>
   );
 };

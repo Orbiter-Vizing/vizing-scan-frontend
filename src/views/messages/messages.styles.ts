@@ -126,7 +126,7 @@ export const useMessagesStyles = createUseStyles((theme: Theme) => ({
     width: 20,
   },
   tableWrap: {
-    marginTop: 12,
+    marginTop: 18,
     border: "1px solid",
     borderColor: theme.palette.black.black03,
     borderRadius: 4,

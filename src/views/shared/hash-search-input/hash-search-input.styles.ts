@@ -40,4 +40,10 @@ export const useHashSearchInputStyles = createUseStyles((theme: Theme) => ({
     fill: theme.palette.white.main,
     opacity: 0.4,
   },
+  invalidTip: {
+    position: "absolute",
+    top: "100%",
+    color: theme.palette.red.main,
+    fontSize: 12,
+  },
 }));
