@@ -333,9 +333,12 @@ export const ProtocolDetails: FC = () => {
         stack: string;
         emphasis: { focus: string };
         data: number[];
+        itemStyle: {
+          color: string;
+        };
       }> = [];
       currentEnvChainConfig.forEach((chainConfig) => {
-        const { name, id } = chainConfig;
+        const { name, id, chartColor } = chainConfig;
         seriesDataTemplate.push({
           name,
           id,
@@ -345,6 +348,9 @@ export const ProtocolDetails: FC = () => {
             focus: "series",
           },
           data: [],
+          itemStyle: {
+            color: chartColor,
+          },
         });
       });
       return seriesDataTemplate;
