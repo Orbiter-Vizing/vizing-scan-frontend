@@ -224,13 +224,8 @@ export const SearchSelect = <T, P>({
   };
 
   const handleCalendarChange = (dateValue: DateValue) => {
-    // console.log("data", dateValue);
     setCurrentShortcutItem("Custom");
     setDateValue(dateValue);
-    // update searchFrom date
-    // const newForm = { ...formData };
-    // newForm[formKey] = dateValue as T[keyof T];
-    // setFormData(newForm);
     if (formData && formKey && setFormData) {
       const newForm = { ...formData } as NonNullable<T>;
       newForm[formKey] = dateValue as NonNullable<T>[keyof T];

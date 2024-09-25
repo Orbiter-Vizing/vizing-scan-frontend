@@ -165,7 +165,6 @@ export const AddressTxList: FC = () => {
   };
 
   const initPageData = useCallback(async () => {
-    console.log("initPageData call");
     const messagesListResponse = await fetchMessagesList({
       apiUrl,
       page: initialPage,
@@ -185,7 +184,6 @@ export const AddressTxList: FC = () => {
   }, [fetchMessagesList, apiUrl, address]); // add messagesList will cause multi-render
 
   const getListData = useCallback(async () => {
-    console.log("getListData call");
     const { dateRange, protocolName, fromChainId, toChainId } = searchForm;
     let startDateString = null;
     let endDateString = null;
@@ -292,14 +290,6 @@ export const AddressTxList: FC = () => {
   };
 
   useEffect(() => {
-    // console.log("init effect call");
-    // const initTimerId = setTimeout(() => {
-    //   console.log("timeout init call");
-    //   initPageData();
-    // }, 50);
-    // return () => {
-    //   clearTimeout(initTimerId);
-    // };
     initPageData();
   }, [initPageData]);
 

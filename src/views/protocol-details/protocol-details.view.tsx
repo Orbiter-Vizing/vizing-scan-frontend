@@ -318,8 +318,6 @@ export const ProtocolDetails: FC = () => {
     } else {
       setChartDataStatus(ListDataStatus.EMPTY);
     }
-    // console.log(typeof protocolChartData.txCount);
-    // setProtocolMessagesCount(999999); // NaN problem
     setProtocolChartData(protocolChartData);
   }, [apiUrl, fetchProtocolChartData, searchForm, chartInterval]);
 
@@ -389,9 +387,6 @@ export const ProtocolDetails: FC = () => {
       setSearchForm(formData);
       // get new date range and set new interval select options
       const dateRange = formData.dateRange;
-      // console.log("dateRange", dateRange);
-      // let startDateTimestamp = undefined;
-      // let endDateTimestamp = undefined;
       if (Array.isArray(dateRange)) {
         const startDateTimestamp = dateRange[0] ? dateRange[0].getTime() : 0;
         const endDateTimestamp = dateRange[1] ? dateRange[1].getTime() : 0;
@@ -705,33 +700,6 @@ export const ProtocolDetails: FC = () => {
   useEffect(() => {
     renderChart();
   }, [protocolChartData, renderChart]);
-
-  // useEffect(() => {
-  //   const initData = async () => {
-  //     await initPageData(); // init page data
-  //     await initProtocolChart(); // init chart data
-  //   };
-
-  //   initData();
-  // }, []); // only run at mounted
-
-  // // 更新数据的 useEffect
-  // useEffect(() => {
-  //   if (isInitialLoaded) {
-  //     // make sure just run after first init
-  //     getListData(); // get list data
-  //     getProtocolChartData(); // get chart data
-  //   }
-  // }, [searchForm, isInitialLoaded]);
-
-  // useEffect(() => {
-  //   console.log("search from change...");
-  // }, [searchForm]);
-
-  // console.log("render numberForCountUp");
-  // const numberForCountUp = parseInt(protocolChartData.txCount.toString());
-
-  // const isChartHidden = protocolChartData.charts.length === 0;
 
   return (
     <div className={classes.protocolDetailsWrap}>
