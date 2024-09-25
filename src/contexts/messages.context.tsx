@@ -299,6 +299,7 @@ const MessagesProvider: FC<PropsWithChildren> = (props) => {
             iconUrlColorful: IconVizingColorful,
             id: "vizing",
             explorerUrl: "",
+            chartColor: "",
           },
           processContent: "",
         },
