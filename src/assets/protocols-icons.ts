@@ -13,7 +13,7 @@ import logoAABank from "src/assets/icon/protocols/logo_aabank.png";
 import logoOrbiter from "src/assets/icon/protocols/logo_orbiter.png";
 import logoVizingBridge from "src/assets/icon/protocols/logo_vizing_bridge.png";
 import IconTwitter from "src/assets/icon/social-media/twitter.svg";
-import IconDiscord from "src/assets/icon/social-media/discord.svg";
+import IconLink from "src/assets/icon/link.svg";
 
 export interface ProtocolConfigInterface {
   development: ProtocolConfig[];
@@ -48,8 +48,8 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
           link: "https://x.com/0xAstra_xyz",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://0xastra.xyz/",
         },
       ],
       introduction:
@@ -66,8 +66,8 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
           link: "https://x.com/0xAstra_xyz",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://x.com/LIKWID_MEME",
         },
       ],
       introduction: "An omnichain meme platform with custom price curves",
@@ -83,8 +83,8 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
           link: "https://x.com/0xAstra_xyz",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.aabank.xyz/",
         },
       ],
       introduction: "AAbank is an Omni-Chain interactive application platform build on Vizing.",
@@ -100,8 +100,8 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
           link: "https://x.com/0xAstra_xyz",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://aylab.io/",
         },
       ],
       introduction: "A platform empowering web3 projects with decentralised user acquisition",
@@ -117,8 +117,8 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
           link: "https://x.com/0xAstra_xyz",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.bullishs.io/",
         },
       ],
       introduction:
@@ -135,8 +135,8 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
           link: "https://x.com/0xAstra_xyz",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.colorprotocol.com/",
         },
       ],
       introduction: "MemecoinFi Protocol: convert your memecoins from ERC20 standard into BC-404.",
@@ -152,8 +152,8 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
           link: "https://x.com/0xAstra_xyz",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.pinketh.xyz/",
         },
       ],
       introduction: "The First Fair Launch Meme on Taiko",
@@ -169,8 +169,8 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
           link: "https://x.com/0xAstra_xyz",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://xmint.pro/",
         },
       ],
       introduction:
@@ -184,11 +184,11 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       links: [
         {
           linkLogo: IconTwitter,
-          link: "https://x.com/0xAstra_xyz",
+          link: "https://x.com/vizing_l2",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.vizing.com/",
         },
       ],
       introduction:
@@ -202,11 +202,11 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       links: [
         {
           linkLogo: IconTwitter,
-          link: "https://x.com/0xAstra_xyz",
+          link: "https://x.com/Orbiter_Finance",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.orbiter.finance/",
         },
       ],
       introduction:
@@ -220,11 +220,11 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       links: [
         {
           linkLogo: IconTwitter,
-          link: "https://x.com/0xAstra_xyz",
+          link: "https://x.com/Orbiter_Finance",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.orbiter.finance/",
         },
       ],
       introduction: "An omnichain meme platform with custom price curves",
@@ -237,11 +237,11 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       links: [
         {
           linkLogo: IconTwitter,
-          link: "https://x.com/0xAstra_xyz",
+          link: "https://x.com/vizing_l2",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.vizing.com/",
         },
       ],
       introduction: "An omnichain meme platform with custom price curves",
@@ -254,11 +254,11 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       links: [
         {
           linkLogo: IconTwitter,
-          link: "https://x.com/0xAstra_xyz",
+          link: "https://x.com/vizing_l2",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.vizing.com/",
         },
       ],
       introduction: "An omnichain meme platform with custom price curves",
@@ -271,11 +271,11 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       links: [
         {
           linkLogo: IconTwitter,
-          link: "https://x.com/0xAstra_xyz",
+          link: "https://x.com/vizing_l2",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.vizing.com/",
         },
       ],
       introduction: "An omnichain meme platform with custom price curves",
@@ -288,11 +288,11 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       links: [
         {
           linkLogo: IconTwitter,
-          link: "https://x.com/0xAstra_xyz",
+          link: "https://x.com/vizing_l2",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.vizing.com/",
         },
       ],
       introduction: "An omnichain meme platform with custom price curves",
@@ -305,11 +305,11 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       links: [
         {
           linkLogo: IconTwitter,
-          link: "https://x.com/0xAstra_xyz",
+          link: "https://x.com/vizing_l2",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.vizing.com/",
         },
       ],
       introduction: "An omnichain meme platform with custom price curves",
@@ -322,11 +322,11 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       links: [
         {
           linkLogo: IconTwitter,
-          link: "https://x.com/0xAstra_xyz",
+          link: "https://x.com/vizing_l2",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.vizing.com/",
         },
       ],
       introduction: "An omnichain meme platform with custom price curves",
@@ -339,11 +339,11 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       links: [
         {
           linkLogo: IconTwitter,
-          link: "https://x.com/0xAstra_xyz",
+          link: "https://x.com/vizing_l2",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.vizing.com/",
         },
       ],
       introduction: "An omnichain meme platform with custom price curves",
@@ -356,11 +356,11 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       links: [
         {
           linkLogo: IconTwitter,
-          link: "https://x.com/0xAstra_xyz",
+          link: "https://x.com/vizing_l2",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.vizing.com/",
         },
       ],
       introduction: "An omnichain meme platform with custom price curves",
@@ -373,11 +373,11 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       links: [
         {
           linkLogo: IconTwitter,
-          link: "https://x.com/0xAstra_xyz",
+          link: "https://x.com/vizing_l2",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.vizing.com/",
         },
       ],
       introduction: "An omnichain meme platform with custom price curves",
@@ -390,11 +390,11 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       links: [
         {
           linkLogo: IconTwitter,
-          link: "https://x.com/0xAstra_xyz",
+          link: "https://x.com/vizing_l2",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.vizing.com/",
         },
       ],
       introduction: "An omnichain meme platform with custom price curves",
@@ -412,8 +412,8 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
           link: "https://x.com/aabank_xyz",
         },
         {
-          linkLogo: IconDiscord,
-          link: "",
+          linkLogo: IconLink,
+          link: "https://www.aabank.xyz/",
         },
       ],
       introduction: "AAbank is an Omni-Chain interactive application platform build on Vizing.",
@@ -429,8 +429,8 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
           link: "https://x.com/LIKWID_MEME",
         },
         {
-          linkLogo: IconDiscord,
-          link: "",
+          linkLogo: IconLink,
+          link: "https://x.com/LIKWID_MEME",
         },
       ],
       introduction: "An omnichain meme platform with custom price curves",
@@ -446,8 +446,8 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
           link: "https://x.com/XMint_official",
         },
         {
-          linkLogo: IconDiscord,
-          link: "",
+          linkLogo: IconLink,
+          link: "https://xmint.pro/",
         },
       ],
       introduction:
@@ -464,8 +464,8 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
           link: "https://x.com/vizing_l2",
         },
         {
-          linkLogo: IconDiscord,
-          link: "",
+          linkLogo: IconLink,
+          link: "https://www.vizing.com/",
         },
       ],
       introduction:
@@ -482,8 +482,8 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
           link: "https://x.com/0xAstra_xyz",
         },
         {
-          linkLogo: IconDiscord,
-          link: "",
+          linkLogo: IconLink,
+          link: "https://0xastra.xyz/",
         },
       ],
       introduction:
@@ -500,8 +500,8 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
           link: "https://x.com/Color_BC404",
         },
         {
-          linkLogo: IconDiscord,
-          link: "",
+          linkLogo: IconLink,
+          link: "https://www.colorprotocol.com/",
         },
       ],
       introduction: "MemecoinFi Protocol: convert your memecoins from ERC20 standard into BC-404.",
@@ -519,8 +519,8 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
           link: "https://x.com/0xAstra_xyz",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://0xastra.xyz/",
         },
       ],
       introduction:
@@ -537,8 +537,8 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
           link: "https://x.com/0xAstra_xyz",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://x.com/LIKWID_MEME",
         },
       ],
       introduction: "An omnichain meme platform with custom price curves",
@@ -554,8 +554,8 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
           link: "https://x.com/0xAstra_xyz",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.aabank.xyz/",
         },
       ],
       introduction: "AAbank is an Omni-Chain interactive application platform build on Vizing.",
@@ -571,8 +571,8 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
           link: "https://x.com/0xAstra_xyz",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://aylab.io/",
         },
       ],
       introduction: "A platform empowering web3 projects with decentralised user acquisition",
@@ -588,8 +588,8 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
           link: "https://x.com/0xAstra_xyz",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.bullishs.io/",
         },
       ],
       introduction:
@@ -606,8 +606,8 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
           link: "https://x.com/0xAstra_xyz",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.colorprotocol.com/",
         },
       ],
       introduction: "MemecoinFi Protocol: convert your memecoins from ERC20 standard into BC-404.",
@@ -623,8 +623,8 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
           link: "https://x.com/0xAstra_xyz",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.pinketh.xyz/",
         },
       ],
       introduction: "The First Fair Launch Meme on Taiko",
@@ -640,8 +640,8 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
           link: "https://x.com/0xAstra_xyz",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://xmint.pro/",
         },
       ],
       introduction:
@@ -655,11 +655,11 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       links: [
         {
           linkLogo: IconTwitter,
-          link: "https://x.com/0xAstra_xyz",
+          link: "https://x.com/vizing_l2",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.vizing.com/",
         },
       ],
       introduction:
@@ -673,11 +673,11 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       links: [
         {
           linkLogo: IconTwitter,
-          link: "https://x.com/0xAstra_xyz",
+          link: "https://x.com/Orbiter_Finance",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.orbiter.finance/",
         },
       ],
       introduction:
@@ -691,11 +691,11 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       links: [
         {
           linkLogo: IconTwitter,
-          link: "https://x.com/0xAstra_xyz",
+          link: "https://x.com/Orbiter_Finance",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.orbiter.finance/",
         },
       ],
       introduction: "An omnichain meme platform with custom price curves",
@@ -708,11 +708,11 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       links: [
         {
           linkLogo: IconTwitter,
-          link: "https://x.com/0xAstra_xyz",
+          link: "https://x.com/vizing_l2",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.vizing.com/",
         },
       ],
       introduction: "An omnichain meme platform with custom price curves",
@@ -725,11 +725,11 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       links: [
         {
           linkLogo: IconTwitter,
-          link: "https://x.com/0xAstra_xyz",
+          link: "https://x.com/vizing_l2",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.vizing.com/",
         },
       ],
       introduction: "An omnichain meme platform with custom price curves",
@@ -742,11 +742,11 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       links: [
         {
           linkLogo: IconTwitter,
-          link: "https://x.com/0xAstra_xyz",
+          link: "https://x.com/vizing_l2",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.vizing.com/",
         },
       ],
       introduction: "An omnichain meme platform with custom price curves",
@@ -759,11 +759,11 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       links: [
         {
           linkLogo: IconTwitter,
-          link: "https://x.com/0xAstra_xyz",
+          link: "https://x.com/vizing_l2",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.vizing.com/",
         },
       ],
       introduction: "An omnichain meme platform with custom price curves",
@@ -776,11 +776,11 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       links: [
         {
           linkLogo: IconTwitter,
-          link: "https://x.com/0xAstra_xyz",
+          link: "https://x.com/vizing_l2",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.vizing.com/",
         },
       ],
       introduction: "An omnichain meme platform with custom price curves",
@@ -793,11 +793,11 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       links: [
         {
           linkLogo: IconTwitter,
-          link: "https://x.com/0xAstra_xyz",
+          link: "https://x.com/vizing_l2",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.vizing.com/",
         },
       ],
       introduction: "An omnichain meme platform with custom price curves",
@@ -810,11 +810,11 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       links: [
         {
           linkLogo: IconTwitter,
-          link: "https://x.com/0xAstra_xyz",
+          link: "https://x.com/vizing_l2",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.vizing.com/",
         },
       ],
       introduction: "An omnichain meme platform with custom price curves",
@@ -827,11 +827,11 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       links: [
         {
           linkLogo: IconTwitter,
-          link: "https://x.com/0xAstra_xyz",
+          link: "https://x.com/vizing_l2",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.vizing.com/",
         },
       ],
       introduction: "An omnichain meme platform with custom price curves",
@@ -844,11 +844,11 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       links: [
         {
           linkLogo: IconTwitter,
-          link: "https://x.com/0xAstra_xyz",
+          link: "https://x.com/vizing_l2",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.vizing.com/",
         },
       ],
       introduction: "An omnichain meme platform with custom price curves",
@@ -861,11 +861,11 @@ export const ProtocolsConfigMap: ProtocolConfigInterface = {
       links: [
         {
           linkLogo: IconTwitter,
-          link: "https://x.com/0xAstra_xyz",
+          link: "https://x.com/vizing_l2",
         },
         {
-          linkLogo: IconDiscord,
-          link: "https://x.com/0xAstra_xyz",
+          linkLogo: IconLink,
+          link: "https://www.vizing.com/",
         },
       ],
       introduction: "An omnichain meme platform with custom price curves",
@@ -903,7 +903,7 @@ export const getProtocolsSearchSelectList = () => {
         link: "",
       },
       {
-        linkLogo: IconDiscord,
+        linkLogo: IconLink,
         link: "",
       },
     ],
