@@ -134,10 +134,10 @@ const MessagesProvider: FC<PropsWithChildren> = (props) => {
         name: "Landing Massages",
       },
       {
-        id: "volum",
+        id: "volume",
         data: undefined,
         prefix: "$",
-        name: "Volum(24h)",
+        name: "Volume(24h)",
       },
       {
         id: "networks",
@@ -174,10 +174,10 @@ const MessagesProvider: FC<PropsWithChildren> = (props) => {
           name: "Landing Massages",
         },
         {
-          id: "volum24h",
+          id: "volume24h",
           data: apiRes.volume24h,
           prefix: "$",
-          name: "Volum(24h)",
+          name: "Volume(24h)",
         },
         {
           id: "networks",
